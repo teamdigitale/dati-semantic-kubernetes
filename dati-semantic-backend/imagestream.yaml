@@ -1,0 +1,10 @@
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  name: dati-semantic-backend
+  namespace: ndc-dev
+  labels:
+    application: dati-semantic-backend
+spec:
+  lookupPolicy:
+    local: false

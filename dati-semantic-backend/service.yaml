@@ -1,0 +1,16 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: dati-semantic-backend
+  namespace: ndc-dev
+  labels:
+    application: dati-semantic-backend
+spec:
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 80
+  selector:
+    deploymentConfig: dati-semantic-backend
+  type: ClusterIP
+  sessionAffinity: None
