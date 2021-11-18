@@ -1,5 +1,5 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: configmap-test
+  name: configmap-backend
   namespace: ndc-dev

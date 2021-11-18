@@ -40,7 +40,7 @@ spec:
           readinessProbe:
             httpGet:
               path: /index.html
-              port: 80
+              port: 8080
               scheme: HTTP
             initialDelaySeconds: 10
             timeoutSeconds: 2
@@ -50,7 +50,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /index.html
-              port: 80
+              port: 8080
               scheme: HTTP
             initialDelaySeconds: 10
             timeoutSeconds: 2
@@ -61,7 +61,7 @@ spec:
           name: dati-semantic-frontend
           ports:
             - name: http
-              containerPort: 80
+              containerPort: 8080
               protocol: TCP
           imagePullPolicy: Always
           terminationMessagePolicy: File

@@ -9,8 +9,7 @@ spec:
   ports:
     - protocol: TCP
       port: 8080
-      targetPort: 80
+      targetPort: 8080
   selector:
     deploymentConfig: dati-semantic-frontend
-  type: ClusterIP
   sessionAffinity: None

@@ -39,8 +39,8 @@ spec:
               memory: 1Gi
           readinessProbe:
             httpGet:
-              path: /index.html
-              port: 80
+              path: /actuator/health
+              port: 8080
               scheme: HTTP
             initialDelaySeconds: 10
             timeoutSeconds: 2
@@ -49,8 +49,8 @@ spec:
             failureThreshold: 3
           livenessProbe:
             httpGet:
-              path: /index.html
-              port: 80
+              path: /actuator/health
+              port: 8080
               scheme: HTTP
             initialDelaySeconds: 10
             timeoutSeconds: 2
@@ -61,7 +61,7 @@ spec:
           name: dati-semantic-backend
           ports:
             - name: http
-              containerPort: 80
+              containerPort: 8080
               protocol: TCP
           imagePullPolicy: Always
           terminationMessagePolicy: File
