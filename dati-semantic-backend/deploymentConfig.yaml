@@ -32,11 +32,11 @@ spec:
       containers:
         - resources:
             limits:
-              cpu: '1'
-              memory: 2Gi
+              cpu: 250m
+              memory: 512Mi
             requests:
-              cpu: 500m
-              memory: 1Gi
+              cpu: 250m
+              memory: 512Mi
           readinessProbe:
             httpGet:
               path: /actuator/health
@@ -67,6 +67,13 @@ spec:
           terminationMessagePolicy: File
           image: >-
             ghcr.io/teamdigitale/dati-semantic-backend:latest
+          env:
+          - name: ELASTICSEARCH_HOST
+            value: temporary-elasticsearch
+          - name: ELASTICSEARCH_PORT
+            value: "9200"
+          - name: HARVESTER_REPOSITORIES
+            value: "https://github.com/ash1425/sample-ontology-repo"     
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst

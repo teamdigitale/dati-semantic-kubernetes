@@ -1,10 +1,10 @@
 kind: DeploymentConfig
 apiVersion: apps.openshift.io/v1
 metadata:
-  name: dati-semantic-frontend
+  name: temporary-virtuoso
   namespace: ndc-dev
   labels:
-    application: dati-semantic-frontend
+    application: temporary-virtuoso
 spec:
   strategy:
     type: Rolling
@@ -20,27 +20,27 @@ spec:
   revisionHistoryLimit: 10
   test: false
   selector:
-    deploymentConfig: dati-semantic-frontend
+    deploymentConfig: temporary-virtuoso
   template:
     metadata:
-      name: dati-semantic-frontend
+      name: temporary-virtuoso
       creationTimestamp: null
       labels:
-        application: dati-semantic-frontend
-        deploymentConfig: dati-semantic-frontend
+        application: temporary-virtuoso
+        deploymentConfig: temporary-virtuoso
     spec:
       containers:
         - resources:
             limits:
-              cpu: 100m
-              memory: 100Mi
+              cpu: 300m
+              memory: 512Mi
             requests:
-              cpu: 100m
-              memory: 100Mi
+              cpu: 250m
+              memory: 512Mi
           readinessProbe:
             httpGet:
-              path: /index.html
-              port: 8080
+              path: /sparql
+              port: 8890
               scheme: HTTP
             initialDelaySeconds: 10
             timeoutSeconds: 2
@@ -49,8 +49,8 @@ spec:
             failureThreshold: 3
           livenessProbe:
             httpGet:
-              path: /index.html
-              port: 8080
+              path: /sparql
+              port: 8890
               scheme: HTTP
             initialDelaySeconds: 10
             timeoutSeconds: 2
@@ -58,17 +58,37 @@ spec:
             successThreshold: 1
             failureThreshold: 3
           terminationMessagePath: /dev/termination-log
-          name: dati-semantic-frontend
+          name: temporary-virtuoso
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: 8890
               protocol: TCP
           imagePullPolicy: Always
           terminationMessagePolicy: File
-          image: >-
-            ghcr.io/teamdigitale/dati-semantic-frontend:latest
+          image: quay.io/ash1425/virtuoso-nonroot:3
+          env:
+          - name: DBA_PASSWORD
+            value: dba_password
+          - name: SPARQL_UPDATE
+            value: "true"  
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
       securityContext: {}
       schedulerName: default-scheduler
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: temporary-virtuoso
+  namespace: ndc-dev
+  labels:
+    application: temporary-virtuoso
+spec:
+  ports:
+    - protocol: TCP
+      port: 8890
+      targetPort: 8890
+  selector:
+    deploymentConfig: temporary-virtuoso
+  sessionAffinity: None      

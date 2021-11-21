@@ -1,10 +1,10 @@
 kind: DeploymentConfig
 apiVersion: apps.openshift.io/v1
 metadata:
-  name: dati-semantic-frontend
+  name: temporary-elasticsearch
   namespace: ndc-dev
   labels:
-    application: dati-semantic-frontend
+    application: temporary-elasticsearch
 spec:
   strategy:
     type: Rolling
@@ -20,27 +20,27 @@ spec:
   revisionHistoryLimit: 10
   test: false
   selector:
-    deploymentConfig: dati-semantic-frontend
+    deploymentConfig: temporary-elasticsearch
   template:
     metadata:
-      name: dati-semantic-frontend
+      name: temporary-elasticsearch
       creationTimestamp: null
       labels:
-        application: dati-semantic-frontend
-        deploymentConfig: dati-semantic-frontend
+        application: temporary-elasticsearch
+        deploymentConfig: temporary-elasticsearch
     spec:
       containers:
         - resources:
             limits:
-              cpu: 100m
-              memory: 100Mi
+              cpu: 500m
+              memory: 1300Mi
             requests:
-              cpu: 100m
-              memory: 100Mi
+              cpu: 500m
+              memory: 1Gi
           readinessProbe:
             httpGet:
-              path: /index.html
-              port: 8080
+              path: /_cluster/health
+              port: 9200
               scheme: HTTP
             initialDelaySeconds: 10
             timeoutSeconds: 2
@@ -49,8 +49,8 @@ spec:
             failureThreshold: 3
           livenessProbe:
             httpGet:
-              path: /index.html
-              port: 8080
+              path: /_cluster/health
+              port: 9200
               scheme: HTTP
             initialDelaySeconds: 10
             timeoutSeconds: 2
@@ -58,17 +58,37 @@ spec:
             successThreshold: 1
             failureThreshold: 3
           terminationMessagePath: /dev/termination-log
-          name: dati-semantic-frontend
+          name: temporary-elasticsearch
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: 9200
               protocol: TCP
           imagePullPolicy: Always
           terminationMessagePolicy: File
-          image: >-
-            ghcr.io/teamdigitale/dati-semantic-frontend:latest
+          image: docker.elastic.co/elasticsearch/elasticsearch:7.12.0
+          env:
+          - name: discovery.type
+            value: single-node
+          - name: ES_JAVA_OPTS
+            value: "-Xms1024m -Xmx1024m" 
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
       securityContext: {}
       schedulerName: default-scheduler
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: temporary-elasticsearch
+  namespace: ndc-dev
+  labels:
+    application: temporary-elasticsearch
+spec:
+  ports:
+    - protocol: TCP
+      port: 9200
+      targetPort: 9200
+  selector:
+    deploymentConfig: temporary-elasticsearch
+  sessionAffinity: None      
