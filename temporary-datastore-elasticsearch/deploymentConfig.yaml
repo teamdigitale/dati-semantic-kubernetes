@@ -42,9 +42,9 @@ spec:
               path: /_cluster/health
               port: 9200
               scheme: HTTP
-            initialDelaySeconds: 10
+            initialDelaySeconds: 120
             timeoutSeconds: 2
-            periodSeconds: 8
+            periodSeconds: 30
             successThreshold: 1
             failureThreshold: 3
           livenessProbe:
@@ -52,9 +52,9 @@ spec:
               path: /_cluster/health
               port: 9200
               scheme: HTTP
-            initialDelaySeconds: 10
+            initialDelaySeconds: 120
             timeoutSeconds: 2
-            periodSeconds: 8
+            periodSeconds: 30
             successThreshold: 1
             failureThreshold: 3
           terminationMessagePath: /dev/termination-log
