@@ -1,10 +1,10 @@
 kind: DeploymentConfig
 apiVersion: apps.openshift.io/v1
 metadata:
-  name: temporary-elasticsearch
+  name: temporary-virtuoso
   namespace: ndc-dev
   labels:
-    application: temporary-elasticsearch
+    application: temporary-virtuoso
 spec:
   strategy:
     type: Rolling
@@ -20,27 +20,27 @@ spec:
   revisionHistoryLimit: 10
   test: false
   selector:
-    deploymentConfig: temporary-elasticsearch
+    deploymentConfig: temporary-virtuoso
   template:
     metadata:
-      name: temporary-elasticsearch
+      name: temporary-virtuoso
       creationTimestamp: null
       labels:
-        application: temporary-elasticsearch
-        deploymentConfig: temporary-elasticsearch
+        application: temporary-virtuoso
+        deploymentConfig: temporary-virtuoso
     spec:
       containers:
         - resources:
             limits:
-              cpu: 500m
-              memory: 1300Mi
+              cpu: 300m
+              memory: 512Mi
             requests:
-              cpu: 500m
-              memory: 1Gi
+              cpu: 250m
+              memory: 512Mi
           readinessProbe:
             httpGet:
-              path: /_cluster/health
-              port: 9200
+              path: /sparql
+              port: 8890
               scheme: HTTP
             initialDelaySeconds: 10
             timeoutSeconds: 2
@@ -49,8 +49,8 @@ spec:
             failureThreshold: 3
           livenessProbe:
             httpGet:
-              path: /_cluster/health
-              port: 9200
+              path: /sparql
+              port: 8890
               scheme: HTTP
             initialDelaySeconds: 10
             timeoutSeconds: 2
@@ -58,37 +58,21 @@ spec:
             successThreshold: 1
             failureThreshold: 3
           terminationMessagePath: /dev/termination-log
-          name: temporary-elasticsearch
+          name: temporary-virtuoso
           ports:
             - name: http
-              containerPort: 9200
+              containerPort: 8890
               protocol: TCP
           imagePullPolicy: Always
           terminationMessagePolicy: File
-          image: docker.elastic.co/elasticsearch/elasticsearch:7.12.0
+          image: quay.io/ash1425/virtuoso-nonroot:3
           env:
-          - name: discovery.type
-            value: single-node
-          - name: ES_JAVA_OPTS
-            value: "-Xms1024m -Xmx1024m" 
+          - name: DBA_PASSWORD
+            value: dba_password
+          - name: SPARQL_UPDATE
+            value: "true"  
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
       securityContext: {}
-      schedulerName: default-scheduler
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: temporary-elasticsearch
-  namespace: ndc-dev
-  labels:
-    application: temporary-elasticsearch
-spec:
-  ports:
-    - protocol: TCP
-      port: 9200
-      targetPort: 9200
-  selector:
-    deploymentConfig: temporary-elasticsearch
-  sessionAffinity: None      
+      schedulerName: default-scheduler 

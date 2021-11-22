@@ -1,0 +1,15 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: temporary-virtuoso
+  namespace: ndc-dev
+  labels:
+    application: temporary-virtuoso
+spec:
+  ports:
+    - protocol: TCP
+      port: 8890
+      targetPort: 8890
+  selector:
+    deploymentConfig: temporary-virtuoso
+  sessionAffinity: None     
