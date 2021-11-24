@@ -1,10 +1,6 @@
 name: updateConfig
 
 on:
-  push:
-    branches: [yaml-editor]
-  pull_request:
-    branches: [yaml-editor]
   workflow_dispatch:
     inputs:
       serviceName:
