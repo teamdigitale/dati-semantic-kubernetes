@@ -66,14 +66,14 @@ spec:
           imagePullPolicy: Always
           terminationMessagePolicy: File
           image: >-
-            ghcr.io/teamdigitale/dati-semantic-backend:20211123-96-509743e
+            ghcr.io/teamdigitale/dati-semantic-backend:20211125-109-7fe8e0d
           env:
-          - name: ELASTICSEARCH_HOST
-            value: temporary-elasticsearch
-          - name: ELASTICSEARCH_PORT
-            value: "9200"
-          - name: HARVESTER_REPOSITORIES
-            value: "https://github.com/ash1425/sample-ontology-repo"     
+            - name: ELASTICSEARCH_HOST
+              value: temporary-elasticsearch
+            - name: ELASTICSEARCH_PORT
+              value: "9200"
+            - name: HARVESTER_REPOSITORIES
+              value: "https://github.com/ash1425/sample-ontology-repo"
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
