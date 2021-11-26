@@ -72,6 +72,10 @@ spec:
               value: temporary-elasticsearch
             - name: ELASTICSEARCH_PORT
               value: "9200"
+            - name: VIRTUOSO_SPARQL_URL
+              value: http://temporary-virtuoso:8890/sparql
+            - name: VIRTUOSO_SPARQL_GRAPH_STORE_URL
+              value: http://temporary-virtuoso:8890/sparql-graph-crud
             - name: HARVESTER_REPOSITORIES
               value: "https://github.com/ash1425/sample-ontology-repo"
       restartPolicy: Always
