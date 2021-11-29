@@ -32,11 +32,11 @@ spec:
       containers:
         - resources:
             limits:
-              cpu: 800m
-              memory: 512Mi
+              cpu: 1
+              memory: 800Mi
             requests:
-              cpu: 100m
-              memory: 300Mi
+              cpu: 500m
+              memory: 600Mi
           readinessProbe:
             httpGet:
               path: /_cluster/health
@@ -70,7 +70,7 @@ spec:
             - name: discovery.type
               value: single-node
             - name: ES_JAVA_OPTS
-              value: "-Xms256m -Xmx256m"
+              value: "-Xms512m -Xmx512m"
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
