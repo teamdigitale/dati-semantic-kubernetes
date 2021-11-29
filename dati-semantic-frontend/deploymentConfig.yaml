@@ -67,6 +67,9 @@ spec:
           terminationMessagePolicy: File
           image: >-
             ghcr.io/teamdigitale/dati-semantic-frontend:20211129-250-99d04e6
+          env:
+            - name: CURRENT_ENV
+              value: dev
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
