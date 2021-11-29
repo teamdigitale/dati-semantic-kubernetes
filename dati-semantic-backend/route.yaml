@@ -5,6 +5,8 @@ metadata:
   namespace: ndc-dev
   labels:
     application: dati-semantic-backend
+  annotations:
+    haproxy.router.openshift.io/rewrite-target: /  
 spec:
   host: ndc-dev.apps.cloudpub.testedev.istat.it
   path: "/api"
