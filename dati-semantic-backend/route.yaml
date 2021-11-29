@@ -6,6 +6,8 @@ metadata:
   labels:
     application: dati-semantic-backend
 spec:
+  host: ndc-dev.apps.cloudpub.testedev.istat.it
+  path: "/api"
   to:
     kind: Service
     name: dati-semantic-backend

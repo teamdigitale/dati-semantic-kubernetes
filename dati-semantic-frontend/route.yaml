@@ -6,6 +6,7 @@ metadata:
   labels:
     application: dati-semantic-frontend
 spec:
+  host: ndc-dev.apps.cloudpub.testedev.istat.it
   to:
     kind: Service
     name: dati-semantic-frontend
