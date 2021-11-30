@@ -66,7 +66,7 @@ spec:
           imagePullPolicy: Always
           terminationMessagePolicy: File
           image: >-
-            ghcr.io/teamdigitale/dati-semantic-frontend:20211130-256-cbafea3
+            ghcr.io/teamdigitale/dati-semantic-frontend:20211130-257-39135e9
           env:
             - name: CURRENT_ENV
               value: dev
