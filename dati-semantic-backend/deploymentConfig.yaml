@@ -14,7 +14,7 @@ spec:
       timeoutSeconds: 600
       maxUnavailable: 25%
       maxSurge: 25%
-    resources: {}
+    resources: { }
     activeDeadlineSeconds: 21600
   replicas: 1
   revisionHistoryLimit: 10
@@ -78,8 +78,10 @@ spec:
               value: http://temporary-virtuoso:8890/sparql-graph-crud
             - name: HARVESTER_REPOSITORIES
               value: "https://github.com/ash1425/sample-ontology-repo"
+            - name: NDC_BASE_URL
+              value: https://ndc-dev.apps.cloudpub.testedev.istat.it/api
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
-      securityContext: {}
+      securityContext: { }
       schedulerName: default-scheduler
