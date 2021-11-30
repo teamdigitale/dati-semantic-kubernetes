@@ -66,7 +66,7 @@ spec:
           imagePullPolicy: Always
           terminationMessagePolicy: File
           image: >-
-            ghcr.io/teamdigitale/dati-semantic-backend:20211130-133-8dbf964
+            ghcr.io/teamdigitale/dati-semantic-backend:20211130-134-c591dc6
           env:
             - name: ELASTICSEARCH_HOST
               value: temporary-elasticsearch
