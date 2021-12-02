@@ -2,7 +2,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: dati-semantic-backend
-  namespace: ndc-dev
+  namespace: ndc-test
   labels:
     application: dati-semantic-backend
 spec:

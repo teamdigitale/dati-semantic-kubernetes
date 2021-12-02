@@ -2,7 +2,7 @@ kind: ImageStream
 apiVersion: image.openshift.io/v1
 metadata:
   name: dati-semantic-frontend
-  namespace: ndc-dev
+  namespace: ndc-test
   labels:
     application: dati-semantic-frontend
 spec:

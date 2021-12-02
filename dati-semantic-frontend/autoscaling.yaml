@@ -2,7 +2,7 @@ kind: HorizontalPodAutoscaler
 apiVersion: autoscaling/v2beta2
 metadata:
   name: autoscaling-dati-semantic-frontend
-  namespace: ndc-dev
+  namespace: ndc-test
 spec:
   scaleTargetRef:
     kind: DeploymentConfig

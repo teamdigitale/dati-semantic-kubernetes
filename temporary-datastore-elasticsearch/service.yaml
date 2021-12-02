@@ -2,7 +2,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: temporary-elasticsearch
-  namespace: ndc-dev
+  namespace: ndc-test
   labels:
     application: temporary-elasticsearch
 spec:
