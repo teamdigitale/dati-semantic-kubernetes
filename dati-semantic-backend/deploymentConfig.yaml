@@ -68,10 +68,8 @@ spec:
           image: >-
             ghcr.io/teamdigitale/dati-semantic-backend:20211123-96-509743e
           env:
-          - name: ELASTICSEARCH_HOST
-            value: temporary-elasticsearch
-          - name: ELASTICSEARCH_PORT
-            value: "9200"
+          - name: SPRING_ELASTICSEARCH_REST_URIS
+            value: http://temporary-elasticsearch:9200
           - name: HARVESTER_REPOSITORIES
             value: "https://github.com/ash1425/sample-ontology-repo"     
       restartPolicy: Always
