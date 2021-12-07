@@ -6,7 +6,7 @@ metadata:
   labels:
     application: dati-semantic-backend
   annotations:
-    it.ndc.application: dati-semantic-backend
+    haproxy.router.openshift.io/rewrite-target: /
 spec:
   host: ndc-test.apps.cloudpub.testedev.istat.it
   path: "/api"
