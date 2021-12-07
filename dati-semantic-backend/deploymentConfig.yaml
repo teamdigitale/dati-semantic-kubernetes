@@ -78,6 +78,12 @@ spec:
               value: "https://github.com/ash1425/sample-ontology-repo"
             - name: NDC_BASE_URL
               value: https://ndc-dev.apps.cloudpub.testedev.istat.it/api
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://temporary-mysql:3306
+            - name: SPRING_DATASOURCE_USERNAME
+              value: ndc_user
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: ndc_password
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
