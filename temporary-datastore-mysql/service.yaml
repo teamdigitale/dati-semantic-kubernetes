@@ -1,0 +1,15 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: temporary-mysql
+  namespace: ndc-test
+  labels:
+    application: temporary-mysql
+spec:
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
+  selector:
+    deploymentConfig: temporary-mysql
+  sessionAffinity: None     

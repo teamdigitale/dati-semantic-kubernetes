@@ -39,7 +39,7 @@ spec:
               memory: 512Mi
           readinessProbe:
             httpGet:
-              path: /actuator/health
+              path: /status/readiness
               port: 8080
               scheme: HTTP
             initialDelaySeconds: 60
@@ -49,7 +49,7 @@ spec:
             failureThreshold: 3
           livenessProbe:
             httpGet:
-              path: /actuator/health
+              path: /status/liveness
               port: 8080
               scheme: HTTP
             initialDelaySeconds: 60
@@ -66,7 +66,7 @@ spec:
           imagePullPolicy: Always
           terminationMessagePolicy: File
           image: >-
-            ghcr.io/teamdigitale/dati-semantic-backend:20211206-157-7a377ba
+            ghcr.io/teamdigitale/dati-semantic-backend:20211207-160-e87b479
           env:
             - name: SPRING_ELASTICSEARCH_REST_URIS
               value: http://temporary-elasticsearch:9200
@@ -78,6 +78,12 @@ spec:
               value: "https://github.com/ash1425/sample-ontology-repo"
             - name: NDC_BASE_URL
               value: https://ndc-test.apps.cloudpub.testedev.istat.it/api
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://temporary-mysql:3306
+            - name: SPRING_DATASOURCE_USERNAME
+              value: ndc_user
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: ndc_password
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
