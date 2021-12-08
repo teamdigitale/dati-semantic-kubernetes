@@ -71,6 +71,8 @@ spec:
               value: single-node
             - name: ES_JAVA_OPTS
               value: "-Xms512m -Xmx512m"
+            - name: TO_TRIGGER_DEPLOPYMENT
+              value: "8-dec-2021"
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
