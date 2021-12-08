@@ -79,7 +79,7 @@ spec:
             - name: NDC_BASE_URL
               value: https://ndc-test.apps.cloudpub.testedev.istat.it/api
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:mysql://temporary-mysql:3306
+              value: jdbc:mysql://temporary-mysql:3306/ndc_harvest
             - name: SPRING_DATASOURCE_USERNAME
               value: ndc_user
             - name: SPRING_DATASOURCE_PASSWORD
