@@ -32,10 +32,10 @@ spec:
       containers:
         - resources:
             limits:
-              cpu: 300m
-              memory: 512Mi
+              cpu: 800m
+              memory: 1Gi
             requests:
-              cpu: 250m
+              cpu: 500m
               memory: 512Mi
           readinessProbe:
             httpGet:

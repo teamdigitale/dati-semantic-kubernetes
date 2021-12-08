@@ -14,7 +14,7 @@ spec:
       timeoutSeconds: 600
       maxUnavailable: 25%
       maxSurge: 25%
-    resources: {}
+    resources: { }
     activeDeadlineSeconds: 21600
   replicas: 1
   revisionHistoryLimit: 10
@@ -32,11 +32,11 @@ spec:
       containers:
         - resources:
             limits:
-              cpu: 500m
-              memory: 1300Mi
+              cpu: 1
+              memory: 800Mi
             requests:
               cpu: 500m
-              memory: 1Gi
+              memory: 600Mi
           readinessProbe:
             httpGet:
               path: /_cluster/health
@@ -67,12 +67,12 @@ spec:
           terminationMessagePolicy: File
           image: docker.elastic.co/elasticsearch/elasticsearch:7.12.0
           env:
-          - name: discovery.type
-            value: single-node
-          - name: ES_JAVA_OPTS
-            value: "-Xms1024m -Xmx1024m" 
+            - name: discovery.type
+              value: single-node
+            - name: ES_JAVA_OPTS
+              value: "-Xms512m -Xmx512m"
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
-      securityContext: {}
+      securityContext: { }
       schedulerName: default-scheduler      
