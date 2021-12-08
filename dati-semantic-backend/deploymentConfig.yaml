@@ -84,6 +84,8 @@ spec:
               value: ndc_user
             - name: SPRING_DATASOURCE_PASSWORD
               value: ndc_password
+            - name: TO_TRIGGER_DEPLOPYMENT
+              value: "8-dec-2021"
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
