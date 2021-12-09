@@ -77,7 +77,7 @@ spec:
             - name: HARVESTER_REPOSITORIES
               value: "https://github.com/ash1425/sample-ontology-repo"
             - name: NDC_BASE_URL
-              value: https://ndc-prod.apps.cloudpub.testedev.istat.it/api
+              value: https://ndc-prod.apps.cloudpub.istat.it/api
             - name: SPRING_DATASOURCE_URL
               value: jdbc:mysql://temporary-mysql:3306/ndc_harvest
             - name: SPRING_DATASOURCE_USERNAME
