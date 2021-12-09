@@ -2,11 +2,11 @@ kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
   name: dati-semantic-frontend
-  namespace: ndc-test
+  namespace: ndc-prod
   labels:
     application: dati-semantic-frontend
 spec:
-  host: ndc-test.apps.cloudpub.testedev.istat.it
+  host: ndc-prod.apps.cloudpub.testedev.istat.it
   to:
     kind: Service
     name: dati-semantic-frontend

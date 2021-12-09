@@ -2,7 +2,7 @@ kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
   name: temporary-elasticsearch
-  namespace: ndc-test
+  namespace: ndc-prod
   labels:
     application: temporary-elasticsearch
 spec:

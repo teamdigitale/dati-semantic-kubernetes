@@ -2,7 +2,7 @@ kind: DeploymentConfig
 apiVersion: apps.openshift.io/v1
 metadata:
   name: temporary-virtuoso
-  namespace: ndc-test
+  namespace: ndc-prod
   labels:
     application: temporary-virtuoso
 spec:

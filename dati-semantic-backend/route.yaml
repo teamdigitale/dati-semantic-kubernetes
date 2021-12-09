@@ -2,13 +2,13 @@ kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
   name: dati-semantic-backend
-  namespace: ndc-test
+  namespace: ndc-prod
   labels:
     application: dati-semantic-backend
   annotations:
     haproxy.router.openshift.io/rewrite-target: /
 spec:
-  host: ndc-test.apps.cloudpub.testedev.istat.it
+  host: ndc-prod.apps.cloudpub.testedev.istat.it
   path: "/api"
   to:
     kind: Service

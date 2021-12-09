@@ -2,7 +2,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: temporary-mysql
-  namespace: ndc-test
+  namespace: ndc-prod
   labels:
     application: temporary-mysql
 spec:
