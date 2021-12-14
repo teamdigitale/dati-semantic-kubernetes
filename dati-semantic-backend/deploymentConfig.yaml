@@ -66,14 +66,18 @@ spec:
           imagePullPolicy: Always
           terminationMessagePolicy: File
           image: >-
-            ghcr.io/teamdigitale/dati-semantic-backend:20211213-191-5479029
+            ghcr.io/teamdigitale/dati-semantic-backend:20211214-192-2ac186b
           env:
             - name: SPRING_ELASTICSEARCH_REST_URIS
               value: http://temporary-elasticsearch:9200
-            - name: VIRTUOSO_SPARQL_URL
+            - name: VIRTUOSO_SPARQL
               value: http://temporary-virtuoso:8890/sparql
-            - name: VIRTUOSO_SPARQL_GRAPH_STORE_URL
+            - name: VIRTUOSO_SPARQL_GRAPH_STORE
               value: http://temporary-virtuoso:8890/sparql-graph-crud
+            - name: VIRTUOSO_USERNAME
+              value: dba
+            - name: VIRTUOSO_PASSWORD
+              value: dba
             - name: HARVESTER_REPOSITORIES
               value: "https://github.com/ash1425/sample-ontology-repo"
             - name: NDC_BASE_URL
@@ -84,8 +88,6 @@ spec:
               value: ndc_user
             - name: SPRING_DATASOURCE_PASSWORD
               value: ndc_password
-            - name: TO_TRIGGER_DEPLOPYMENT
-              value: "8-dec-2021"
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
