@@ -84,4 +84,4 @@ spec:
       volumes:
         - name: foo
           secret:
-            secretName: virtuoso-dev
+            secretName: virtuoso-sql
