@@ -66,13 +66,22 @@ spec:
           imagePullPolicy: Always
           terminationMessagePolicy: File
           image: quay.io/ash1425/virtuoso-nonroot:3
+          volumeMounts:
+            - name: foo
+              mountPath: "/etc/foo"
+              readOnly: true
           env:
-          - name: DBA_PASSWORD
-            value: dba_password
-          - name: SPARQL_UPDATE
-            value: "true"  
+            - name: DBA_PASSWORD
+              value: dba_password
+            - name: SPARQL_UPDATE
+              value: "true"
+
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
       securityContext: {}
-      schedulerName: default-scheduler 
+      schedulerName: default-scheduler
+      volumes:
+        - name: foo
+          secret:
+            secretName: virtuoso-dev
