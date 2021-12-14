@@ -70,10 +70,14 @@ spec:
           env:
             - name: SPRING_ELASTICSEARCH_REST_URIS
               value: http://temporary-elasticsearch:9200
-            - name: VIRTUOSO_SPARQL_URL
-              value: http://temporary-virtuoso:8890/sparql
-            - name: VIRTUOSO_SPARQL_GRAPH_STORE_URL
-              value: http://temporary-virtuoso:8890/sparql-graph-crud
+            - name: VIRTUOSO_SPARQL
+              value: http://virtuoso-dev-external-service:8890/sparql-auth
+            - name: VIRTUOSO_SPARQL_GRAPH_STORE
+              value: http://virtuoso-dev-external-service:8890/sparql-graph-crud-auth
+            - name: VIRTUOSO_USERNAME
+              value: dba
+            - name: VIRTUOSO_PASSWORD
+              value: dba
             - name: HARVESTER_REPOSITORIES
               value: "https://github.com/ash1425/sample-ontology-repo"
             - name: NDC_BASE_URL
