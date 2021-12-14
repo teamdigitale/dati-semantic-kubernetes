@@ -1,0 +1,8 @@
+kind: "Service"
+apiVersion: "v1"
+metadata:
+  name: mysql-dev-external-service
+spec:
+  type: ExternalName
+  externalName: db-testedev-mysql.mysql.database.azure.com
+selector: {}
