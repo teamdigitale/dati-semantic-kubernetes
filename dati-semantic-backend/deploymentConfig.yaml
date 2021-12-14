@@ -75,19 +75,25 @@ spec:
             - name: VIRTUOSO_SPARQL_GRAPH_STORE
               value: http://virtuoso-dev-external-service:8890/sparql-graph-crud-auth
             - name: VIRTUOSO_USERNAME
-              value: dba
+              value: sv_ndc_virtuoso_app
             - name: VIRTUOSO_PASSWORD
-              value: dba
+              valueFrom:
+                secretKeyRef:
+                  name: virtuoso-sql
+                  key: virtuoso-dev
             - name: HARVESTER_REPOSITORIES
               value: "https://github.com/ash1425/sample-ontology-repo"
             - name: NDC_BASE_URL
               value: https://ndc-dev.apps.cloudpub.testedev.istat.it/api
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:mysql://temporary-mysql:3306/ndc_harvest
+              value: jdbc:mysql://db-testedev-mysql.mysql.database.azure.com:3306/sv_ndc_harvest?useSSL=true
             - name: SPRING_DATASOURCE_USERNAME
-              value: ndc_user
+              value: sv_ndc_harvest_app
             - name: SPRING_DATASOURCE_PASSWORD
-              value: ndc_password
+              valueFrom:
+                secretKeyRef:
+                  key: mysql-dev
+                  name: mysql-dev
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
