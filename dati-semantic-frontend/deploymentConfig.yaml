@@ -70,6 +70,8 @@ spec:
           env:
             - name: API_URL
               value: /api
+            - name: SPARQL_ENDPOINT_URL
+              value: https://virtuoso-dev-external-service-ndc-dev.apps.cloudpub.testedev.istat.it/sparql
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
