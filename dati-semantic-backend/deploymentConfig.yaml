@@ -66,7 +66,7 @@ spec:
           imagePullPolicy: Always
           terminationMessagePolicy: File
           image: >-
-            ghcr.io/teamdigitale/dati-semantic-backend:20211215-194-b9e0d20
+            ghcr.io/teamdigitale/dati-semantic-backend:20211215-195-9e4ee17
           env:
             - name: SPRING_ELASTICSEARCH_REST_URIS
               value: http://temporary-elasticsearch:9200
