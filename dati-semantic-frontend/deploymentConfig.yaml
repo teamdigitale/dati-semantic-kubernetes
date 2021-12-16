@@ -66,12 +66,12 @@ spec:
           imagePullPolicy: Always
           terminationMessagePolicy: File
           image: >-
-            ghcr.io/teamdigitale/dati-semantic-frontend:20211214-371-e3e238b
+            ghcr.io/teamdigitale/dati-semantic-frontend:20211216-469-f1bfc84
           env:
             - name: API_URL
               value: /api
             - name: SPARQL_ENDPOINT_URL
-              value: https://virtuoso-test-external-service-ndc-test.apps.cloudpub.testedev.istat.it/sparql
+              value: https://temporary-virtuoso-ndc-test.apps.cloudpub.testedev.istat.it/sparql/
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
