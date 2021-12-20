@@ -89,8 +89,8 @@ spec:
                   name: virtuoso-prod
                   key: virtuoso-prod
             - name: HARVESTER_REPOSITORIES
-              value: "https://github.com/ash1425/sample-ontology-repo"
-            - name: NDC_BASE_URL
+              value: "https://github.com/italia/daf-ontologie-vocabolari-controllati"
+            - name: NDC_BASEURL
               value: https://ndc-prod.apps.cloudpub.istat.it/api
             - name: SPRING_DATASOURCE_URL
               value: jdbc:mysql://istat-db-prod.mysql.database.azure.com:3306/pd_ndc_harvest?useSSL=true
