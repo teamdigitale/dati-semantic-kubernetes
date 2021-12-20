@@ -39,7 +39,7 @@ spec:
               memory: 512Mi
           readinessProbe:
             httpGet:
-              path: /status/readiness
+              path: /actuator/health/readiness
               port: 8080
               scheme: HTTP
             initialDelaySeconds: 60
@@ -49,7 +49,7 @@ spec:
             failureThreshold: 3
           livenessProbe:
             httpGet:
-              path: /status/liveness
+              path: /actuator/health/liveness
               port: 8080
               scheme: HTTP
             initialDelaySeconds: 60
@@ -66,26 +66,41 @@ spec:
           imagePullPolicy: Always
           terminationMessagePolicy: File
           image: >-
-            ghcr.io/teamdigitale/dati-semantic-backend:20211207-160-e87b479
+            ghcr.io/teamdigitale/dati-semantic-backend:20211215-200-49692c9
           env:
             - name: SPRING_ELASTICSEARCH_REST_URIS
-              value: http://temporary-elasticsearch:9200
-            - name: VIRTUOSO_SPARQL_URL
-              value: http://temporary-virtuoso:8890/sparql
-            - name: VIRTUOSO_SPARQL_GRAPH_STORE_URL
-              value: http://temporary-virtuoso:8890/sparql-graph-crud
+              value: http://elasticsearch-prod-external-service:9200
+            - name: SPRING_ELASTICSEARCH_REST_USERNAME
+              value: ndc_prod_elastic
+            - name: SPRING_ELASTICSEARCH_REST_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: elastic-prod
+                  key: elastic-prod
+            - name: VIRTUOSO_SPARQL
+              value: http://virtuoso-prod-external-service:8890/sparql-auth
+            - name: VIRTUOSO_SPARQL_GRAPH_STORE
+              value: http://virtuoso-prod-external-service:8890/sparql-graph-crud-auth
+            - name: VIRTUOSO_USERNAME
+              value: pd_ndc_virtuoso_app
+            - name: VIRTUOSO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: virtuoso-prod
+                  key: virtuoso-prod
             - name: HARVESTER_REPOSITORIES
               value: "https://github.com/ash1425/sample-ontology-repo"
             - name: NDC_BASE_URL
               value: https://ndc-prod.apps.cloudpub.istat.it/api
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:mysql://temporary-mysql:3306/ndc_harvest
+              value: jdbc:mysql://istat-db-prod.mysql.database.azure.com:3306/pd_ndc_harvest?useSSL=true
             - name: SPRING_DATASOURCE_USERNAME
-              value: ndc_user
+              value: pd_ndc_harvest_app
             - name: SPRING_DATASOURCE_PASSWORD
-              value: ndc_password
-            - name: TO_TRIGGER_DEPLOPYMENT
-              value: "8-dec-2021"
+              valueFrom:
+                secretKeyRef:
+                  key: mysql-prod
+                  name: mysql-prod
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
