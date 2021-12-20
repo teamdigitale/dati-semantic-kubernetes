@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: elasticsearch-test-external-service
+  namespace: ndc-test
+spec:
+  ports:
+    - protocol: TCP
+      port: 9201
+      targetPort: 9201
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  namespace: ndc-test
+  name: elasticsearch-test-external-service
+subsets:
+  - addresses:
+      - ip: 10.242.0.5
+    ports:
+      - port: 9201
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: elasticsearch-test-external-service
+  namespace: ndc-test
+  labels:
+    application: elasticsearch-test-external-service
+spec:
+  to:
+    kind: Service
+    name: elasticsearch-test-external-service
+    weight: 100
+  port:
+    targetPort: 9201
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None

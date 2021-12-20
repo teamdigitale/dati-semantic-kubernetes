@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: virtuoso-test-external-service
+  namespace: ndc-test
+spec:
+  ports:
+    - protocol: TCP
+      port: 8891
+      targetPort: 8891
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  namespace: ndc-test
+  name: virtuoso-test-external-service
+subsets:
+  - addresses:
+      - ip: 10.242.0.4
+    ports:
+      - port: 8891
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: virtuoso-test-external-service
+  namespace: ndc-test
+  labels:
+    application: virtuoso-test-external-service
+spec:
+  to:
+    kind: Service
+    name: virtuoso-test-external-service
+    weight: 100
+  port:
+    targetPort: 8891
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None

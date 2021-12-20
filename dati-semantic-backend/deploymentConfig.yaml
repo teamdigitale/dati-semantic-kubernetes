@@ -69,15 +69,25 @@ spec:
             ghcr.io/teamdigitale/dati-semantic-backend:20211220-230-cb6002e
           env:
             - name: SPRING_ELASTICSEARCH_REST_URIS
-              value: http://temporary-elasticsearch:9200
+              value: http://elasticsearch-test-external-service:9201
+            - name: SPRING_ELASTICSEARCH_REST_USERNAME
+              value: ndc_svil_elastic
+            - name: SPRING_ELASTICSEARCH_REST_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: elastic-test
+                  key: elastic-test
             - name: VIRTUOSO_SPARQL
-              value: http://temporary-virtuoso:8890/sparql
+              value: http://virtuoso-test-external-service:8891/sparql-auth
             - name: VIRTUOSO_SPARQL_GRAPH_STORE
-              value: http://temporary-virtuoso:8890/sparql-graph-crud
+              value: http://virtuoso-test-external-service:8891/sparql-graph-crud-auth
             - name: VIRTUOSO_USERNAME
-              value: dba
+              value: ts_ndc_virtuoso_app
             - name: VIRTUOSO_PASSWORD
-              value: dba
+              valueFrom:
+                secretKeyRef:
+                  name: virtuoso-test
+                  key: virtuoso-test
             - name: HARVESTER_REPOSITORIES
               value: "https://github.com/ash1425/sample-ontology-repo"
             - name: NDC_BASE_URL
