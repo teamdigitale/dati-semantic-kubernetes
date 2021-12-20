@@ -90,7 +90,7 @@ spec:
                   key: virtuoso-dev
             - name: HARVESTER_REPOSITORIES
               value: "https://github.com/ash1425/sample-ontology-repo"
-            - name: NDC_BASE_URL
+            - name: NDC_BASEURL
               value: https://ndc-dev.apps.cloudpub.testedev.istat.it/api
             - name: SPRING_DATASOURCE_URL
               value: jdbc:mysql://db-testedev-mysql.mysql.database.azure.com:3306/sv_ndc_harvest?useSSL=true
