@@ -69,7 +69,14 @@ spec:
             ghcr.io/teamdigitale/dati-semantic-backend:20211220-230-cb6002e
           env:
             - name: SPRING_ELASTICSEARCH_REST_URIS
-              value: http://temporary-elasticsearch:9200
+              value: http://elasticsearch-dev-external-service:9200
+            - name: SPRING_ELASTICSEARCH_REST_USERNAME
+              value: ndc_svil_elastic
+            - name: SPRING_ELASTICSEARCH_REST_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: elastic-dev
+                  key: elastic-dev
             - name: VIRTUOSO_SPARQL
               value: http://virtuoso-dev-external-service:8890/sparql-auth
             - name: VIRTUOSO_SPARQL_GRAPH_STORE
