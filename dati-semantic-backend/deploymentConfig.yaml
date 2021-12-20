@@ -71,7 +71,7 @@ spec:
             - name: SPRING_ELASTICSEARCH_REST_URIS
               value: http://elasticsearch-test-external-service:9201
             - name: SPRING_ELASTICSEARCH_REST_USERNAME
-              value: ndc_svil_elastic
+              value: ndc_test_elastic
             - name: SPRING_ELASTICSEARCH_REST_PASSWORD
               valueFrom:
                 secretKeyRef:
