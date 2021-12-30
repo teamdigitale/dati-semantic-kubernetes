@@ -14,7 +14,7 @@ spec:
       timeoutSeconds: 600
       maxUnavailable: 25%
       maxSurge: 25%
-    resources: { }
+    resources: {}
     activeDeadlineSeconds: 21600
   replicas: 1
   revisionHistoryLimit: 10
@@ -66,7 +66,7 @@ spec:
           imagePullPolicy: Always
           terminationMessagePolicy: File
           image: >-
-            ghcr.io/teamdigitale/dati-semantic-backend:20211221-237-7ce75ff
+            ghcr.io/teamdigitale/dati-semantic-backend:20211230-255-d4f2fb7
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: test
@@ -92,10 +92,10 @@ spec:
                   key: virtuoso-test
             - name: HARVESTER_REPOSITORIES
               value: "https://github.com/ronytw/sample-ontology-repo"
+            - name: HARVESTER_ENDPOINT_ENABLED
+              value: "true"
             - name: NDC_BASEURL
               value: https://ndc-test.apps.cloudpub.testedev.istat.it/api
-            - name: HARVESTER_ENDPOINT_ENABLED
-              value: 'true'
             - name: SPRING_DATASOURCE_URL
               value: jdbc:mysql://db-testedev-mysql.mysql.database.azure.com:3306/ts_ndc_harvest?useSSL=true
             - name: SPRING_DATASOURCE_USERNAME
