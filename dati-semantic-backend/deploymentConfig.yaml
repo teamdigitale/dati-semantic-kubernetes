@@ -68,6 +68,8 @@ spec:
           image: >-
             ghcr.io/teamdigitale/dati-semantic-backend:20211221-237-7ce75ff
           env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: test
             - name: SPRING_ELASTICSEARCH_REST_URIS
               value: http://elasticsearch-test-external-service:9201
             - name: SPRING_ELASTICSEARCH_REST_USERNAME
@@ -89,7 +91,7 @@ spec:
                   name: virtuoso-test
                   key: virtuoso-test
             - name: HARVESTER_REPOSITORIES
-              value: "https://github.com/ash1425/sample-ontology-repo"
+              value: "https://github.com/ronytw/sample-ontology-repo"
             - name: NDC_BASEURL
               value: https://ndc-test.apps.cloudpub.testedev.istat.it/api
             - name: HARVESTER_ENDPOINT_ENABLED
