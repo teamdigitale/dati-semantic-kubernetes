@@ -68,6 +68,8 @@ spec:
           image: >-
             ghcr.io/teamdigitale/dati-semantic-backend:20211221-237-7ce75ff
           env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: prod
             - name: SPRING_ELASTICSEARCH_REST_URIS
               value: http://elasticsearch-prod-external-service:9200
             - name: SPRING_ELASTICSEARCH_REST_USERNAME
