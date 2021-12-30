@@ -68,6 +68,8 @@ spec:
           image: >-
             ghcr.io/teamdigitale/dati-semantic-backend:20211229-254-5d1eedd
           env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: dev
             - name: SPRING_ELASTICSEARCH_REST_URIS
               value: http://elasticsearch-dev-external-service:9200
             - name: SPRING_ELASTICSEARCH_REST_USERNAME
@@ -89,7 +91,9 @@ spec:
                   name: virtuoso-sql
                   key: virtuoso-dev
             - name: HARVESTER_REPOSITORIES
-              value: "https://github.com/ash1425/sample-ontology-repo"
+              value: "https://github.com/ronytw/sample-ontology-repo"
+            - name: HARVESTER_ENDPOINT_ENABLED
+              value: true
             - name: NDC_BASEURL
               value: https://ndc-dev.apps.cloudpub.testedev.istat.it/api
             - name: SPRING_DATASOURCE_URL
@@ -101,6 +105,8 @@ spec:
                 secretKeyRef:
                   key: mysql-dev
                   name: mysql-dev
+#            - name: LOGGING_LEVEL_IT_GOV_INNOVAZIONE_NDC
+#              value: debug
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
