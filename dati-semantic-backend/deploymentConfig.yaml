@@ -66,7 +66,7 @@ spec:
           imagePullPolicy: Always
           terminationMessagePolicy: File
           image: >-
-            ghcr.io/teamdigitale/dati-semantic-backend:20211230-255-d4f2fb7
+            ghcr.io/teamdigitale/dati-semantic-backend:20220101-256-3a37793
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: test
