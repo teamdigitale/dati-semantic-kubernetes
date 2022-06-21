@@ -66,7 +66,7 @@ spec:
           imagePullPolicy: Always
           terminationMessagePolicy: File
           image: >-
-            ghcr.io/teamdigitale/dati-semantic-frontend:20220620-624-9796247
+            ghcr.io/teamdigitale/dati-semantic-frontend:20220621-625-ae9404c
           env:
             - name: API_URL
               value: /api
