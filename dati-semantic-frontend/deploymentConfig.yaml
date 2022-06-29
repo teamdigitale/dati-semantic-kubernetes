@@ -73,7 +73,7 @@ spec:
             - name: SPARQL_ENDPOINT_URL
               value: https://virtuoso-dev-external-service-ndc-dev.apps.cloudpub.testedev.istat.it/sparql
             - name: MATOMO_SITE_ID
-              value: 35
+              value: "35"
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
