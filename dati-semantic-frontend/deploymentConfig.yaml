@@ -73,7 +73,7 @@ spec:
             - name: SPARQL_ENDPOINT_URL
               value: https://schema.gov.it/sparql
             - name: MATOMO_SITE_ID
-              value: 33
+              value: "33"
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
