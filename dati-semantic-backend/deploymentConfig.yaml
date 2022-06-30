@@ -93,7 +93,7 @@ spec:
             - name: HARVESTER_REPOSITORIES
               value: "https://github.com/italia/daf-ontologie-vocabolari-controllati"
             - name: NDC_BASEURL
-              value: https://schema.gov.it/api
+              value: https://www.schema.gov.it/api
             - name: HARVESTER_ENDPOINT_ENABLED  # Enable API for triggering harvester: insecure!
               value: 'false'
             - name: SPRING_DATASOURCE_URL
