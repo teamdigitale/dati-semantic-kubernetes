@@ -95,7 +95,7 @@ spec:
             - name: NDC_BASEURL
               value: https://schema.gov.it/api
             - name: HARVESTER_ENDPOINT_ENABLED  # Enable API for triggering harvester: insecure!
-              value: 'false'
+              value: 'true'
             - name: SPRING_DATASOURCE_URL
               value: jdbc:mysql://istat-db-prod.mysql.database.azure.com:3306/pd_ndc_harvest?useSSL=true
             - name: SPRING_DATASOURCE_USERNAME
