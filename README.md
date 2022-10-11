@@ -18,6 +18,36 @@ We use branch based environments to manage the configuration. The branch name is
 Deployment to dev is automatic whenever there is a change in BE or FE app.
 ![](CD-flow.png)
 
+```mermaid
+flowchart
+
+    classDef default stroke:white,color:#fff,clusterBkg:none,fill:#3344d0
+    classDef cluster font-weight: bold,fill:none,color:darkgray,stroke:#3344d0,stroke-width:2px
+    classDef subgraph_padding fill:none, stroke:none, opacity:0
+    classDef bounded_context stroke-dasharray:5 5
+
+dev((developers fa:fa-user))
+BE["Backend\nrepo fa:fa-code"]
+FE["Frontend\nrepo fa:fa-code"]
+KUBE["Kube\nrepo (dev) fa:fa-code"]
+Registry[(ghcr.io\nregistry)]
+
+subgraph Applications
+direction TB
+FE
+BE
+end
+
+Registry -.- |download images| INFRA
+dev -->|push fa:fa-code-merge| Applications
+Applications -->|CI triggers workflow\nusing an access token\n on| KUBE
+Applications -->|push images| Registry
+click KUBE "https://github.com/teamdigitale/dati-semantic-frontend/blob/main/.github/workflows/node.js.yml#L137" "Github Action"
+KUBE --> |webhook triggers\ndeployment| INFRA([ISTAT dev\ninfrastructure fa:fa-server])
+
+
+```
+
 ## Promoting to `test`
 
 This is a partially automated. Developers are expected to manually promote the `dev` configuration to `test` branch.
