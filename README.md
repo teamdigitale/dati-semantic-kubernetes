@@ -16,7 +16,6 @@ We use branch based environments to manage the configuration. The branch name is
 ## Automation (Only for the `dev` environment)
 
 Deployment to dev is automatic whenever there is a change in BE or FE app.
-![](CD-flow.png)
 
 ```mermaid
 flowchart
@@ -27,9 +26,9 @@ flowchart
     classDef bounded_context stroke-dasharray:5 5
 
 dev((developers fa:fa-user))
-BE["Backend\nrepo fa:fa-code"]
-FE["Frontend\nrepo fa:fa-code"]
-KUBE["Kube\nrepo (dev) fa:fa-code"]
+BE["backend\nrepo fa:fa-code"]
+FE["frontend\nrepo fa:fa-code"]
+KUBE["kubernetes\nrepo (dev branch) fa:fa-code"]
 Registry[(ghcr.io\nregistry)]
 
 subgraph Applications
@@ -39,11 +38,11 @@ BE
 end
 
 Registry -.- |download images| INFRA
-dev -->|push fa:fa-code-merge| Applications
+dev -->|push\n changes fa:fa-code-merge| Applications
 Applications -->|CI triggers workflow\nusing an access token\n on| KUBE
-Applications -->|push images| Registry
+Applications -->|CI pushes\nimages| Registry
 click KUBE "https://github.com/teamdigitale/dati-semantic-frontend/blob/main/.github/workflows/node.js.yml#L137" "Github Action"
-KUBE --> |webhook triggers\ndeployment| INFRA([ISTAT dev\ninfrastructure fa:fa-server])
+KUBE --> |github webhook triggers\ndeployment| INFRA([ISTAT dev\ninfrastructure fa:fa-server])
 
 
 ```
