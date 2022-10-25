@@ -39,7 +39,7 @@ spec:
               memory: 100Mi
           readinessProbe:  # FIXME
             httpGet:
-              path: /staticResources/img/logo-header-lodview.pnga
+              path: /
               port: 8080
               scheme: HTTP
             initialDelaySeconds: 10
@@ -49,7 +49,7 @@ spec:
             failureThreshold: 3
           livenessProbe: # FIXME
             httpGet:
-              path: /staticResources/img/logo-header-lodview.png
+              path: /
               port: 8080
               scheme: HTTP
             initialDelaySeconds: 10
@@ -65,8 +65,9 @@ spec:
               protocol: TCP
           imagePullPolicy: Always
           terminationMessagePolicy: File
+          # ghcr.io/teamdigitale/dati-semantic-lodview:20221025-4-25a0262
           image: >-
-            ghcr.io/teamdigitale/dati-semantic-lodview:20221025-4-25a0262
+            docker.io/ioggstream/ndc-api:20221025
           env:  # FIXME with correct URLs, URI SPACE and PUBLIC URL.
             - name: "LodViewendpoint"
               value: http://virtuoso-dev-external-service:8890/sparql-auth
