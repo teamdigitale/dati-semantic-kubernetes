@@ -1,15 +1,15 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: dati-semantic-frontend
+  name: dati-semantic-lodview
   namespace: ndc-dev
   labels:
-    application: dati-semantic-frontend
+    application: dati-semantic-lodview
 spec:
   ports:
     - protocol: TCP
       port: 8080
       targetPort: 8080
   selector:
-    deploymentConfig: dati-semantic-frontend
+    deploymentConfig: dati-semantic-lodview
   sessionAffinity: None
