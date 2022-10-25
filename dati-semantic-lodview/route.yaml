@@ -5,13 +5,10 @@ metadata:
   namespace: ndc-dev
   labels:
     application: dati-semantic-lodview
-  annotations:
-    haproxy.router.openshift.io/rewrite-target: /
 spec:
   # TODO: consider publishing this application
   #       on a separate domain, e.g. ndc-dev-onto...
-  host: ndc-dev.apps.cloudpub.testedev.istat.it
-  path: "/lod"
+  host: lod-ndc-dev.apps.cloudpub.testedev.istat.it
   to:
     kind: Service
     name: dati-semantic-lodview
