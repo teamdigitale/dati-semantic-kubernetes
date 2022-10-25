@@ -65,9 +65,8 @@ spec:
               protocol: TCP
           imagePullPolicy: Always
           terminationMessagePolicy: File
-          # ghcr.io/teamdigitale/dati-semantic-lodview:20221025-4-25a0262
           image: >-
-            docker.io/ioggstream/ndc-api:20221025
+            ghcr.io/teamdigitale/dati-semantic-lodview:20221025-4-25a0262
           env:  # FIXME with correct URLs, URI SPACE and PUBLIC URL.
             - name: "LodViewendpoint"
               value: http://virtuoso-dev-external-service:8890/sparql-auth
