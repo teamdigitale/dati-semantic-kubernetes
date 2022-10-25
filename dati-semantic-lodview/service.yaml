@@ -1,0 +1,15 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: dati-semantic-frontend
+  namespace: ndc-dev
+  labels:
+    application: dati-semantic-frontend
+spec:
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  selector:
+    deploymentConfig: dati-semantic-frontend
+  sessionAffinity: None
