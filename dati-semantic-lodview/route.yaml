@@ -6,12 +6,12 @@ metadata:
   labels:
     application: dati-semantic-lodview
   annotations:
-    haproxy.router.openshift.io/rewrite-target: /
+    haproxy.router.openshift.io/rewrite-target: /  
 spec:
   # TODO: consider publishing this application
   #       on a separate domain, e.g. lod-ndc-dev...
   host: ndc-dev.apps.cloudpub.testedev.istat.it
-  path: "/lodview"
+  path: "/lod"
   to:
     kind: Service
     name: dati-semantic-lodview
