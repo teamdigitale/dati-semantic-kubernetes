@@ -69,7 +69,7 @@ spec:
             ghcr.io/teamdigitale/dati-semantic-lodview:20221026-32-884da14
           env:  # FIXME with correct URLs, URI SPACE and PUBLIC URL.
             - name: "LodViewendpoint"
-              value: https://schema.gov.it/sparql
+              value: http://virtuoso-dev-external-service:8890/sparql
             - name: MATOMO_SITE_ID
               value: "35"
       restartPolicy: Always
