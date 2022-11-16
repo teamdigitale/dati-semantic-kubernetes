@@ -32,11 +32,11 @@ spec:
       containers:
         - resources:
             limits:
-              cpu: 100m
-              memory: 500Mi
+              cpu: 800m
+              memory: 2048Mi
             requests:
-              cpu: 100m
-              memory: 500Mi
+              cpu: 250m
+              memory: 512Mi
           # readinessProbe:  # FIXME
           #   httpGet:
           #     path: /
@@ -69,7 +69,7 @@ spec:
             ghcr.io/teamdigitale/dati-semantic-lodview:20221026-32-884da14
           env:  # FIXME with correct URLs, URI SPACE and PUBLIC URL.
             - name: "LodViewendpoint"
-              value: http://virtuoso-dev-external-service:8890/sparql
+              value: https://schema.gov.it/sparql
             - name: MATOMO_SITE_ID
               value: "35"
       restartPolicy: Always
