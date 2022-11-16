@@ -66,8 +66,8 @@ spec:
           imagePullPolicy: Always
           terminationMessagePolicy: File
           image: >-
-            ghcr.io/teamdigitale/dati-semantic-lodview:20221026-32-884da14
-          env:  # FIXME with correct URLs, URI SPACE and PUBLIC URL.
+            ghcr.io/teamdigitale/dati-semantic-lodview:20221116-36-245f823
+          env: # FIXME with correct URLs, URI SPACE and PUBLIC URL.
             - name: "LodViewendpoint"
               value: http://virtuoso-dev-external-service:8890/sparql
             - name: MATOMO_SITE_ID
