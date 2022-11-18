@@ -65,6 +65,7 @@ spec:
               protocol: TCP
           imagePullPolicy: Always
           terminationMessagePolicy: File
+          workingDir: /tmp
           image: >-
             ghcr.io/teamdigitale/dati-semantic-lodview:20221116-36-245f823
           env: # FIXME with correct URLs, URI SPACE and PUBLIC URL.
