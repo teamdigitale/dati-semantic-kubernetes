@@ -66,7 +66,7 @@ spec:
           imagePullPolicy: Always
           terminationMessagePolicy: File
           image: >-
-            docker.io/openlink/virtuoso-opensource-7:latest
+            ghcr.io/teamdigitale/dati-semantic-virtuoso-slim:20221118-3-f09e6e0
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
