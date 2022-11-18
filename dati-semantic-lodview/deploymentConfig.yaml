@@ -71,7 +71,7 @@ spec:
             - name: LodViewhttpRedirectSuffix
               value: ""
             - name: "LodViewendpoint"
-              value: http://virtuoso-external:8890/sparql
+              value: http://virtuoso-dev-external-service:8890/sparql
             - name: MATOMO_SITE_ID
               value: "35"
       restartPolicy: Always
