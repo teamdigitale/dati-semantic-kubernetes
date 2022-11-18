@@ -1,10 +1,10 @@
 kind: ImageStream
 apiVersion: image.openshift.io/v1
 metadata:
-  name: dati-semantic-lodview
+  name: virtuoso-internal
   namespace: ndc-dev
   labels:
-    application: dati-semantic-lodview
+    application: virtuoso-internal
 spec:
   lookupPolicy:
     local: false

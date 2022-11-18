@@ -9,7 +9,7 @@ spec:
     name: virtuoso-internal
     apiVersion: apps.openshift.io/v1
   minReplicas: 1
-  maxReplicas: 1
+  maxReplicas: 2ß
   metrics:
     - type: Resource
       resource:
