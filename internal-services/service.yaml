@@ -1,0 +1,15 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: virtuoso-internal
+  namespace: ndc-dev
+  labels:
+    application: virtuoso-internal
+spec:
+  ports:
+    - protocol: TCP
+      port: 8890
+      targetPort: 8890
+  selector:
+    deploymentConfig: virtuoso-internal
+  sessionAffinity: None
