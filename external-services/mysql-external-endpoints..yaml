@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: mysql-dev-external-service
+subsets:
+  - addresses:
+      - ip: 10.242.0.132
+    ports:
+      - port: 3306

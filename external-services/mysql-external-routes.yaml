@@ -1,0 +1,18 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: mysql-dev-external-service
+  namespace: ndc-dev
+  labels:
+    application: mysql-dev-external-service
+spec:
+  to:
+    kind: Service
+    name: mysql-dev-external-service
+    weight: 100
+  port:
+    targetPort: 3306
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None
