@@ -7,7 +7,7 @@ metadata:
   labels:
     application: virtuoso-internal
 spec:
-  host: sparql.cloudpub.testedev.istat.it
+  host: sparql-ndc-dev.cloudpub.testedev.istat.it
   to:
     kind: Service
     name: virtuoso-internal

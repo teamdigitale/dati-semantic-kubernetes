@@ -5,31 +5,6 @@ metadata:
   namespace: ndc-dev
   labels:
     application: dati-semantic-lodview
-  annotations:
-    haproxy.router.openshift.io/rewrite-target: /  
-spec:
-  # TODO: consider publishing this application
-  #       on a separate domain, e.g. lod-ndc-dev...
-  host: ndc-dev.apps.cloudpub.testedev.istat.it
-  path: "/lod"
-  to:
-    kind: Service
-    name: dati-semantic-lodview
-    weight: 100
-  port:
-    targetPort: 8080
-  tls:
-    termination: edge
-    insecureEdgeTerminationPolicy: Redirect
-  wildcardPolicy: None
----
-kind: Route
-apiVersion: route.openshift.io/v1
-metadata:
-  name: dati-semantic-lodview
-  namespace: ndc-dev
-  labels:
-    application: dati-semantic-lodview
 spec:
   # TODO: consider publishing this application
   #       on a separate domain, e.g. lod-ndc-dev...

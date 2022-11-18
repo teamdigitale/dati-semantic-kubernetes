@@ -68,6 +68,8 @@ spec:
           image: >-
             ghcr.io/teamdigitale/dati-semantic-lodview:20221116-36-245f823
           env: # FIXME with correct URLs, URI SPACE and PUBLIC URL.
+            - name: LodViewhttpRedirectSuffix
+              value: ""
             - name: "LodViewendpoint"
               value: http://virtuoso-internal:8890/sparql
             - name: MATOMO_SITE_ID
