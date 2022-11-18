@@ -1,3 +1,4 @@
+# This endpoint references an external IP.
 apiVersion: v1
 kind: Endpoints
 metadata:
