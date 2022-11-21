@@ -69,7 +69,7 @@ spec:
             ghcr.io/teamdigitale/lode:20221121-6-801a2dd
           env:
             - name: EXTERNAL_URL
-              value: "https://lode-ndc-dev.apps.cloudpub.testedev.istat.it"
+              value: "https://lode-ndc-dev.apps.cloudpub.testedev.istat.it/lode"
             # - name: MATOMO_SITE_ID  # FIXME
             #   value: "35"
       restartPolicy: Always
