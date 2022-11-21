@@ -6,9 +6,7 @@ metadata:
   labels:
     application: dati-semantic-lode
 spec:
-  # TODO: consider publishing this application
-  #       on a separate domain, e.g. lod-ndc-dev...
-  host: lod-ndc-dev.apps.cloudpub.testedev.istat.it
+  host: lode-ndc-dev.apps.cloudpub.testedev.istat.it
   to:
     kind: Service
     name: dati-semantic-lode
