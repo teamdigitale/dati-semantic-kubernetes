@@ -37,26 +37,26 @@ spec:
             requests:
               cpu: 250m
               memory: 512Mi
-          # readinessProbe:  # FIXME
-          #   httpGet:
-          #     path: /
-          #     port: 8080
-          #     scheme: HTTP
-          #   initialDelaySeconds: 10
-          #   timeoutSeconds: 2
-          #   periodSeconds: 8
-          #   successThreshold: 1
-          #   failureThreshold: 300
-          # livenessProbe: # FIXME
-          #   httpGet:
-          #     path: /
-          #     port: 8080
-          #     scheme: HTTP
-          #   initialDelaySeconds: 10
-          #   timeoutSeconds: 2
-          #   periodSeconds: 8
-          #   successThreshold: 1
-          #   failureThreshold: 300
+          readinessProbe:  # FIXME
+            httpGet:
+              path: /onto/CPV
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            periodSeconds: 8
+            successThreshold: 1
+            failureThreshold: 300
+          livenessProbe: # FIXME
+            httpGet:
+              path: /onto/CPV
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            periodSeconds: 8
+            successThreshold: 1
+            failureThreshold: 300
           terminationMessagePath: /dev/termination-log
           name: dati-semantic-lodview
           ports: # FIXME
