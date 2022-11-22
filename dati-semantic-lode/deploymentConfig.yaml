@@ -66,7 +66,7 @@ spec:
           imagePullPolicy: Always
           terminationMessagePolicy: File
           image: >-
-            ghcr.io/teamdigitale/LODE:20221122-10-66ceb88
+            ghcr.io/teamdigitale/lode:20221122-11-0e1b527
           env:
             - name: EXTERNAL_URL
               value: "https://lode-ndc-dev.apps.cloudpub.testedev.istat.it/lode"
