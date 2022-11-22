@@ -13,6 +13,20 @@ We use branch based environments to manage the configuration. The branch name is
 - [test](https://github.com/teamdigitale/dati-semantic-kubernetes/tree/test)
 - [prod](https://github.com/teamdigitale/dati-semantic-kubernetes/tree/prod)
 
+## Deliverables
+
+The deliverables' repositories are:
+
+- The NDC application:
+  - https://github.com/teamdigitale/dati-semantic-backend
+  - https://github.com/teamdigitale/dati-semantic-frontend
+
+- Semantic viewers:
+  - https://github.com/teamdigitale/dati-semantic-lodview
+  - https://github.com/teamdigitale/LODE
+  - https://github.com/teamdigitale/dati-semantic-WebVOWL
+  - https://github.com/teamdigitale/dati-semantic-OWL2VOWL
+
 ## Automation (Only for the `dev` environment)
 
 Deployment to dev is automatic whenever there is a change in BE or FE app.
