@@ -25,7 +25,6 @@ The deliverables' repositories are:
   - https://github.com/teamdigitale/dati-semantic-lodview
   - https://github.com/teamdigitale/LODE
   - https://github.com/teamdigitale/dati-semantic-WebVOWL
-  - https://github.com/teamdigitale/dati-semantic-OWL2VOWL
 
 ## Automation (Only for the `dev` environment)
 
