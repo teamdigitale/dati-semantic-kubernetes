@@ -1,3 +1,8 @@
+#
+# Run with:
+#   pip install pytest requests  # install dependencies.
+#   pytest -v
+#
 import requests
 import pytest
 
@@ -22,6 +27,11 @@ TESTCASES = [
         "expected": "totalCount",
         "repo": "github.com/teamdigitale/dati-semantic-backend",
     },
+    {
+      "url": "https://virtuoso-dev-external-service-ndc-dev.apps.cloudpub.testedev.istat.it/sparql?default-graph-uri=&query=select+distinct+%3Fprop+%3Fvalue+where+%7B+%3Chttps%3A%2F%2Fw3id.org%2Fitalia%2Fonto%2FAtlasOfPaths%3E+%3Fprop+%3Fvalue%7D+LIMIT+2&format=text%2Fturtle&timeout=0&signal_void=on",
+      "expected": "owl:NamedIndividual",
+      "repo": "External Service Virtuoso"
+    }
 ]
 
 
