@@ -1,10 +1,10 @@
 kind: DeploymentConfig
 apiVersion: apps.openshift.io/v1
 metadata:
-  name: dati-semantic-frontend
+  name: dati-semantic-lodview
   namespace: ndc-test
   labels:
-    application: dati-semantic-frontend
+    application: dati-semantic-lodview
 spec:
   strategy:
     type: Rolling
@@ -20,58 +20,58 @@ spec:
   revisionHistoryLimit: 10
   test: false
   selector:
-    deploymentConfig: dati-semantic-frontend
+    deploymentConfig: dati-semantic-lodview
   template:
     metadata:
-      name: dati-semantic-frontend
+      name: dati-semantic-lodview
       creationTimestamp: null
       labels:
-        application: dati-semantic-frontend
-        deploymentConfig: dati-semantic-frontend
+        application: dati-semantic-lodview
+        deploymentConfig: dati-semantic-lodview
     spec:
       containers:
         - resources:
             limits:
-              cpu: 100m
-              memory: 100Mi
+              cpu: 800m
+              memory: 2048Mi
             requests:
-              cpu: 100m
-              memory: 100Mi
-          readinessProbe:
+              cpu: 250m
+              memory: 512Mi
+          readinessProbe: # FIXME
             httpGet:
-              path: /index.html
+              path: /onto/CPV
               port: 8080
               scheme: HTTP
             initialDelaySeconds: 10
             timeoutSeconds: 2
             periodSeconds: 8
             successThreshold: 1
-            failureThreshold: 3
-          livenessProbe:
+            failureThreshold: 300
+          livenessProbe: # FIXME
             httpGet:
-              path: /index.html
+              path: /onto/CPV
               port: 8080
               scheme: HTTP
             initialDelaySeconds: 10
             timeoutSeconds: 2
             periodSeconds: 8
             successThreshold: 1
-            failureThreshold: 3
+            failureThreshold: 300
           terminationMessagePath: /dev/termination-log
-          name: dati-semantic-frontend
-          ports:
+          name: dati-semantic-lodview
+          ports: # FIXME
             - name: http
               containerPort: 8080
               protocol: TCP
           imagePullPolicy: Always
           terminationMessagePolicy: File
           image: >-
-            ghcr.io/teamdigitale/dati-semantic-frontend:20221118-824-3f2c8cb
-          env:
-            - name: API_URL
-              value: /api
-            - name: SPARQL_ENDPOINT_URL
-              value: https://virtuoso-test-external-service-ndc-test.apps.cloudpub.testedev.istat.it/sparql/
+            ghcr.io/teamdigitale/dati-semantic-lodview:20221121-42-053c762
+          env: # FIXME with correct URLs, URI SPACE and PUBLIC URL.
+            - name: LodViewhttpRedirectSuffix
+              value: ""
+            - name: "LodViewendpoint"
+              value: http://virtuoso-test-external-service:8891/sparql
             - name: MATOMO_SITE_ID
               value: "35"
       restartPolicy: Always

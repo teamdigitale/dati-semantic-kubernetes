@@ -1,0 +1,11 @@
+# This endpoint references an external IP.
+apiVersion: v1
+kind: Endpoints
+metadata:
+  namespace: ndc-test
+  name: virtuoso-test-external-service
+subsets:
+  - addresses:
+      - ip: 10.242.0.4
+    ports:
+      - port: 8891
