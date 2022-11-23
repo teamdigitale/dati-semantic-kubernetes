@@ -70,6 +70,10 @@ spec:
           env:
             - name: API_URL
               value: /api
+            - name: NDC_MAINTENANCE_MESSAGE
+              value: >-
+                Questa è la versione di sviluppo di schema.gov.it, e questo è un
+                messaggio di maintenance di esempio.
             - name: SPARQL_ENDPOINT_URL
               value: https://virtuoso-dev-external-service-ndc-dev.apps.cloudpub.testedev.istat.it/sparql
             - name: MATOMO_SITE_ID
