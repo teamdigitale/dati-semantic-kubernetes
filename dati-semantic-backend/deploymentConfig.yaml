@@ -68,6 +68,8 @@ spec:
           image: >-
             ghcr.io/teamdigitale/dati-semantic-backend:20220630-271-f91b4d8
           env:
+            - name: XDG_CONFIG_HOME
+              value: /tmp/
             - name: SPRING_PROFILES_ACTIVE
               value: dev
             - name: SPRING_ELASTICSEARCH_REST_URIS
