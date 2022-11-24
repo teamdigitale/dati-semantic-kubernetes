@@ -9,4 +9,7 @@ if [ "$#" -ne 2 ]; then
   exit 1
 fi
 
-yq eval -ie ".spec.template.spec.containers[0].image = \"$2\"" $1/deploymentConfig.yaml
+# Image names are lowercase.
+imageWithTag=$(echo $2 | tr '[:upper:]' '[:lower:]')
+
+yq eval -ie ".spec.template.spec.containers[0].image = \"$imageWithTag\"" $1/deploymentConfig.yaml
