@@ -107,8 +107,8 @@ spec:
                 secretKeyRef:
                   key: mysql-dev
                   name: mysql-dev
-                  #            - name: LOGGING_LEVEL_IT_GOV_INNOVAZIONE_NDC
-                  #              value: debug
+            - name: LOGGING_LEVEL_IT_GOV_INNOVAZIONE_NDC
+              value: debug
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
