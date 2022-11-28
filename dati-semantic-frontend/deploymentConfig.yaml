@@ -71,7 +71,7 @@ spec:
             - name: API_URL
               value: /api
             - name: SPARQL_ENDPOINT_URL
-              value: https://www.schema.gov.it/sparql
+              value: /sparql
             - name: MATOMO_SITE_ID
               value: "33"
       restartPolicy: Always
