@@ -70,6 +70,8 @@ spec:
           env:
             - name: EXTERNAL_URL
               value: "https://lode-ndc-dev.apps.cloudpub.testedev.istat.it/lode"
+            - name: WEBVOWL_URL
+              value: "https://webvowl-ndc-dev.apps.cloudpub.testedev.istat.it"
               # - name: MATOMO_SITE_ID  # FIXME
               #   value: "35"
       restartPolicy: Always
