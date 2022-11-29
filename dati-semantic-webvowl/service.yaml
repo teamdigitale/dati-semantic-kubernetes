@@ -13,3 +13,4 @@ spec:
   selector:
     deploymentConfig: dati-semantic-webvowl
   sessionAffinity: None
+
