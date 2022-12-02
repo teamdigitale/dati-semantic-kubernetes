@@ -74,8 +74,13 @@ spec:
               value: https://virtuoso-dev-external-service-ndc-dev.apps.cloudpub.testedev.istat.it/sparql
             - name: "LodViewhomeUrl"
               value: https://ndc-dev.apps.cloudpub.testedev.istat.it
-            - name: MATOMO_SITE_ID
-              value: "35"
+            - name: "LodViewhomeTitle"
+              value: "Home Title TBD"
+            - name: "LodViewhomeDescription"
+              value: "Home Description TBD"
+            - name: "LodViewhomeContent"
+              value: "Home Content TBD"
+
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
