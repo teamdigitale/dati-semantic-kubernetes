@@ -66,7 +66,7 @@ spec:
           imagePullPolicy: Always
           terminationMessagePolicy: File
           image: >-
-            ghcr.io/teamdigitale/dati-semantic-lodview:20221205-48-4d58e97
+            ghcr.io/teamdigitale/dati-semantic-lodview:20221205-49-e3b74b4
           env: # FIXME with correct URLs, URI SPACE and PUBLIC URL.
             - name: LodViewhttpRedirectSuffix
               value: ""
@@ -82,7 +82,6 @@ spec:
               value: "Home Description TBD"
             - name: "LodViewhomeContent"
               value: "Home Content TBD"
-
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
