@@ -72,6 +72,8 @@ spec:
               value: ""
             - name: "LodViewendpoint"
               value: https://virtuoso-dev-external-service-ndc-dev.apps.cloudpub.testedev.istat.it/sparql
+            - name: "LodViewendpointInternal"
+              value: http://virtuoso-dev-external-service:8890/sparql
             - name: "LodViewhomeUrl"
               value: https://ndc-dev.apps.cloudpub.testedev.istat.it
             - name: "LodViewhomeTitle"
