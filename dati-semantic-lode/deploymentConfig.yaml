@@ -66,10 +66,10 @@ spec:
           imagePullPolicy: Always
           terminationMessagePolicy: File
           image: >-
-            ghcr.io/teamdigitale/dati-semantic-lode:20221128-14-7db975f
+            ghcr.io/teamdigitale/dati-semantic-lode:20221205-16-6d58a53
           env:
             - name: EXTERNAL_URL
-              value: "https://lode-ndc-test.apps.cloudpub.testedev.istat.it/lode"
+              value: "https://lode-ndc-test.apps.cloudpub.testedev.istat.it"
             - name: WEBVOWL_URL
               value: "https://webvowl-ndc-test.apps.cloudpub.testedev.istat.it/#iri="
               # - name: MATOMO_SITE_ID  # FIXME
@@ -79,4 +79,3 @@ spec:
       dnsPolicy: ClusterFirst
       securityContext: {}
       schedulerName: default-scheduler
-
