@@ -77,11 +77,11 @@ spec:
             - name: "LodViewhomeUrl"
               value: https://ndc-test.apps.cloudpub.testedev.istat.it
             - name: "LodViewhomeTitle"
-              value: "Home Title TBD"
+              value: "Il catalogo nazionale per l'interoperabilità semantica"
             - name: "LodViewhomeDescription"
-              value: "Home Description TBD"
+              value: "Schema è il catalogo in continua evoluzione, che armonizza e standardizza i modelli di dati condivisi e garantisce che formato e significato delle informazioni scambiate siano preservati e compresi durante gli scambi."
             - name: "LodViewhomeContent"
-              value: "Home Content TBD"
+              value: "Questo strumento consente la navigazione web dei contenuti delle ontologie e dei vocabolari controllati per la pubblica amministrazione."
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
