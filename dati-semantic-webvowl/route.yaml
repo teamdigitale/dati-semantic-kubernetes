@@ -2,7 +2,7 @@ kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
   name: dati-semantic-webvowl
-  namespace: ndc-test
+  namespace: ndc-prod
   labels:
     application: dati-semantic-webvowl
   annotations:
