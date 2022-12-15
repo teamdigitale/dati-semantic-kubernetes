@@ -66,7 +66,7 @@ spec:
           imagePullPolicy: Always
           terminationMessagePolicy: File
           image: >-
-            gghcr.io/teamdigitale/dati-semantic-lodview:20221214-61-4d3bd78
+            ghcr.io/teamdigitale/dati-semantic-lodview:20221214-61-4d3bd78
           env: # FIXME with correct URLs, URI SPACE and PUBLIC URL.
             - name: LodViewhttpRedirectSuffix
               value: ""
