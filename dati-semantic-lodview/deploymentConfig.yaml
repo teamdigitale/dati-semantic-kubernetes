@@ -82,6 +82,8 @@ spec:
               value: "Schema è il catalogo in continua evoluzione, che armonizza e standardizza i modelli di dati condivisi e garantisce che formato e significato delle informazioni scambiate siano preservati e compresi durante gli scambi."
             - name: "LodViewhomeContent"
               value: "Questo strumento consente la navigazione web dei contenuti delle ontologie e dei vocabolari controllati per la pubblica amministrazione."
+            - name: LodViewstaticResourceURL
+              value: "/lodview/staticResources/"
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
