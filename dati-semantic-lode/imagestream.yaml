@@ -1,0 +1,11 @@
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  name: dati-semantic-lode
+  namespace: ndc-prod
+  labels:
+    application: dati-semantic-lode
+spec:
+  lookupPolicy:
+    local: false
+

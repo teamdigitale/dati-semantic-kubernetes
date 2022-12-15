@@ -1,0 +1,23 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: dati-semantic-webvowl
+  namespace: ndc-prod
+  labels:
+    application: dati-semantic-webvowl
+  annotations:
+    haproxy.router.openshift.io/rewrite-target: /
+spec:
+  host: ndc-prod.apps.cloudpub.istat.it
+  path: "/webvowl"
+  to:
+    kind: Service
+    name: dati-semantic-webvowl
+    weight: 100
+  port:
+    targetPort: 8080
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None  
+
