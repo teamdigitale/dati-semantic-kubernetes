@@ -84,6 +84,8 @@ spec:
               value: "Questo strumento consente la navigazione web dei contenuti delle ontologie e dei vocabolari controllati per la pubblica amministrazione."
             - name: LodViewstaticResourceURL
               value: "/lodview/staticResources/"
+            - name: LodViewpublicUrlPrefix
+              value: "/lodview/"
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
