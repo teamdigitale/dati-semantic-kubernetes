@@ -66,7 +66,7 @@ spec:
           imagePullPolicy: Always
           terminationMessagePolicy: File
           image: >-
-            ghcr.io/teamdigitale/dati-semantic-webvowl:20221207-14-10372dc
+            ghcr.io/teamdigitale/dati-semantic-webvowl:20230210-18-2c46742
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
