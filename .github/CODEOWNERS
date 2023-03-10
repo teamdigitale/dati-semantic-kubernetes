@@ -1,8 +1,0 @@
-# This file lists user permissions on this branch
-#  and is required to implement approval workflows.
-#  See https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
-#  for further information on CODEOWNERS.
-# Note: this file must end with a newline.
-
-# test/ branch requires approval from the following users:
-* @mfortini @ioggstream @CreaIstat
