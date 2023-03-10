@@ -1,0 +1,19 @@
+kind: HorizontalPodAutoscaler
+apiVersion: autoscaling/v2beta2
+metadata:
+  name: autoscaling-dati-semantic-backend
+  namespace: ndc-test
+spec:
+  scaleTargetRef:
+    kind: DeploymentConfig
+    name: dati-semantic-backend
+    apiVersion: apps.openshift.io/v1
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80

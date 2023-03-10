@@ -1,0 +1,11 @@
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  name: dati-semantic-webvowl
+  namespace: ndc-test
+  labels:
+    application: dati-semantic-webvowl
+spec:
+  lookupPolicy:
+    local: false
+
