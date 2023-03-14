@@ -33,7 +33,7 @@ spec:
         - resources:
             limits:
               cpu: 800m
-              memory: 2048Mi
+              memory: 3072Mi
             requests:
               cpu: 250m
               memory: 512Mi
@@ -105,6 +105,8 @@ spec:
                 secretKeyRef:
                   key: mysql-test
                   name: mysql-test
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Xmx2g"
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
