@@ -80,9 +80,9 @@ spec:
                   name: elastic-test
                   key: elastic-test
             - name: VIRTUOSO_SPARQL
-              value: http://virtuoso-test-external-service:8891/sparql-auth
+              value: http://virtuoso-test-external-service:8892/sparql-auth
             - name: VIRTUOSO_SPARQL_GRAPH_STORE
-              value: http://virtuoso-test-external-service:8891/sparql-graph-crud-auth
+              value: http://virtuoso-test-external-service:8892/sparql-graph-crud-auth
             - name: VIRTUOSO_USERNAME
               value: ts_ndc_virtuoso_app
             - name: VIRTUOSO_PASSWORD
