@@ -91,7 +91,7 @@ spec:
                   name: virtuoso-test
                   key: virtuoso-test
             - name: HARVESTER_REPOSITORIES
-              value: "https://github.com/istat/ts-ontologie-vocabolari-controllati"
+              value: "https://github.com/italia/daf-ontologie-vocabolari-controllati"
             - name: HARVESTER_ENDPOINT_ENABLED
               value: "true"
             - name: NDC_BASEURL
