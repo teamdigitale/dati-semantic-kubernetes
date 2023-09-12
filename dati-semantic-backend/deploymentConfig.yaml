@@ -33,7 +33,7 @@ spec:
         - resources:
             limits:
               cpu: 800m
-              memory: 2048Mi
+              memory: 3072Mi
             requests:
               cpu: 250m
               memory: 512Mi
@@ -66,7 +66,7 @@ spec:
           imagePullPolicy: Always
           terminationMessagePolicy: File
           image: >-
-            ghcr.io/teamdigitale/dati-semantic-backend:20220630-271-f91b4d8
+            ghcr.io/teamdigitale/dati-semantic-backend:20230809-310-4ffa55c
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: prod
@@ -92,10 +92,10 @@ spec:
                   key: virtuoso-prod
             - name: HARVESTER_REPOSITORIES
               value: "https://github.com/italia/daf-ontologie-vocabolari-controllati"
+            - name: HARVESTER_ENDPOINT_ENABLED
+              value: "true"
             - name: NDC_BASEURL
               value: https://www.schema.gov.it/api
-            - name: HARVESTER_ENDPOINT_ENABLED  # Enable API for triggering harvester: insecure!
-              value: 'false'
             - name: SPRING_DATASOURCE_URL
               value: jdbc:mysql://istat-db-prod.mysql.database.azure.com:3306/pd_ndc_harvest?useSSL=true
             - name: SPRING_DATASOURCE_USERNAME
@@ -105,6 +105,16 @@ spec:
                 secretKeyRef:
                   key: mysql-prod
                   name: mysql-prod
+            - name: HARVESTER_USER
+              valueFrom:
+                secretKeyRef:
+                  name: harvester-prod
+                  key: HARVESTER_USER
+            - name: HARVESTER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: harvester-prod
+                  key: HARVESTER_PASSWORD
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
