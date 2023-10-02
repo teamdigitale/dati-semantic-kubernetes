@@ -105,6 +105,8 @@ spec:
                 secretKeyRef:
                   key: mysql-prod
                   name: mysql-prod
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Xmx2g"
             - name: HARVESTER_USER
               valueFrom:
                 secretKeyRef:
