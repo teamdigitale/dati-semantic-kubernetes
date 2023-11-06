@@ -93,7 +93,7 @@ spec:
                   name: virtuoso-sql
                   key: virtuoso-dev
             - name: HARVESTER_REPOSITORIES
-              value: "https://github.com/teamdigitale/openapi,https://github.com/italia/daf-ontologie-vocabolari-controllati"
+              value: "https://github.com/teamdigitale/openapi,https://github.com/italia/daf-ontologie-vocabolari-controllati,https://github.com/InailUfficio5/inail-ndc"
             - name: HARVESTER_ENDPOINT_ENABLED
               value: "true"
             - name: NDC_BASEURL
