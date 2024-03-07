@@ -37,9 +37,9 @@ spec:
             requests:
               cpu: 250m
               memory: 512Mi
-          readinessProbe: # FIXME
+          readinessProbe: 
             httpGet:
-              path: /onto/CPV
+              path: /
               port: 8080
               scheme: HTTP
             initialDelaySeconds: 10
@@ -47,9 +47,9 @@ spec:
             periodSeconds: 8
             successThreshold: 1
             failureThreshold: 300
-          livenessProbe: # FIXME
+          livenessProbe:
             httpGet:
-              path: /onto/CPV
+              path: /
               port: 8080
               scheme: HTTP
             initialDelaySeconds: 10
