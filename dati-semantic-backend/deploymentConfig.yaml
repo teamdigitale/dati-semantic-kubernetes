@@ -92,6 +92,11 @@ spec:
                 secretKeyRef:
                   name: virtuoso-sql
                   key: virtuoso-dev
+            - name: GITHUB_PERSONAL_ACCESS_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: ndc-istat-personal-access-token-dev
+                  key: ndc-istat-personal-access-token-dev
             - name: HARVESTER_REPOSITORIES
               value: "https://github.com/teamdigitale/openapi,https://github.com/italia/daf-ontologie-vocabolari-controllati,https://github.com/InailUfficio5/inail-ndc"
             - name: HARVESTER_ENDPOINT_ENABLED
