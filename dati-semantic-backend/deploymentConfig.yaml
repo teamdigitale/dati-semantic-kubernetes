@@ -66,7 +66,7 @@ spec:
           imagePullPolicy: Always
           terminationMessagePolicy: File
           image: >-
-            ghcr.io/teamdigitale/dati-semantic-backend:20240705-406-5c83a49
+            ghcr.io/teamdigitale/dati-semantic-backend:20240705-408-e15520a
           env:
             - name: XDG_CONFIG_HOME
               value: /tmp/
