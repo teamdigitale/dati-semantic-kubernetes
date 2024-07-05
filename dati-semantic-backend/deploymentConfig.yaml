@@ -122,7 +122,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: ndc-istat-smtp-dev
-                  name: smtp-password
+                  name: ndc-istat-smtp-dev
             - name: ALERTER_SMTP_STARTTLS
               value: "false"
             - name: ALERTER_SMTP_SSL
