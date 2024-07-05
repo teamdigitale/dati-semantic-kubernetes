@@ -114,6 +114,21 @@ spec:
                   name: mysql-dev
             - name: LOGGING_LEVEL_IT_GOV_INNOVAZIONE_NDC
               value: debug
+            - name: ALERTER_SMTP_SERVER
+              value: smtp.istat.it
+            - name: ALERTER_SMTP_PORT
+              value: 465
+            - name: ALERTER_SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: ndc-istat-smtp-dev
+                  name: smtp-password
+            - name: ALERTER_SMTP_STARTTLS
+              value: false
+            - name: ALERTER_SMTP_SSL
+              value: true
+            - name: JAVA_MAIL_DEBUG
+              value: true
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
