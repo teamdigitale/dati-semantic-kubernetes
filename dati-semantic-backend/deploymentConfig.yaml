@@ -115,7 +115,7 @@ spec:
             - name: LOGGING_LEVEL_IT_GOV_INNOVAZIONE_NDC
               value: debug
             - name: ALERTER_SMTP_SERVER
-              value: smtp.istat.it
+              value: proxyposta3.istat.it
             - name: ALERTER_SMTP_PORT
               value: "465"
             - name: ALERTER_SMTP_PASSWORD
