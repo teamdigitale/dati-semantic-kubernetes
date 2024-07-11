@@ -117,7 +117,7 @@ spec:
                 secretKeyRef:
                   name: harvester-test
                   key: HARVESTER_PASSWORD
-                        - name: ALERTER_SMTP_SERVER
+            - name: ALERTER_SMTP_SERVER
               value: smtp.istat.it
             - name: ALERTER_SMTP_PORT
               value: "465"
