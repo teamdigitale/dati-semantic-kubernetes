@@ -66,7 +66,7 @@ spec:
           imagePullPolicy: Always
           terminationMessagePolicy: File
           image: >-
-            ghcr.io/teamdigitale/dati-semantic-backend:20240409-371-a8f666f
+            ghcr.io/teamdigitale/dati-semantic-backend:20240711-413-39a8003
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: prod
@@ -117,6 +117,19 @@ spec:
                 secretKeyRef:
                   name: harvester-prod
                   key: HARVESTER_PASSWORD
+            - name: ALERTER_SMTP_SERVER
+              value: smtp.istat.it
+            - name: ALERTER_SMTP_PORT
+              value: "465"
+            - name: ALERTER_SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: smtp-password
+                  name: ndc-istat-smtp-prod
+            - name: ALERTER_SMTP_STARTTLS
+              value: "false"
+            - name: ALERTER_SMTP_SSL
+              value: "true"                  
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
