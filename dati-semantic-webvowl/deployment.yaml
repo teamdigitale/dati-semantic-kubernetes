@@ -1,0 +1,47 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: dati-semantic-webvowl
+  name: dati-semantic-webvowl
+  namespace: ndc-dev
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: dati-semantic-webvowl
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: dati-semantic-webvowl
+      name: dati-semantic-webvowl
+    spec:
+      containers:
+        - image: ghcr.io/teamdigitale/dati-semantic-webvowl:20230210-18-2c46742
+          imagePullPolicy: Always
+          name: dati-semantic-webvowl
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 800m
+              memory: 2048Mi
+            requests:
+              cpu: 250m
+              memory: 512Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: { }
+      terminationGracePeriodSeconds: 75

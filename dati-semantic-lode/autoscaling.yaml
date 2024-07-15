@@ -5,7 +5,7 @@ metadata:
   namespace: ndc-dev
 spec:
   scaleTargetRef:
-    kind: DeploymentConfig
+    kind: Deployment
     name: dati-semantic-lode
     apiVersion: apps.openshift.io/v1
   minReplicas: 1

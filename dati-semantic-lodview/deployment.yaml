@@ -1,0 +1,87 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: dati-semantic-lodview
+  name: dati-semantic-lodview
+  namespace: ndc-dev
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: dati-semantic-lodview
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: dati-semantic-lodview
+      name: dati-semantic-lodview
+    spec:
+      containers:
+        - env:
+            - name: LodViewhttpRedirectSuffix
+              value: ""
+            - name: LodViewendpoint
+              value: https://virtuoso-dev-external-service-ndc-dev.apps.cloudpub.testedev.istat.it/sparql
+            - name: LodViewendpointInternal
+              value: http://virtuoso-dev-external-service:8890/sparql
+            - name: LodViewhomeUrl
+              value: https://ndc-dev.apps.cloudpub.testedev.istat.it
+            - name: LodViewhomeTitle
+              value: Il catalogo nazionale per l'interoperabilità semantica
+            - name: LodViewhomeDescription
+              value: Schema è il catalogo in continua evoluzione, che armonizza e standardizza
+                i modelli di dati condivisi e garantisce che formato e
+                significato delle informazioni scambiate siano preservati e
+                compresi durante gli scambi.
+            - name: LodViewhomeContent
+              value: Questo strumento consente la navigazione web dei contenuti delle
+                ontologie e dei vocabolari controllati per la pubblica
+                amministrazione.
+          image: ghcr.io/teamdigitale/dati-semantic-lodview:20240306-124-e6bc35b
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 300
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 8
+            successThreshold: 1
+            timeoutSeconds: 2
+          name: dati-semantic-lodview
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 300
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 8
+            successThreshold: 1
+            timeoutSeconds: 2
+          resources:
+            limits:
+              cpu: 800m
+              memory: 2048Mi
+            requests:
+              cpu: 250m
+              memory: 512Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: { }
+      terminationGracePeriodSeconds: 75
