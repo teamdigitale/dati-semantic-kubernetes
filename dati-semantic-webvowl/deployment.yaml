@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -24,22 +25,22 @@ spec:
       name: dati-semantic-webvowl
     spec:
       containers:
-      - image: ghcr.io/teamdigitale/dati-semantic-webvowl:20230210-18-2c46742
-        imagePullPolicy: Always
-        name: dati-semantic-webvowl
-        ports:
-        - containerPort: 8080
-          name: http
-          protocol: TCP
-        resources:
-          limits:
-            cpu: 800m
-            memory: 2048Mi
-          requests:
-            cpu: 250m
-            memory: 512Mi
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
+        - image: ghcr.io/teamdigitale/dati-semantic-webvowl:20230210-18-2c46742
+          imagePullPolicy: Always
+          name: dati-semantic-webvowl
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 800m
+              memory: 2048Mi
+            requests:
+              cpu: 250m
+              memory: 512Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
