@@ -16,11 +16,9 @@ spec:
     rollingUpdate:
       maxSurge: 25%
       maxUnavailable: 25%
-      timeoutSeconds: 600
     type: RollingUpdate
   template:
     metadata:
-      creationTimestamp: null
       labels:
         application: dati-semantic-backend
         deploymentConfig: dati-semantic-backend
