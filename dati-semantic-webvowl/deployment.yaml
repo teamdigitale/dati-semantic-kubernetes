@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: dati-semantic-webvowl
+    application: dati-semantic-webvowl
   name: dati-semantic-webvowl
   namespace: ndc-dev
 spec:
@@ -11,7 +11,7 @@ spec:
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: dati-semantic-webvowl
+      application: dati-semantic-webvowl
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -20,7 +20,7 @@ spec:
   template:
     metadata:
       labels:
-        app: dati-semantic-webvowl
+        application: dati-semantic-webvowl
       name: dati-semantic-webvowl
     spec:
       containers:
