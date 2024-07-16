@@ -11,7 +11,7 @@ spec:
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      deployment: dati-semantic-webvowl
+      application: dati-semantic-webvowl
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -21,7 +21,6 @@ spec:
     metadata:
       labels:
         application: dati-semantic-webvowl
-        deployment: dati-semantic-webvowl
       name: dati-semantic-webvowl
     spec:
       containers:
