@@ -11,7 +11,7 @@ spec:
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      deployment: dati-semantic-backend
+      deploymentConfig: dati-semantic-backend
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -21,7 +21,7 @@ spec:
     metadata:
       labels:
         application: dati-semantic-backend
-        deployment: dati-semantic-backend
+        deploymentConfig: dati-semantic-backend
       name: dati-semantic-backend
     spec:
       containers:

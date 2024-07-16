@@ -11,7 +11,7 @@ spec:
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      deployment: dati-semantic-lode
+      deploymentConfig: dati-semantic-lode
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -21,7 +21,7 @@ spec:
     metadata:
       labels:
         application: dati-semantic-lode
-        deployment: dati-semantic-lode
+        deploymentConfig: dati-semantic-lode
       name: dati-semantic-lode
     spec:
       containers:
