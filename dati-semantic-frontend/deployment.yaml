@@ -1,0 +1,77 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: dati-semantic-frontend
+  name: dati-semantic-frontend
+  namespace: ndc-dev
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: dati-semantic-frontend
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: dati-semantic-frontend
+      name: dati-semantic-frontend
+    spec:
+      containers:
+        - env:
+            - name: API_URL
+              value: /api
+            - name: NDC_MAINTENANCE_MESSAGE
+              value: Questa è la versione di sviluppo di schema.gov.it, e questo è un
+                messaggio di maintenance di esempio.
+            - name: SPARQL_ENDPOINT_URL
+              value: https://virtuoso-dev-external-service-ndc-dev.apps.cloudpub.testedev.istat.it/sparql
+            - name: MATOMO_SITE_ID
+              value: "35"
+          image: ghcr.io/teamdigitale/dati-semantic-frontend:20240702-1210-b51f820
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /index.html
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 8
+            successThreshold: 1
+            timeoutSeconds: 2
+          name: dati-semantic-frontend
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /index.html
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 8
+            successThreshold: 1
+            timeoutSeconds: 2
+          resources:
+            limits:
+              cpu: 100m
+              memory: 100Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: { }
+      terminationGracePeriodSeconds: 75

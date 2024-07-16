@@ -12,4 +12,4 @@ fi
 # Image names are lowercase.
 imageWithTag=$(echo $2 | tr '[:upper:]' '[:lower:]')
 
-yq eval -ie ".spec.template.spec.containers[0].image = \"$imageWithTag\"" $1/deploymentConfig.yaml
+yq eval -ie ".spec.template.spec.containers[0].image = \"$imageWithTag\"" $1/deployment.yaml
