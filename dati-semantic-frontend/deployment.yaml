@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    application: dati-semantic-frontend
+    app: dati-semantic-frontend
   name: dati-semantic-frontend
   namespace: ndc-dev
 spec:
@@ -11,7 +11,7 @@ spec:
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      application: dati-semantic-frontend
+      app: dati-semantic-frontend
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -20,7 +20,7 @@ spec:
   template:
     metadata:
       labels:
-        application: dati-semantic-frontend
+        app: dati-semantic-frontend
       name: dati-semantic-frontend
     spec:
       containers:
