@@ -11,7 +11,7 @@ spec:
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      application: dati-semantic-lodview
+      deployment: dati-semantic-lodview
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -21,6 +21,7 @@ spec:
     metadata:
       labels:
         application: dati-semantic-lodview
+        deployment: dati-semantic-lodview
       name: dati-semantic-lodview
     spec:
       containers:
