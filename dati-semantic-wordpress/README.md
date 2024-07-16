@@ -1,1 +1,0 @@
-File Kubernetes per Wordpress
