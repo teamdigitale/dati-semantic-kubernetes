@@ -11,5 +11,5 @@ spec:
       port: 8080
       targetPort: 8080
   selector:
-    deployment: dati-semantic-webvowl
+    deploymentConfig: dati-semantic-webvowl
   sessionAffinity: None
