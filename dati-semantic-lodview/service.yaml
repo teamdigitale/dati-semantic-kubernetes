@@ -11,5 +11,5 @@ spec:
       port: 8080
       targetPort: 8080
   selector:
-    deploymentConfig: dati-semantic-lodview
+    deployment: dati-semantic-lodview
   sessionAffinity: None
