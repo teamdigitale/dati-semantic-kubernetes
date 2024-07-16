@@ -11,5 +11,5 @@ spec:
       port: 8080
       targetPort: 8080
   selector:
-    deploymentConfig: dati-semantic-lode
+    deployment: dati-semantic-lode
   sessionAffinity: None
