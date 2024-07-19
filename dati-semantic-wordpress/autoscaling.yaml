@@ -1,12 +1,12 @@
 kind: HorizontalPodAutoscaler
 apiVersion: autoscaling/v2beta2
 metadata:
-  name: autoscaling-dati-semantic-frontend
+  name: autoscaling-dati-semantic-wordpress
   namespace: ndc-dev
 spec:
   scaleTargetRef:
     kind: Deployment
-    name: dati-semantic-frontend
+    name: dati-semantic-wordpress
     apiVersion: apps.openshift.io/v1
   minReplicas: 1
   maxReplicas: 5
