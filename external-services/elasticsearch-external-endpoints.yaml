@@ -4,6 +4,6 @@ metadata:
   name: elasticsearch-dev-external-service
 subsets:
   - addresses:
-      - ip: 10.242.0.5
+      - ip: 10.242.0.6
     ports:
       - port: 9200
