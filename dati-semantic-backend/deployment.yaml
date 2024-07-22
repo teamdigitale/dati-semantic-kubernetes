@@ -30,7 +30,7 @@ spec:
             - name: SPRING_PROFILES_ACTIVE
               value: dev
             - name: SPRING_ELASTICSEARCH_REST_URIS
-              value: http://elasticsearch-dev-external-service:9200
+              value: https://elasticsearch-dev-external-service:9200
             - name: SPRING_ELASTICSEARCH_REST_USERNAME
               value: ndc_svil_elastic
             - name: SPRING_ELASTICSEARCH_REST_PASSWORD
