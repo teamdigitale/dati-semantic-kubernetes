@@ -86,7 +86,7 @@ spec:
               value: "true"
             - name: JAVA_MAIL_DEBUG
               value: "true"
-          image: ghcr.io/teamdigitale/dati-semantic-backend:20240712-415-bffb03d
+          image: ghcr.io/teamdigitale/dati-semantic-backend:20240805-418-34d595a
           imagePullPolicy: Always
           livenessProbe:
             failureThreshold: 3
@@ -125,5 +125,5 @@ spec:
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
-      securityContext: { }
+      securityContext: {}
       terminationGracePeriodSeconds: 75
