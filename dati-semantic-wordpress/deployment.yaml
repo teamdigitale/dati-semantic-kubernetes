@@ -43,10 +43,9 @@ spec:
           image: ghcr.io/teamdigitale/dati-semantic-wordpress:20240826-7-c5dc0f4
           name: dati-semantic-wordpress
           ports:
-            - containerPort: 80
+            - containerPort: 8080
               name: wordpress
               protocol: TCP
-              targetPort: 8080
           resources:
             limits:
               cpu: 800m
