@@ -28,7 +28,7 @@ spec:
             - name: XDG_CONFIG_HOME
               value: /tmp/
             - name: WORDPRESS_DB_HOST
-              value: db-testedev-mysql.mysql.database.azure.com
+              value: db-testedev-mysql.mysql.database.azure.com?sslmode=require
             - name: WORDPRESS_DB_USER
               value: sv_ndc_wp_ddl
             - name: WORDPRESS_DB_PASSWORD
