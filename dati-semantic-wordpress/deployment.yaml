@@ -40,7 +40,7 @@ spec:
               value: sv_ndc_wp
             - name: WORDPRESS_TABLE_PREFIX
               value: wp_
-          image: ghcr.io/teamdigitale/dati-semantic-wordpress:20240826-3-3d192a6
+          image: ghcr.io/teamdigitale/dati-semantic-wordpress:20240826-7-c5dc0f4
           name: dati-semantic-wordpress
           ports:
             - containerPort: 80
