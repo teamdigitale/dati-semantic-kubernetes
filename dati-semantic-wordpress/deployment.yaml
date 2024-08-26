@@ -27,19 +27,19 @@ spec:
         - env:
             - name: XDG_CONFIG_HOME
               value: /tmp/
-#            - name: WORDPRESS_DB_HOST
-#              value: db-testedev-mysql.mysql.database.azure.com
-#            - name: WORDPRESS_DB_USER
-#              value: sv_ndc_wp_ddl
-#            - name: WORDPRESS_DB_PASSWORD
-#              valueFrom:
-#                secretKeyRef:
-#                  key: sv-ndc-wp-psw
-#                  name: sv-ndc-wp-psw
-#            - name: WORDPRESS_DB_NAME
-#              value: sv_ndc_wp
-#            - name: WORDPRESS_TABLE_PREFIX
-#              value: wp_
+            - name: WORDPRESS_DB_HOST
+              value: db-testedev-mysql.mysql.database.azure.com
+            - name: WORDPRESS_DB_USER
+              value: sv_ndc_wp_ddl
+            - name: WORDPRESS_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: sv-ndc-wp-psw
+                  name: sv-ndc-wp-psw
+            - name: WORDPRESS_DB_NAME
+              value: sv_ndc_wp
+            - name: WORDPRESS_TABLE_PREFIX
+              value: wp_
           image: ghcr.io/teamdigitale/dati-semantic-wordpress:20240826-9-4619dd0
           name: dati-semantic-wordpress
           ports:
@@ -54,9 +54,9 @@ spec:
               cpu: 250m
               memory: 512Mi
           terminationMessagePath: /dev/termination-log
-#          volumeMounts:
-#            - mountPath: /var/www/html
-#              name: wordpress-persistent-storage
+          volumeMounts:
+            - mountPath: /var/www/html
+              name: wordpress-persistent-storage
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
