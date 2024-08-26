@@ -54,9 +54,9 @@ spec:
               cpu: 250m
               memory: 512Mi
           terminationMessagePath: /dev/termination-log
-          volumeMounts:
-            - mountPath: /var/www/html
-              name: wordpress-persistent-storage
+#          volumeMounts:
+#            - mountPath: /var/www/html
+#              name: wordpress-persistent-storage
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
