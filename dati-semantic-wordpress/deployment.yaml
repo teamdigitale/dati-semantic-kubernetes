@@ -24,45 +24,45 @@ spec:
       name: dati-semantic-wordpress
     spec:
       containers:
-      - env:
-        - name: XDG_CONFIG_HOME
-          value: /tmp/
-        - name: WORDPRESS_DB_HOST
-          value: db-testedev-mysql.mysql.database.azure.com
-        - name: WORDPRESS_DB_USER
-          value: sv_ndc_wp_ddl
-        - name: WORDPRESS_DB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              key: sv-ndc-wp-psw
-              name: sv-ndc-wp-psw
-        - name: WORDPRESS_DB_NAME
-          value: sv_ndc_wp
-        - name: WORDPRESS_TABLE_PREFIX
-          value: wp_
-        image: wordpress:6.6.0-php8.3-apache
-        name: dati-semantic-wordpress
-        ports:
-        - containerPort: 80
-          name: wordpress
-          protocol: TCP
-        resources:
-          limits:
-            cpu: 800m
-            memory: 2048Mi
-          requests:
-            cpu: 250m
-            memory: 512Mi
-        terminationMessagePath: /dev/termination-log
-        volumeMounts:
-        - mountPath: /var/www/html
-          name: wordpress-persistent-storage
+        - env:
+            - name: XDG_CONFIG_HOME
+              value: /tmp/
+            - name: WORDPRESS_DB_HOST
+              value: db-testedev-mysql.mysql.database.azure.com
+            - name: WORDPRESS_DB_USER
+              value: sv_ndc_wp_ddl
+            - name: WORDPRESS_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: sv-ndc-wp-psw
+                  name: sv-ndc-wp-psw
+            - name: WORDPRESS_DB_NAME
+              value: sv_ndc_wp
+            - name: WORDPRESS_TABLE_PREFIX
+              value: wp_
+          image: ghcr.io/teamdigitale/dati-semantic-wordpress:20240826-3-3d192a6
+          name: dati-semantic-wordpress
+          ports:
+            - containerPort: 80
+              name: wordpress
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 800m
+              memory: 2048Mi
+            requests:
+              cpu: 250m
+              memory: 512Mi
+          terminationMessagePath: /dev/termination-log
+          volumeMounts:
+            - mountPath: /var/www/html
+              name: wordpress-persistent-storage
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 75
       volumes:
-      - name: wordpress-persistent-storage
-        persistentVolumeClaim:
-          claimName: wp-pv-claim
+        - name: wordpress-persistent-storage
+          persistentVolumeClaim:
+            claimName: wp-pv-claim
