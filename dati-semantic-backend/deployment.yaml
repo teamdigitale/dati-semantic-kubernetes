@@ -92,7 +92,7 @@ spec:
               value: "true"
             - name: JAVA_MAIL_DEBUG
               value: "true"
-          image: ghcr.io/teamdigitale/dati-semantic-backend:20240826-435-45bdde0
+          image: ghcr.io/teamdigitale/dati-semantic-backend:20240830-437-7ef0901
           imagePullPolicy: Always
           livenessProbe:
             failureThreshold: 3
