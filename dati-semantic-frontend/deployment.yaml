@@ -35,7 +35,7 @@ spec:
               value: "35"
             - name: SHOW_MAINTENANCE_PAGE
               value: "true"
-          image: ghcr.io/teamdigitale/dati-semantic-frontend:20240911-1226-5ca2117
+          image: ghcr.io/teamdigitale/dati-semantic-frontend:20240917-1229-f646965
           imagePullPolicy: Always
           livenessProbe:
             failureThreshold: 3
