@@ -33,6 +33,8 @@ spec:
               value: https://virtuoso-dev-external-service-ndc-dev.apps.cloudpub.testedev.istat.it/sparql
             - name: MATOMO_SITE_ID
               value: "35"
+            - name: SHOW_MAINTENANCE_PAGE
+              value: "true"
           image: ghcr.io/teamdigitale/dati-semantic-frontend:20240911-1226-5ca2117
           imagePullPolicy: Always
           livenessProbe:
