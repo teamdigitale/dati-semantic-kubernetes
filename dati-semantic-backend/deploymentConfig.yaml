@@ -75,7 +75,7 @@ spec:
             - name: ELASTICSEARCH_HOST
               value: elasticsearch-test-external-service
             - name: ELASTICSEARCH_PORT
-              value: "9200"
+              value: "9201"
             - name: ELASTICSEARCH_SCHEME
               value: https
             - name: ELASTICSEARCH_USERNAME
