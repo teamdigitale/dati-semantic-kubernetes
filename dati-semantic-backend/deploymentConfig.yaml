@@ -72,9 +72,15 @@ spec:
               value: test
             - name: SPRING_ELASTICSEARCH_REST_URIS
               value: http://elasticsearch-test-external-service:9201
-            - name: SPRING_ELASTICSEARCH_REST_USERNAME
+            - name: ELASTICSEARCH_HOST
+              value: elasticsearch-test-external-service
+            - name: ELASTICSEARCH_PORT
+              value: "9200"
+            - name: ELASTICSEARCH_SCHEME
+              value: https
+            - name: ELASTICSEARCH_USERNAME
               value: ndc_test_elastic
-            - name: SPRING_ELASTICSEARCH_REST_PASSWORD
+            - name: ELASTICSEARCH_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: elastic-test
