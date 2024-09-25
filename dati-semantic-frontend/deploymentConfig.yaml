@@ -74,8 +74,6 @@ spec:
               value: https://virtuoso-test-external-service-ndc-test.apps.cloudpub.testedev.istat.it/sparql/
             - name: MATOMO_SITE_ID
               value: "34"
-            - name: NDC_MAINTENANCE_MESSAGE
-              value: Il giorno 24 settembre 2024, dalle 9 alle 15, i servizi del catalogo potrebbero presentare rallentamenti o malfunzionamenti temporanei per gli interventi tecnici in corso. Ci scusiamo per il disagio.
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
