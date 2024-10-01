@@ -74,6 +74,8 @@ spec:
               value: /sparql
             - name: MATOMO_SITE_ID
               value: "33"
+            - name: NDC_MAINTENANCE_MESSAGE
+              value: Il giorno 9 Ottobre 2024, dalle 9 alle 15:30, i servizi del catalogo potrebbero presentare rallentamenti o malfunzionamenti temporanei per gli interventi tecnici in corso. Ci scusiamo per il disagio.
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
