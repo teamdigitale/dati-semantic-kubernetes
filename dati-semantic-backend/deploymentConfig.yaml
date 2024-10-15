@@ -66,15 +66,21 @@ spec:
           imagePullPolicy: Always
           terminationMessagePolicy: File
           image: >-
-            ghcr.io/teamdigitale/dati-semantic-backend:20240712-415-bffb03d
+            ghcr.io/teamdigitale/dati-semantic-backend:20241003-448-589d1fb
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: prod
             - name: SPRING_ELASTICSEARCH_REST_URIS
               value: http://elasticsearch-prod-external-service:9200
-            - name: SPRING_ELASTICSEARCH_REST_USERNAME
+            - name: ELASTICSEARCH_HOST
+              value: elasticsearch-prod-external-service
+            - name: ELASTICSEARCH_PORT
+              value: "9200"
+            - name: ELASTICSEARCH_SCHEME
+              value: https
+            - name: ELASTICSEARCH_USERNAME
               value: ndc_prod_elastic
-            - name: SPRING_ELASTICSEARCH_REST_PASSWORD
+            - name: ELASTICSEARCH_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: elastic-prod
@@ -129,9 +135,12 @@ spec:
             - name: ALERTER_SMTP_STARTTLS
               value: "false"
             - name: ALERTER_SMTP_SSL
-              value: "true"                  
+              value: "true"
+            - name: JAVA_MAIL_DEBUG
+              value: "false"
       restartPolicy: Always
       terminationGracePeriodSeconds: 75
       dnsPolicy: ClusterFirst
       securityContext: { }
       schedulerName: default-scheduler
+      
