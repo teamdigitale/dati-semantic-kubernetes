@@ -4,12 +4,12 @@ metadata:
   name: dati-semantic-frontend
   namespace: ndc-test
   labels:
-    application: dati-semantic-frontend
+    app: dati-semantic-frontend
 spec:
   ports:
     - protocol: TCP
       port: 8080
       targetPort: 8080
   selector:
-    deploymentConfig: dati-semantic-frontend
+    app: dati-semantic-frontend
   sessionAffinity: None

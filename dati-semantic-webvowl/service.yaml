@@ -4,13 +4,12 @@ metadata:
   name: dati-semantic-webvowl
   namespace: ndc-test
   labels:
-    application: dati-semantic-webvowl
+    app: dati-semantic-webvowl
 spec:
   ports:
     - protocol: TCP
       port: 8080
       targetPort: 8080
   selector:
-    deploymentConfig: dati-semantic-webvowl
+    app: dati-semantic-webvowl
   sessionAffinity: None
-

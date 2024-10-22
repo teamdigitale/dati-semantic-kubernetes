@@ -1,0 +1,74 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: dati-semantic-frontend
+  name: dati-semantic-frontend
+  namespace: ndc-test
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: dati-semantic-frontend
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: dati-semantic-frontend
+      name: dati-semantic-frontend
+    spec:
+      containers:
+        - env:
+            - name: API_URL
+              value: /api
+            - name: SPARQL_ENDPOINT_URL
+              value: https://virtuoso-test-external-service-ndc-test.apps.cloudpub.testedev.istat.it/sparql/
+            - name: MATOMO_SITE_ID
+              value: "34"
+          image: ghcr.io/teamdigitale/dati-semantic-frontend:20240911-1226-5ca2117
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /index.html
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 8
+            successThreshold: 1
+            timeoutSeconds: 2
+          name: dati-semantic-frontend
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /index.html
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 8
+            successThreshold: 1
+            timeoutSeconds: 2
+          resources:
+            limits:
+              cpu: 100m
+              memory: 100Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 75

@@ -1,77 +1,36 @@
-kind: DeploymentConfig
-apiVersion: apps.openshift.io/v1
+---
+apiVersion: apps/v1
+kind: Deployment
 metadata:
+  labels:
+    app: dati-semantic-backend
   name: dati-semantic-backend
   namespace: ndc-test
-  labels:
-    application: dati-semantic-backend
 spec:
-  strategy:
-    type: Rolling
-    rollingParams:
-      updatePeriodSeconds: 1
-      intervalSeconds: 1
-      timeoutSeconds: 600
-      maxUnavailable: 25%
-      maxSurge: 25%
-    resources: {}
-    activeDeadlineSeconds: 21600
   replicas: 1
   revisionHistoryLimit: 10
-  test: false
   selector:
-    deploymentConfig: dati-semantic-backend
+    matchLabels:
+      app: dati-semantic-backend
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
   template:
     metadata:
-      name: dati-semantic-backend
-      creationTimestamp: null
       labels:
-        application: dati-semantic-backend
-        deploymentConfig: dati-semantic-backend
+        app: dati-semantic-backend
+      name: dati-semantic-backend
     spec:
       containers:
-        - resources:
-            limits:
-              cpu: 800m
-              memory: 3072Mi
-            requests:
-              cpu: 250m
-              memory: 512Mi
-          readinessProbe:
-            httpGet:
-              path: /actuator/health/readiness
-              port: 8080
-              scheme: HTTP
-            initialDelaySeconds: 60
-            timeoutSeconds: 2
-            periodSeconds: 30
-            successThreshold: 1
-            failureThreshold: 3
-          livenessProbe:
-            httpGet:
-              path: /actuator/health/liveness
-              port: 8080
-              scheme: HTTP
-            initialDelaySeconds: 60
-            timeoutSeconds: 2
-            periodSeconds: 30
-            successThreshold: 1
-            failureThreshold: 3
-          terminationMessagePath: /dev/termination-log
-          name: dati-semantic-backend
-          ports:
-            - name: http
-              containerPort: 8080
-              protocol: TCP
-          imagePullPolicy: Always
-          terminationMessagePolicy: File
-          image: >-
-            ghcr.io/teamdigitale/dati-semantic-backend:20241003-448-589d1fb
-          env:
+        - env:
+            - name: XDG_CONFIG_HOME
+              value: /tmp/
             - name: SPRING_PROFILES_ACTIVE
               value: test
             - name: SPRING_ELASTICSEARCH_REST_URIS
-              value: http://elasticsearch-test-external-service:9201
+              value: https://elasticsearch-test-external-service:9201
             - name: ELASTICSEARCH_HOST
               value: elasticsearch-test-external-service
             - name: ELASTICSEARCH_PORT
@@ -83,8 +42,8 @@ spec:
             - name: ELASTICSEARCH_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: elastic-test
                   key: elastic-test
+                  name: elastic-test
             - name: VIRTUOSO_SPARQL
               value: http://virtuoso-test-external-service:8891/sparql-auth
             - name: VIRTUOSO_SPARQL_GRAPH_STORE
@@ -94,8 +53,8 @@ spec:
             - name: VIRTUOSO_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: virtuoso-test
                   key: virtuoso-test
+                  name: virtuoso-test
             - name: HARVESTER_REPOSITORIES
               value: "https://github.com/istat/ts-ontologie-vocabolari-controllati,https://github.com/InailUfficio5/inail-ndc"
             - name: HARVESTER_ENDPOINT_ENABLED
@@ -111,6 +70,8 @@ spec:
                 secretKeyRef:
                   key: mysql-test
                   name: mysql-test
+            - name: LOGGING_LEVEL_IT_GOV_INNOVAZIONE_NDC
+              value: debug
             - name: JAVA_TOOL_OPTIONS
               value: "-Xmx2g"
             - name: HARVESTER_USER
@@ -138,8 +99,44 @@ spec:
               value: "true"
             - name: JAVA_MAIL_DEBUG
               value: "true"
-      restartPolicy: Always
-      terminationGracePeriodSeconds: 75
+          image: ghcr.io/teamdigitale/dati-semantic-backend:20241003-448-589d1fb
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 2
+          name: dati-semantic-backend
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 2
+          resources:
+            limits:
+              cpu: 800m
+              memory: 2048Mi
+            requests:
+              cpu: 250m
+              memory: 512Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
       dnsPolicy: ClusterFirst
-      securityContext: { }
+      restartPolicy: Always
       schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 75
