@@ -4,13 +4,12 @@ metadata:
   name: dati-semantic-lode
   namespace: ndc-test
   labels:
-    application: dati-semantic-lode
+    app: dati-semantic-lode
 spec:
   ports:
     - protocol: TCP
       port: 8080
       targetPort: 8080
   selector:
-    deploymentConfig: dati-semantic-lode
+    app: dati-semantic-lode
   sessionAffinity: None
-

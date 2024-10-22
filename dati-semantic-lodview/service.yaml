@@ -4,13 +4,12 @@ metadata:
   name: dati-semantic-lodview
   namespace: ndc-test
   labels:
-    application: dati-semantic-lodview
+    app: dati-semantic-lodview
 spec:
   ports:
     - protocol: TCP
       port: 8080
       targetPort: 8080
   selector:
-    deploymentConfig: dati-semantic-lodview
+    app: dati-semantic-lodview
   sessionAffinity: None
-
