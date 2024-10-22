@@ -36,9 +36,12 @@ spec:
             - name: "LodViewhomeTitle"
               value: "Il catalogo nazionale per l'interoperabilità semantica"
             - name: "LodViewhomeDescription"
-              value: "Schema è il catalogo in continua evoluzione, che armonizza e standardizza i modelli di dati condivisi e garantisce che formato e significato delle informazioni scambiate siano preservati e compresi durante gli scambi."
+              value: Schema è il catalogo in continua evoluzione, che armonizza e standardizza i modelli
+                di dati condivisi e garantisce che formato e significato delle informazioni scambiate
+                siano preservati e compresi durante gli scambi."
             - name: "LodViewhomeContent"
-              value: "Questo strumento consente la navigazione web dei contenuti delle ontologie e dei vocabolari controllati per la pubblica amministrazione."
+              value: Questo strumento consente la navigazione web dei contenuti delle ontologie e dei
+                vocabolari controllati per la pubblica amministrazione."
           image: ghcr.io/teamdigitale/dati-semantic-lodview:20240306-124-e6bc35b
           imagePullPolicy: Always
           livenessProbe:
