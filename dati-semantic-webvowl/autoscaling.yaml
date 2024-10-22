@@ -1,3 +1,4 @@
+---
 kind: HorizontalPodAutoscaler
 apiVersion: autoscaling/v2beta2
 metadata:
@@ -5,7 +6,7 @@ metadata:
   namespace: ndc-test
 spec:
   scaleTargetRef:
-    kind: DeploymentConfig
+    kind: Deployment
     name: dati-semantic-webvowl
     apiVersion: apps.openshift.io/v1
   minReplicas: 1
@@ -17,4 +18,3 @@ spec:
         target:
           type: Utilization
           averageUtilization: 80
-
