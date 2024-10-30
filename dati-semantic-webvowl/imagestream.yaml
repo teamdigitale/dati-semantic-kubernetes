@@ -1,3 +1,4 @@
+---
 kind: ImageStream
 apiVersion: image.openshift.io/v1
 metadata:
@@ -8,4 +9,3 @@ metadata:
 spec:
   lookupPolicy:
     local: false
-
