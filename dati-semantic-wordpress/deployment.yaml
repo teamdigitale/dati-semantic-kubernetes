@@ -1,0 +1,70 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: dati-semantic-wordpress
+  name: dati-semantic-wordpress
+  namespace: ndc-test
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: dati-semantic-wordpress
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: dati-semantic-wordpress
+      name: dati-semantic-wordpress
+    spec:
+      containers:
+        - env:
+            - name: XDG_CONFIG_HOME
+              value: /tmp/
+            - name: WORDPRESS_DEBUG
+              value: "true"
+            - name: WORDPRESS_DB_HOST
+              value: db-testedev-mysql.mysql.database.azure.com
+            - name: WORDPRESS_DB_USER
+              value: ts_ndc_wp_ddl
+            - name: WORDPRESS_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: ts-ndc-wp-psw
+                  name: ts-ndc-wp-psw
+            - name: WORDPRESS_DB_NAME
+              value: ts_ndc_wp
+            - name: WORDPRESS_TABLE_PREFIX
+              value: wp_
+          image: ghcr.io/teamdigitale/dati-semantic-wordpress:20240826-9-4619dd0
+          name: dati-semantic-wordpress
+          ports:
+            - containerPort: 8080
+              name: wordpress
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 800m
+              memory: 2048Mi
+            requests:
+              cpu: 250m
+              memory: 512Mi
+          terminationMessagePath: /dev/termination-log
+          volumeMounts:
+            - mountPath: /var/www/html
+              name: wordpress-persistent-storage
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 75
+      volumes:
+        - name: wordpress-persistent-storage
+          persistentVolumeClaim:
+            claimName: wp-pv-claim
