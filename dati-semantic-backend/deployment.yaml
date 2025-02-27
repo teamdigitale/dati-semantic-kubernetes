@@ -1,73 +1,30 @@
-kind: DeploymentConfig
-apiVersion: apps.openshift.io/v1
+---
+apiVersion: apps/v1
+kind: Deployment
 metadata:
+  labels:
+    app: dati-semantic-backend
   name: dati-semantic-backend
   namespace: ndc-prod
-  labels:
-    application: dati-semantic-backend
 spec:
-  strategy:
-    type: Rolling
-    rollingParams:
-      updatePeriodSeconds: 1
-      intervalSeconds: 1
-      timeoutSeconds: 600
-      maxUnavailable: 25%
-      maxSurge: 25%
-    resources: { }
-    activeDeadlineSeconds: 21600
   replicas: 1
   revisionHistoryLimit: 10
-  test: false
   selector:
-    deploymentConfig: dati-semantic-backend
+    matchLabels:
+      app: dati-semantic-backend
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
   template:
     metadata:
-      name: dati-semantic-backend
-      creationTimestamp: null
       labels:
-        application: dati-semantic-backend
-        deploymentConfig: dati-semantic-backend
+        app: dati-semantic-backend
+      name: dati-semantic-backend
     spec:
       containers:
-        - resources:
-            limits:
-              cpu: 800m
-              memory: 4096Mi
-            requests:
-              cpu: 250m
-              memory: 2048Mi
-          readinessProbe:
-            httpGet:
-              path: /actuator/health/readiness
-              port: 8080
-              scheme: HTTP
-            initialDelaySeconds: 60
-            timeoutSeconds: 2
-            periodSeconds: 30
-            successThreshold: 1
-            failureThreshold: 3
-          livenessProbe:
-            httpGet:
-              path: /actuator/health/liveness
-              port: 8080
-              scheme: HTTP
-            initialDelaySeconds: 60
-            timeoutSeconds: 2
-            periodSeconds: 30
-            successThreshold: 1
-            failureThreshold: 3
-          terminationMessagePath: /dev/termination-log
-          name: dati-semantic-backend
-          ports:
-            - name: http
-              containerPort: 8080
-              protocol: TCP
-          imagePullPolicy: Always
-          terminationMessagePolicy: File
-          image: >-
-            ghcr.io/teamdigitale/dati-semantic-backend:20241223-474-ec2dbc6
-          env:
+        - env:
             - name: SPRING_PROFILES_ACTIVE
               value: prod
             - name: SPRING_ELASTICSEARCH_REST_URIS
@@ -75,7 +32,7 @@ spec:
             - name: ELASTICSEARCH_HOST
               value: elasticsearch-prod-external-service
             - name: ELASTICSEARCH_PORT
-              value: "9200"
+              value: '9200'
             - name: ELASTICSEARCH_SCHEME
               value: https
             - name: ELASTICSEARCH_USERNAME
@@ -83,8 +40,8 @@ spec:
             - name: ELASTICSEARCH_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: elastic-prod
                   key: elastic-prod
+                  name: elastic-prod
             - name: VIRTUOSO_SPARQL
               value: http://virtuoso-prod-external-service:8890/sparql-auth
             - name: VIRTUOSO_SPARQL_GRAPH_STORE
@@ -94,12 +51,12 @@ spec:
             - name: VIRTUOSO_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: virtuoso-prod
                   key: virtuoso-prod
+                  name: virtuoso-prod
             - name: HARVESTER_REPOSITORIES
-              value: "https://github.com/italia/daf-ontologie-vocabolari-controllati,https://github.com/InailUfficio5/inail-ndc"
+              value: https://github.com/italia/daf-ontologie-vocabolari-controllati,https://github.com/InailUfficio5/inail-ndc
             - name: HARVESTER_ENDPOINT_ENABLED
-              value: "true"
+              value: 'true'
             - name: NDC_BASEURL
               value: https://www.schema.gov.it/api
             - name: SPRING_DATASOURCE_URL
@@ -112,35 +69,70 @@ spec:
                   key: mysql-prod
                   name: mysql-prod
             - name: JAVA_TOOL_OPTIONS
-              value: "-Xmx2g"
+              value: -Xmx2g
             - name: HARVESTER_USER
               valueFrom:
                 secretKeyRef:
-                  name: harvester-prod
                   key: HARVESTER_USER
+                  name: harvester-prod
             - name: HARVESTER_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: harvester-prod
                   key: HARVESTER_PASSWORD
+                  name: harvester-prod
             - name: ALERTER_SMTP_SERVER
               value: smtp.istat.it
             - name: ALERTER_SMTP_PORT
-              value: "465"
+              value: '465'
             - name: ALERTER_SMTP_PASSWORD
               valueFrom:
                 secretKeyRef:
                   key: smtp-password
                   name: ndc-istat-smtp-prod
             - name: ALERTER_SMTP_STARTTLS
-              value: "false"
+              value: 'false'
             - name: ALERTER_SMTP_SSL
-              value: "true"
+              value: 'true'
             - name: JAVA_MAIL_DEBUG
-              value: "false"
-      restartPolicy: Always
-      terminationGracePeriodSeconds: 75
+              value: 'false'
+          image: ghcr.io/teamdigitale/dati-semantic-backend:20241223-474-ec2dbc6
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 2
+          name: dati-semantic-backend
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 2
+          resources:
+            limits:
+              cpu: 800m
+              memory: 4096Mi
+            requests:
+              cpu: 250m
+              memory: 2048Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
       dnsPolicy: ClusterFirst
-      securityContext: { }
+      restartPolicy: Always
       schedulerName: default-scheduler
-      
+      securityContext: { }
+      terminationGracePeriodSeconds: 75
