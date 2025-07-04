@@ -44,7 +44,7 @@ spec:
               value: Questo strumento consente la navigazione web dei
                 contenuti delle ontologie e dei vocabolari 
                 controllati per la pubblica amministrazione.
-          image: ghcr.io/teamdigitale/dati-semantic-lodview:20240306-124-e6bc35b
+          image: ghcr.io/teamdigitale/dati-semantic-lodview:20250704-127-913191b
           imagePullPolicy: Always
           livenessProbe:
             failureThreshold: 300
