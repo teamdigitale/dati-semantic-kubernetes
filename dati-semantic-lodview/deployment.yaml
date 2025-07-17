@@ -43,7 +43,7 @@ spec:
               value: "/lodview/staticResources/"
             - name: LodViewpublicUrlPrefix
               value: "/lodview/"
-          image: ghcr.io/teamdigitale/dati-semantic-lodview:20240226-122-959a4a2
+          image: ghcr.io/teamdigitale/dati-semantic-lodview:20250704-127-913191b
           imagePullPolicy: Always
           name: dati-semantic-lodview
           livenessProbe:
