@@ -48,7 +48,8 @@ spec:
               protocol: TCP
           volumeMounts:
             - name: config-volume
-              mountPath: /usr/share/nginx/html
+              mountPath: /usr/share/nginx/html/config.js
+              subPath: config.js
           #
           # This is a static nginx server, so it
           #   does not need much resources.
