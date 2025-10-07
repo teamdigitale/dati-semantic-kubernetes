@@ -46,10 +46,6 @@ spec:
               value: |
                 define('WP_HOME', 'https://' . $_SERVER['HTTP_HOST']);
                 define('WP_SITEURL', 'https://' . $_SERVER['HTTP_HOST']);
-                // (opzionale, utile dietro a un Route/OpenShift o ingress TLS-terminated)
-                if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
-                  $_SERVER['HTTPS'] = 'on';
-                }              
           image: ghcr.io/teamdigitale/dati-semantic-wordpress:20250402-11-7cf5850
           name: dati-semantic-wordpress
           ports:
