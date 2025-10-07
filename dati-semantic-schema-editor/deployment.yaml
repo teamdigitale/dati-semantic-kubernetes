@@ -1,0 +1,51 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: dati-semantic-schema-editor
+  name: dati-semantic-schema-editor
+  namespace: ndc-dev
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: dati-semantic-schema-editor
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: dati-semantic-schema-editor
+      name: dati-semantic-schema-editor
+    spec:
+      containers:
+        - image: ghcr.io/teamdigitale/dati-semantic-schema-editor:20251006-10-05b2592
+          imagePullPolicy: Always
+          name: dati-semantic-schema-editor
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          #
+          # This is a static nginx server, so it
+          #   does not need much resources.
+          #
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1024Mi
+            requests:
+              cpu: 250m
+              memory: 512Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: { }
+      terminationGracePeriodSeconds: 75
