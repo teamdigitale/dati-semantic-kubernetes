@@ -1,0 +1,9 @@
+#
+# The Schema Editor configuration containing
+#   the references to the triplestore and other settings.
+#
+# kind: ConfigMap
+# apiVersion: v1
+# metadata:
+#   name: configmap-schema-editor
+#   namespace: ndc-dev
