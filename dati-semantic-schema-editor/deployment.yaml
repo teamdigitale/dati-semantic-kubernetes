@@ -1,4 +1,12 @@
 ---
+#
+# Deployment for the Dati Semantic Schema Editor
+#   see: https://github.com/teamdigitale/dati-semantic-schema-editor
+#
+# The configuration is provided via a ConfigMap (configmap-schema-editor)
+#   where the /usr/share/nginx/html/config.js file is overridden
+#   with the ConfigMap content.
+#
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -23,14 +31,24 @@ spec:
         app: dati-semantic-schema-editor
       name: dati-semantic-schema-editor
     spec:
+      volumes:
+        - name: config-volume
+          configMap:
+            name: configmap-schema-editor
+            items:
+            - key: config.js
+              path: config.js
       containers:
-        - image: ghcr.io/teamdigitale/dati-semantic-schema-editor:20251006-10-05b2592
+        - image: ghcr.io/teamdigitale/dati-semantic-schema-editor:20251007-13-a93bb53
           imagePullPolicy: Always
           name: dati-semantic-schema-editor
           ports:
             - containerPort: 8080
               name: http
               protocol: TCP
+          volumeMounts:
+            - name: config-volume
+              mountPath: /usr/share/nginx/html
           #
           # This is a static nginx server, so it
           #   does not need much resources.

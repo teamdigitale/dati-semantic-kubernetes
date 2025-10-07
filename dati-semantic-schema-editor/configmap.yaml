@@ -1,9 +1,17 @@
 #
 # The Schema Editor configuration containing
-#   the references to the triplestore and other settings.
+#   the references to the triplestore,
+#   the OAS Checker and a reference to the public Schema Editor URL.
 #
-# kind: ConfigMap
-# apiVersion: v1
-# metadata:
-#   name: configmap-schema-editor
-#   namespace: ndc-dev
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: configmap-schema-editor
+  namespace: ndc-dev
+data:
+  config.js: |
+    window.__ENV = {
+      sparqlUrl: 'https://virtuoso-test-external-service-ndc-test.apps.cloudpub.testedev.istat.it/sparql',
+      oasCheckerUrl: 'https://italia.github.io/api-oas-checker',
+      schemaEditorUrl: 'https://schema-editor-ndc-dev.apps.cloudpub.testedev.istat.it/',
+    };
