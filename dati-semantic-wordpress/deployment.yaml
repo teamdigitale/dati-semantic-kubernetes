@@ -46,7 +46,7 @@ spec:
               value: |
                 define('WP_HOME', 'https://' . $_SERVER['HTTP_HOST']);
                 define('WP_SITEURL', 'https://' . $_SERVER['HTTP_HOST']);
-          image: ghcr.io/teamdigitale/dati-semantic-wordpress:20251008-13-1874935
+          image: ghcr.io/teamdigitale/dati-semantic-wordpress:20251010-15-68bcc46
           name: dati-semantic-wordpress
           ports:
             - containerPort: 8080
