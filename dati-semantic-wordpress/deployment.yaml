@@ -45,7 +45,7 @@ spec:
             - name: MATOMO_API_URL
               value: https://analytics.istat.it/?module=API
             - name: MATOMO_SITE_ID
-              value: 33
+              value: "33"
             - name: MATOMO_USER
               value: dtd
             - name: MATOMO_TOKEN
