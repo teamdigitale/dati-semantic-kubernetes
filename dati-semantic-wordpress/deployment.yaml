@@ -60,6 +60,8 @@ spec:
                   key: pass
             - name: API_URL
               value: /api
+            - name: WORDPRESS_DEBUG
+              value: ""
             - name: WORDPRESS_CONFIG_EXTRA
               value: |
                 define('WP_HOME', 'https://' . $_SERVER['HTTP_HOST']);
