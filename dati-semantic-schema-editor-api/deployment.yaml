@@ -13,7 +13,6 @@ metadata:
   name: dati-semantic-schema-editor-api
   namespace: ndc-dev
 spec:
-  replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
