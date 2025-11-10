@@ -14,3 +14,4 @@ metadata:
 data:
   SPARQL_URL: "https://virtuoso-test-external-service-ndc-test.apps.cloudpub.testedev.istat.it/sparql"
   PORT: "8080"
+  CORS_ORIGIN: "*"
