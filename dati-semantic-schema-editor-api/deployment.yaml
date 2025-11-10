@@ -1,0 +1,60 @@
+---
+#
+# Deployment for the Dati Semantic Schema Editor API
+#   see: https://github.com/teamdigitale/dati-semantic-schema-editor
+#
+# The configuration is provided via a ConfigMap (configmap-schema-editor-api)
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: dati-semantic-schema-editor-api
+  name: dati-semantic-schema-editor-api
+  namespace: ndc-dev
+spec:
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: dati-semantic-schema-editor-api
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: dati-semantic-schema-editor-api
+      name: dati-semantic-schema-editor-api
+    spec:
+      containers:
+        - image: docker pull ghcr.io/teamdigitale/dati-semantic-schema-editor-api:20251029-27-3b95322
+          imagePullPolicy: Always
+          name: dati-semantic-schema-editor-api
+          # Load configuration variables from the ConfigMap.
+          #   Future releases may use Secrets.
+          envFrom:
+            - configMapRef:
+                name: configmap-schema-editor-api
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          #
+          # Monitor resource usage and tweak limits as needed.
+          #
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 1024Mi
+            requests:
+              cpu: 250m
+              memory: 512Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 75
