@@ -28,8 +28,13 @@ spec:
         app: dati-semantic-schema-editor-api
       name: dati-semantic-schema-editor-api
     spec:
+      volumes:
+      # A small volume for caching temporary files.
+      - name: cache
+        emptyDir:
+          sizeLimit: 100Mi
       containers:
-        - image: ghcr.io/teamdigitale/dati-semantic-schema-editor-api:20251029-27-3b95322
+        - image: ghcr.io/teamdigitale/dati-semantic-schema-editor-api:20251111-39-a24233b
           imagePullPolicy: Always
           name: dati-semantic-schema-editor-api
           # Load configuration variables from the ConfigMap.
@@ -41,6 +46,9 @@ spec:
             - containerPort: 8080
               name: http
               protocol: TCP
+          volumeMounts:
+            - name: cache
+              mountPath: /home/node/
           #
           # Monitor resource usage and tweak limits as needed.
           #
