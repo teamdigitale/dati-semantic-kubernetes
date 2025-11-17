@@ -29,12 +29,12 @@ spec:
       name: dati-semantic-schema-editor-api
     spec:
       volumes:
-      # A small volume for caching temporary files.
-      - name: cache
-        emptyDir:
-          sizeLimit: 100Mi
+        # A small volume for caching temporary files.
+        - name: cache
+          emptyDir:
+            sizeLimit: 100Mi
       containers:
-        - image: ghcr.io/teamdigitale/dati-semantic-schema-editor-api:20251111-39-a24233b
+        - image: ghcr.io/teamdigitale/dati-semantic-schema-editor-api:20251115-42-adce474
           imagePullPolicy: Always
           name: dati-semantic-schema-editor-api
           # Load configuration variables from the ConfigMap.
