@@ -23,17 +23,17 @@ spec:
         app: dati-semantic-wordpress
       name: dati-semantic-wordpress
     spec:
+
+      # NECESSARIO per OpenShift + PVC
       securityContext:
-        fsGroup: 0  # permette al container di scrivere sul PVC
-      initContainers:
-        - name: fix-permissions
-          image: busybox
-          command: ["sh", "-c", "chown -R 1001:0 /var/www/html"]
-          volumeMounts:
-            - mountPath: /var/www/html
-              name: wordpress-persistent-storage
+        runAsUser: 1000
+        fsGroup: 1000
+
       containers:
-        - env:
+        - name: dati-semantic-wordpress
+          image: ghcr.io/teamdigitale/dati-semantic-wordpress:latest
+
+          env:
             - name: XDG_CONFIG_HOME
               value: /tmp/
             - name: WORDPRESS_DEBUG
@@ -69,6 +69,8 @@ spec:
                   key: pass
             - name: API_URL
               value: https://ndc-dev.apps.cloudpub.testedev.istat.it/api
+            - name: WORDPRESS_DEBUG
+              value: ""
             - name: WORDPRESS_CONFIG_EXTRA
               value: |
                 define('WP_HOME', 'https://' . $_SERVER['HTTP_HOST']);
@@ -76,11 +78,11 @@ spec:
 
                 // Matomo
                 define('MATOMO_API_URL', getenv('MATOMO_API_URL'));
-                define('MATOMO_TOKEN', getenv('MATOMO_TOKEN'));
-                define('MATOMO_USER', getenv('MATOMO_USER'));
-                define('MATOMO_PASS', getenv('MATOMO_PASS'));
+                define('MATOMO_TOKEN',   getenv('MATOMO_TOKEN'));
+                define('MATOMO_USER',    getenv('MATOMO_USER'));
+                define('MATOMO_PASS',    getenv('MATOMO_PASS'));
                 define('MATOMO_SITE_ID', getenv('MATOMO_SITE_ID'));
-                define('API_URL', getenv('API_URL'));
+                define('API_URL',        getenv('API_URL'));
 
                 // WordPress/PHP resource limits
                 define('WP_MEMORY_LIMIT', '512M');
@@ -89,12 +91,12 @@ spec:
                 @ini_set('post_max_size', '64M');
                 @ini_set('max_execution_time', '300');
                 @ini_set('max_input_vars', '5000');
-          image: ghcr.io/teamdigitale/dati-semantic-wordpress:20251119-2-cb9e3fd
-          name: dati-semantic-wordpress
+
           ports:
             - containerPort: 8080
               name: wordpress
               protocol: TCP
+
           resources:
             limits:
               cpu: 800m
@@ -102,13 +104,17 @@ spec:
             requests:
               cpu: 250m
               memory: 512Mi
+
           volumeMounts:
+            # WordPress viene installato QUI — serve scrivibilità
             - mountPath: /var/www/html
               name: wordpress-persistent-storage
+
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
       terminationGracePeriodSeconds: 75
+
       volumes:
         - name: wordpress-persistent-storage
           persistentVolumeClaim:
