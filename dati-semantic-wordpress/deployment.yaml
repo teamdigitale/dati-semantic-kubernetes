@@ -38,15 +38,13 @@ spec:
                   key: passphrase
           command: ["sh", "-c"]
           args:
-            - gpg --batch --yes --passphrase "$GPG_PASSPHRASE" -d /mnt/snapshot/db.sql.tar.gz.gpg | \
-              tar xzO | \
-              mysql -h db-testedev-mysql.mysql.database.azure.com -u sv_ndc_wp_ddl sv_ndc_wp
+            - gpg --batch --yes --passphrase "$GPG_PASSPHRASE" -d /mnt/snapshot/db.sql.tar.gz.gpg | \ tar xzO | \ mysql -h db-testedev-mysql.mysql.database.azure.com -u sv_ndc_wp_ddl sv_ndc_wp
           volumeMounts:
             - name: snapshot
               mountPath: /mnt/snapshot
       containers:
         - name: dati-semantic-wordpress
-          image: ghcr.io/teamdigitale/dati-semantic-wordpress:20251119-2-cb9e3fd
+          image: ghcr.io/teamdigitale/dati-semantic-wordpress:20251119-14-f4c796d
           env:
             - name: XDG_CONFIG_HOME
               value: /tmp/
