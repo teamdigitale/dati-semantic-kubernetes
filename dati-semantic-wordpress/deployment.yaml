@@ -23,16 +23,13 @@ spec:
         app: dati-semantic-wordpress
       name: dati-semantic-wordpress
     spec:
-
       # NECESSARIO per OpenShift + PVC
       securityContext:
         runAsUser: 1000
         fsGroup: 1000
-
       containers:
         - name: dati-semantic-wordpress
-          image: ghcr.io/teamdigitale/dati-semantic-wordpress:latest
-
+          image: ghcr.io/teamdigitale/dati-semantic-wordpress:20251119-3-c0b9952
           env:
             - name: XDG_CONFIG_HOME
               value: /tmp/
@@ -91,12 +88,10 @@ spec:
                 @ini_set('post_max_size', '64M');
                 @ini_set('max_execution_time', '300');
                 @ini_set('max_input_vars', '5000');
-
           ports:
             - containerPort: 8080
               name: wordpress
               protocol: TCP
-
           resources:
             limits:
               cpu: 800m
@@ -104,17 +99,14 @@ spec:
             requests:
               cpu: 250m
               memory: 512Mi
-
           volumeMounts:
             # WordPress viene installato QUI — serve scrivibilità
             - mountPath: /var/www/html
               name: wordpress-persistent-storage
-
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
       terminationGracePeriodSeconds: 75
-
       volumes:
         - name: wordpress-persistent-storage
           persistentVolumeClaim:
