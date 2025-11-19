@@ -29,7 +29,7 @@ spec:
         fsGroup: 1000
       containers:
         - name: dati-semantic-wordpress
-          image: ghcr.io/teamdigitale/dati-semantic-wordpress:20251119-3-c0b9952
+          image: ghcr.io/teamdigitale/dati-semantic-wordpress:20251119-6-378092f
           env:
             - name: XDG_CONFIG_HOME
               value: /tmp/
