@@ -63,26 +63,8 @@ spec:
             - name: WORDPRESS_DEBUG
               value: ""
             - name: WORDPRESS_CONFIG_EXTRA
-              value: |
-                define('WP_HOME', 'https://' . $_SERVER['HTTP_HOST']);
-                define('WP_SITEURL', 'https://' . $_SERVER['HTTP_HOST']);          
-                
-                // Matomo
-                define('MATOMO_API_URL', getenv('MATOMO_API_URL'));
-                define('MATOMO_TOKEN',   getenv('MATOMO_TOKEN'));
-                define('MATOMO_USER',    getenv('MATOMO_USER'));
-                define('MATOMO_PASS',    getenv('MATOMO_PASS'));
-                define('MATOMO_SITE_ID', getenv('MATOMO_SITE_ID'));
-                define('API_URL',        getenv('API_URL'));
-                
-                // WordPress/PHP resource limits
-                define('WP_MEMORY_LIMIT', '512M');
-                define('WP_MAX_MEMORY_LIMIT', '512M');
-                @ini_set('upload_max_filesize', '64M');
-                @ini_set('post_max_size', '64M');
-                @ini_set('max_execution_time', '300');
-                @ini_set('max_input_vars', '5000');
-          image: ghcr.io/teamdigitale/dati-semantic-wordpress:20251119-2-cb9e3fd
+              value: "define('WP_HOME', 'https://' . $_SERVER['HTTP_HOST']);\ndefine('WP_SITEURL', 'https://' . $_SERVER['HTTP_HOST']);          \n\n// Matomo\ndefine('MATOMO_API_URL', getenv('MATOMO_API_URL'));\ndefine('MATOMO_TOKEN',   getenv('MATOMO_TOKEN'));\ndefine('MATOMO_USER',    getenv('MATOMO_USER'));\ndefine('MATOMO_PASS',    getenv('MATOMO_PASS'));\ndefine('MATOMO_SITE_ID', getenv('MATOMO_SITE_ID'));\ndefine('API_URL',        getenv('API_URL'));\n\n// WordPress/PHP resource limits\ndefine('WP_MEMORY_LIMIT', '512M');\ndefine('WP_MAX_MEMORY_LIMIT', '512M');\n@ini_set('upload_max_filesize', '64M');\n@ini_set('post_max_size', '64M');\n@ini_set('max_execution_time', '300');\n@ini_set('max_input_vars', '5000');\n"
+          image: ghcr.io/teamdigitale/dati-semantic-wordpress:20251119-11-db66ac8
           name: dati-semantic-wordpress
           ports:
             - containerPort: 8080
@@ -99,7 +81,7 @@ spec:
           volumeMounts:
             - mountPath: /var/www/html
               name: wordpress-persistent-storage
-          # Rimuovi securityContext problematico per OpenShift
+              # Rimuovi securityContext problematico per OpenShift
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
