@@ -22,10 +22,9 @@ spec:
       labels:
         app: dati-semantic-wordpress
     spec:
-
-      # --- INIT CONTAINER PER RIPRISTINO DB ---
+      # --- INIT CONTAINER PER AZZERARE DB ---
       initContainers:
-         - name: init-db-import
+        - name: init-db
           image: mysql:8
           env:
             - name: MYSQL_PWD
@@ -36,9 +35,9 @@ spec:
           command: ["sh", "-c"]
           args:
             - echo "DROP DATABASE IF EXISTS sv_ndc_wp; CREATE DATABASE sv_ndc_wp;" | \
-               mysql -h db-testedev-mysql.mysql.database.azure.com -u sv_ndc_wp_ddl
-            
-      # --- WORDPRESS CONTAINER ---
+              mysql -h db-testedev-mysql.mysql.database.azure.com -u sv_ndc_wp_ddl
+
+      # --- CONTAINER WORDPRESS ---
       containers:
         - name: dati-semantic-wordpress
           image: ghcr.io/teamdigitale/dati-semantic-wordpress:latest
@@ -62,6 +61,8 @@ spec:
               value: sv_ndc_wp
             - name: WORDPRESS_TABLE_PREFIX
               value: wp_
+            - name: WORDPRESS_SITE_URL
+              value: https://ndc-dev.apps.cloudpub.testedev.istat.it
             - name: MATOMO_API_URL
               value: https://analytics.istat.it/?module=API
             - name: MATOMO_SITE_ID
@@ -70,14 +71,14 @@ spec:
               value: dtd
             - name: MATOMO_TOKEN
               valueFrom:
-                secretKeyRef:
-                  name: matomo-credentials
-                  key: token
+                  secretKeyRef:
+                    name: matomo-credentials
+                    key: token
             - name: MATOMO_PASS
               valueFrom:
-                secretKeyRef:
-                  name: matomo-credentials
-                  key: pass
+                  secretKeyRef:
+                    name: matomo-credentials
+                    key: pass
             - name: API_URL
               value: https://ndc-dev.apps.cloudpub.testedev.istat.it/api
             - name: WORDPRESS_DEBUG
@@ -118,7 +119,3 @@ spec:
         - name: wordpress-persistent-storage
           persistentVolumeClaim:
             claimName: wp-pv-claim
-
-        - name: snapshot
-          persistentVolumeClaim:
-            claimName: wp-snapshot-pv-claim
