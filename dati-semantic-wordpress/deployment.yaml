@@ -25,7 +25,7 @@ spec:
 
       # --- INIT CONTAINER PER RIPRISTINO DB ---
       initContainers:
-        - name: init-db-decrypt-import
+         - name: init-db-import
           image: mysql:8
           env:
             - name: MYSQL_PWD
@@ -33,24 +33,11 @@ spec:
                 secretKeyRef:
                   name: sv-ndc-wp-psw
                   key: sv-ndc-wp-psw
-            - name: GPG_PASSPHRASE
-              valueFrom:
-                secretKeyRef:
-                  name: wp-dev-gpg
-                  key: passphrase
           command: ["sh", "-c"]
           args:
-            - >
-              gpg --batch --yes --passphrase "$GPG_PASSPHRASE"
-              -d /mnt/snapshot/db.sql.tar.gz.gpg |
-              tar xzO |
-              mysql -h db-testedev-mysql.mysql.database.azure.com
-              -u sv_ndc_wp_ddl
-              sv_ndc_wp
-          volumeMounts:
-            - name: snapshot
-              mountPath: /mnt/snapshot
-
+            - echo "DROP DATABASE IF EXISTS sv_ndc_wp; CREATE DATABASE sv_ndc_wp;" | \
+               mysql -h db-testedev-mysql.mysql.database.azure.com -u sv_ndc_wp_ddl
+            
       # --- WORDPRESS CONTAINER ---
       containers:
         - name: dati-semantic-wordpress
