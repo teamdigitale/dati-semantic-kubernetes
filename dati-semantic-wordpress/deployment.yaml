@@ -64,7 +64,7 @@ spec:
               value: ""
             - name: WORDPRESS_CONFIG_EXTRA
               value: "define('WP_HOME', 'https://' . $_SERVER['HTTP_HOST']);\ndefine('WP_SITEURL', 'https://' . $_SERVER['HTTP_HOST']);          \n\n// Matomo\ndefine('MATOMO_API_URL', getenv('MATOMO_API_URL'));\ndefine('MATOMO_TOKEN',   getenv('MATOMO_TOKEN'));\ndefine('MATOMO_USER',    getenv('MATOMO_USER'));\ndefine('MATOMO_PASS',    getenv('MATOMO_PASS'));\ndefine('MATOMO_SITE_ID', getenv('MATOMO_SITE_ID'));\ndefine('API_URL',        getenv('API_URL'));\n\n// WordPress/PHP resource limits\ndefine('WP_MEMORY_LIMIT', '512M');\ndefine('WP_MAX_MEMORY_LIMIT', '512M');\n@ini_set('upload_max_filesize', '64M');\n@ini_set('post_max_size', '64M');\n@ini_set('max_execution_time', '300');\n@ini_set('max_input_vars', '5000');\n"
-          image: ghcr.io/teamdigitale/dati-semantic-wordpress:20251120-23-f367529
+          image: ghcr.io/teamdigitale/dati-semantic-wordpress:20251120-24-d1a9fa7
           name: dati-semantic-wordpress
           ports:
             - containerPort: 8080
