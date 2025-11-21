@@ -16,6 +16,7 @@ spec:
     rollingUpdate:
       maxSurge: 25%
       maxUnavailable: 25%
+
   template:
     metadata:
       labels:
@@ -23,18 +24,20 @@ spec:
     spec:
       containers:
         - name: dati-semantic-wordpress
-          image: ghcr.io/teamdigitale/dati-semantic-wordpress:20251121-56-c2bddc6
+          image: ghcr.io/teamdigitale/dati-semantic-wordpress:20251120-40-559f587
           ports:
             - containerPort: 8080
               name: wordpress
-          # Esegue lo script appena Apache parte
+          
           lifecycle:
             postStart:
               exec:
                 command: ["/bin/bash", "-c", "/usr/local/bin/wp-bootstrap.sh >> /proc/1/fd/1 2>&1 &"]
+
           env:
             - name: XDG_CONFIG_HOME
               value: /tmp/
+
             - name: WORDPRESS_DB_HOST
               value: db-testedev-mysql.mysql.database.azure.com
             - name: WORDPRESS_DB_USER
@@ -48,6 +51,7 @@ spec:
               value: sv_ndc_wp
             - name: WORDPRESS_TABLE_PREFIX
               value: wp_
+
             - name: MATOMO_API_URL
               value: https://analytics.istat.it/?module=API
             - name: MATOMO_SITE_ID
@@ -66,6 +70,7 @@ spec:
                   key: pass
             - name: API_URL
               value: https://ndc-dev.apps.cloudpub.testedev.istat.it/api
+
             - name: WORDPRESS_CONFIG_EXTRA
               value: |
                 define('WP_HOME', 'https://' . $_SERVER['HTTP_HOST']);
@@ -84,6 +89,7 @@ spec:
                 @ini_set('post_max_size', '64M');
                 @ini_set('max_execution_time', '300');
                 @ini_set('max_input_vars', '5000');
+
           resources:
             limits:
               cpu: 800m
@@ -91,10 +97,15 @@ spec:
             requests:
               cpu: 250m
               memory: 512Mi
+
           volumeMounts:
-            - name: wordpress-persistent-storage
-              mountPath: /var/www/html
+            # Prima montavamo TUTTA /var/www/html
+            # Ora montiamo SOLO gli uploads (che DEVONO essere persistenti)
+            - name: wp-uploads
+              mountPath: /var/www/html/wp-content/uploads
+
       volumes:
-        - name: wordpress-persistent-storage
+        # E rimane collegato allo stesso PVC
+        - name: wp-uploads
           persistentVolumeClaim:
             claimName: wp-pv-claim
