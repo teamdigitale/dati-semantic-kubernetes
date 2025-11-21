@@ -23,12 +23,10 @@ spec:
     spec:
       containers:
         - name: dati-semantic-wordpress
-          image: ghcr.io/teamdigitale/dati-semantic-wordpress:20251120-40-559f587
+          image: ghcr.io/teamdigitale/dati-semantic-wordpress:20251121-45-afa273b
           ports:
             - containerPort: 8080
               name: wordpress
-            
-          
           # Esegue lo script appena Apache parte
           lifecycle:
             postStart:
@@ -44,7 +42,6 @@ spec:
             initialDelaySeconds: 10
             periodSeconds: 10
             timeoutSeconds: 5
-          
           # Liveness probe:
           # - Verifica che WordPress continui a rispondere correttamente nel tempo.
           # - Se Apache/PHP o WordPress si bloccano, Kubernetes riavvia automaticamente il container.
@@ -56,7 +53,6 @@ spec:
             initialDelaySeconds: 20
             periodSeconds: 20
             timeoutSeconds: 5
-
           env:
             - name: XDG_CONFIG_HOME
               value: /tmp/
@@ -73,7 +69,6 @@ spec:
               value: sv_ndc_wp
             - name: WORDPRESS_TABLE_PREFIX
               value: wp_
-
             - name: MATOMO_API_URL
               value: https://analytics.istat.it/?module=API
             - name: MATOMO_SITE_ID
@@ -92,7 +87,6 @@ spec:
                   key: pass
             - name: API_URL
               value: https://ndc-dev.apps.cloudpub.testedev.istat.it/api
-
             - name: WORDPRESS_CONFIG_EXTRA
               value: |
                 define('WP_HOME', 'https://' . $_SERVER['HTTP_HOST']);
@@ -111,7 +105,6 @@ spec:
                 @ini_set('post_max_size', '64M');
                 @ini_set('max_execution_time', '300');
                 @ini_set('max_input_vars', '5000');
-
           resources:
             limits:
               cpu: 800m
@@ -119,13 +112,10 @@ spec:
             requests:
               cpu: 250m
               memory: 512Mi
-
           volumeMounts:
             - name: wordpress-persistent-storage
               mountPath: /var/www/html
-
       volumes:
         - name: wordpress-persistent-storage
           persistentVolumeClaim:
             claimName: wp-pv-claim
-
