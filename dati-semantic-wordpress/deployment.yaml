@@ -21,13 +21,6 @@ spec:
       labels:
         app: dati-semantic-wordpress
     spec:
-      initContainers:
-        - name: clean-volume
-          image: busybox
-          command: ["sh", "-c", "rm -rf /var/www/html/*"]
-          volumeMounts:
-            - name: wordpress-persistent-storage
-              mountPath: /var/www/html
       containers:
         - name: dati-semantic-wordpress
           image: ghcr.io/teamdigitale/dati-semantic-wordpress:20251121-64-d193eb3
