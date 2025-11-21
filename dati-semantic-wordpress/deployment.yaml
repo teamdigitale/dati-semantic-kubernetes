@@ -32,27 +32,6 @@ spec:
             postStart:
               exec:
                 command: ["/usr/local/bin/wp-bootstrap.sh"]
-          # Readiness probe:
-          # - Serve per evitare che il traffico arrivi al pod prima che WordPress sia realmente pronto.
-          # - Finché questa probe non risponde correttamente (HTTP 200), il pod NON viene esposto
-          readinessProbe:
-            httpGet:
-              path: /wp-login.php
-              port: 8080
-            initialDelaySeconds: 10
-            periodSeconds: 10
-            timeoutSeconds: 5
-          # Liveness probe:
-          # - Verifica che WordPress continui a rispondere correttamente nel tempo.
-          # - Se Apache/PHP o WordPress si bloccano, Kubernetes riavvia automaticamente il container.
-          # - Garantisce che il pod non rimanga "Running" ma in realtà non operativo.
-          livenessProbe:
-            httpGet:
-              path: /wp-login.php
-              port: 8080
-            initialDelaySeconds: 20
-            periodSeconds: 20
-            timeoutSeconds: 5
           env:
             - name: XDG_CONFIG_HOME
               value: /tmp/
