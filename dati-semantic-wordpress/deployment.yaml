@@ -30,7 +30,7 @@ spec:
               mountPath: /var/www/html
       containers:
         - name: dati-semantic-wordpress
-          image: ghcr.io/teamdigitale/dati-semantic-wordpress:20251121-61-1cca90c
+          image: ghcr.io/teamdigitale/dati-semantic-wordpress:20251121-62-255dcbf
           ports:
             - containerPort: 8080
               name: wordpress
