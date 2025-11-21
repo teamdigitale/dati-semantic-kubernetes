@@ -31,7 +31,7 @@ spec:
           lifecycle:
             postStart:
               exec:
-                command: ["/usr/local/bin/wp-bootstrap.sh"]
+                command: ["/bin/bash", "-c", "/usr/local/bin/wp-bootstrap.sh >> /proc/1/fd/1 2>&1 &"]
           env:
             - name: XDG_CONFIG_HOME
               value: /tmp/
