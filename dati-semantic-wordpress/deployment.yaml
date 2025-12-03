@@ -21,10 +21,20 @@ spec:
       labels:
         app: dati-semantic-wordpress
     spec:
+      # >>> INIT CONTAINER: clean /var/www/html before WordPress starts <<<
+      initContainers:
+        - name: clean-wordpress-html
+          image: busybox:1.36.1
+          command: ['sh', '-c', 'echo "Cleaning /var/www/html before WordPress startup..."; rm -rf /var/www/html/*']
+          ports:
+            - containerPort: 8080
+              name: wordpress
+          volumeMounts:
+            - name: wordpress-persistent-storage
+              mountPath: /var/www/html
       containers:
         - name: dati-semantic-wordpress
           image: ghcr.io/teamdigitale/dati-semantic-wordpress:20251203-93-1413d70
-          command: ["/bin/sh", "-c", "rm -rf /var/www/html/* && exec docker-entrypoint.sh apache2-foreground"]
           ports:
             - containerPort: 8080
               name: wordpress
