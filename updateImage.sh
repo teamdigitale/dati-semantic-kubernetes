@@ -14,7 +14,4 @@ imageWithTag=$(echo $2 | tr '[:upper:]' '[:lower:]')
 
 yq eval -ie ".spec.template.spec.containers[0].image = \"$imageWithTag\"" $1/deployment.yaml
 
-echo "Updating init container image to: $imageWithTag"
-yq eval -ie ".spec.template.spec.initContainers[0].image = \"$imageWithTag\"" $1/deployment.yaml
-
 echo "Update complete."
