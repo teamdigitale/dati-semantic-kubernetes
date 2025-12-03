@@ -27,6 +27,7 @@ spec:
       initContainers:
         - name: clean-wordpress-html
           image: ghcr.io/teamdigitale/dati-semantic-wordpress:20251203-93-1413d70
+          imagePullPolicy: IfNotPresent
           command: ['sh', '-c', 'echo "Cleaning /var/www/html before WordPress startup..."; rm -rf /var/www/html/*']
           ports:
             - containerPort: 8080
