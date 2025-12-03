@@ -27,14 +27,23 @@ spec:
           ports:
             - containerPort: 8080
               name: wordpress
-          # Esegue lo script appena Apache parte
+
+          # CLEAN HTML BEFORE WORDPRESS
           lifecycle:
             postStart:
               exec:
-                command: ["/bin/bash", "-c", "/usr/local/bin/wp-bootstrap.sh >> /proc/1/fd/1 2>&1 &"]
+                command:
+                  [
+                    "/bin/bash",
+                    "-c",
+                    "echo '[entrypoint] Cleaning /var/www/html...' && rm -rf /var/www/html/* || true"
+                  ]
+
           env:
             - name: XDG_CONFIG_HOME
               value: /tmp/
+
+            # DB PARAMS
             - name: WORDPRESS_DB_HOST
               value: db-testedev-mysql.mysql.database.azure.com
             - name: WORDPRESS_DB_USER
@@ -48,6 +57,12 @@ spec:
               value: sv_ndc_wp
             - name: WORDPRESS_TABLE_PREFIX
               value: wp_
+
+            # DYNAMIC SITE URL
+            - name: WORDPRESS_SITE_URL
+              value: "https://wp-ndc-dev.apps.cloudpub.testedev.istat.it"
+
+            # MATOMO
             - name: MATOMO_API_URL
               value: https://analytics.istat.it/?module=API
             - name: MATOMO_SITE_ID
@@ -64,12 +79,16 @@ spec:
                 secretKeyRef:
                   name: matomo-credentials
                   key: pass
+
+            # API endpoint
             - name: API_URL
               value: https://ndc-dev.apps.cloudpub.testedev.istat.it/api
+
+            # EXTRA WP-CONFIG
             - name: WORDPRESS_CONFIG_EXTRA
               value: |
-                define('WP_HOME', 'https://' . $_SERVER['HTTP_HOST']);
-                define('WP_SITEURL', 'https://' . $_SERVER['HTTP_HOST']);
+                define('WP_HOME', getenv('WORDPRESS_SITE_URL'));
+                define('WP_SITEURL', getenv('WORDPRESS_SITE_URL'));
 
                 define('MATOMO_API_URL', getenv('MATOMO_API_URL'));
                 define('MATOMO_TOKEN',   getenv('MATOMO_TOKEN'));
@@ -84,6 +103,7 @@ spec:
                 @ini_set('post_max_size', '64M');
                 @ini_set('max_execution_time', '300');
                 @ini_set('max_input_vars', '5000');
+
           resources:
             limits:
               cpu: 800m
@@ -91,10 +111,13 @@ spec:
             requests:
               cpu: 250m
               memory: 512Mi
+
           volumeMounts:
             - name: wordpress-persistent-storage
               mountPath: /var/www/html
+
       volumes:
         - name: wordpress-persistent-storage
           persistentVolumeClaim:
             claimName: wp-pv-claim
+
