@@ -21,7 +21,6 @@ spec:
       labels:
         app: dati-semantic-wordpress
     spec:
-
       # INIT CONTAINER TO CLEAN HTML BEFORE WORDPRESS INSTALL
       initContainers:
         - name: clean-wordpress-html
@@ -30,24 +29,20 @@ spec:
           volumeMounts:
             - name: wordpress-persistent-storage
               mountPath: /var/www/html
-
       containers:
         - name: dati-semantic-wordpress
-          image: ghcr.io/teamdigitale/dati-semantic-wordpress:20251203-90-856179d
+          image: ghcr.io/teamdigitale/dati-semantic-wordpress:20251203-91-adb097a
           ports:
             - containerPort: 8080
               name: wordpress
-
           # >>> POSTSTART FOR WP-CLI BOOTSTRAP <<< 
           lifecycle:
             postStart:
               exec:
                 command: ["/bin/bash", "-c", "/usr/local/bin/wp-bootstrap.sh >> /proc/1/fd/1 2>&1 &"]
-
           env:
             - name: XDG_CONFIG_HOME
               value: /tmp/
-
             # DATABASE ENV
             - name: WORDPRESS_DB_HOST
               value: db-testedev-mysql.mysql.database.azure.com
@@ -62,11 +57,9 @@ spec:
               value: sv_ndc_wp
             - name: WORDPRESS_TABLE_PREFIX
               value: wp_
-
             # DYNAMIC SITE URL 
             - name: WORDPRESS_SITE_URL
               value: "https://wp-ndc-dev.apps.cloudpub.testedev.istat.it"
-
             # MATOMO ENV
             - name: MATOMO_API_URL
               value: https://analytics.istat.it/?module=API
@@ -84,11 +77,9 @@ spec:
                 secretKeyRef:
                   name: matomo-credentials
                   key: pass
-
             # API URL
             - name: API_URL
               value: https://ndc-dev.apps.cloudpub.testedev.istat.it/api
-
             # EXTRA WP-CONFIG
             - name: WORDPRESS_CONFIG_EXTRA
               value: |
@@ -108,7 +99,6 @@ spec:
                 @ini_set('post_max_size', '64M');
                 @ini_set('max_execution_time', '300');
                 @ini_set('max_input_vars', '5000');
-
           resources:
             limits:
               cpu: 800m
@@ -116,11 +106,9 @@ spec:
             requests:
               cpu: 250m
               memory: 512Mi
-
           volumeMounts:
             - name: wordpress-persistent-storage
               mountPath: /var/www/html
-
       volumes:
         - name: wordpress-persistent-storage
           persistentVolumeClaim:
