@@ -24,7 +24,7 @@ spec:
       # >>> INIT CONTAINER: clean /var/www/html before WordPress starts <<<
       initContainers:
         - name: clean-wordpress-html
-          image: ghcr.io/teamdigitale/dati-semantic-wordpress:latest
+          image: registry.k8s.io/busybox:1.36.1
           command: ['sh', '-c', 'echo "Cleaning /var/www/html before WordPress startup..."; rm -rf /var/www/html/*']
           volumeMounts:
             - name: wordpress-persistent-storage
