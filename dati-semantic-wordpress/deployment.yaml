@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: dati-semantic-wordpress
-          image: ghcr.io/teamdigitale/dati-semantic-wordpress:20251203-87-3fc1b41
+          image: ghcr.io/teamdigitale/dati-semantic-wordpress:20251203-88-a0c9033
           ports:
             - containerPort: 8080
               name: wordpress
