@@ -21,7 +21,6 @@ spec:
       labels:
         app: dati-semantic-wordpress
     spec:
-
       containers:
         - name: dati-semantic-wordpress
           image: ghcr.io/teamdigitale/dati-semantic-wordpress:20251203-90-856179d
@@ -29,11 +28,18 @@ spec:
             - containerPort: 8080
               name: wordpress
 
-          # >>> POSTSTART: Launch WP-CLI bootstrap script asynchronously <<<
+          # >>> POSTSTART: clean html safely then launch bootstrap <<<
           lifecycle:
             postStart:
               exec:
-                command: ["/bin/bash", "-c", "/usr/local/bin/wp-bootstrap.sh >> /proc/1/fd/1 2>&1 &"]
+                command:
+                  - /bin/bash
+                  - -c
+                  - |
+                    echo "[entrypoint] Cleaning /var/www/html before WordPress bootstrap..."
+                    rm -rf /var/www/html/* || true
+                    echo "[bootstrap] Launching async WordPress bootstrap..."
+                    /usr/local/bin/wp-bootstrap.sh >> /proc/1/fd/1 2>&1 &
 
           env:
             - name: XDG_CONFIG_HOME
@@ -116,3 +122,4 @@ spec:
         - name: wordpress-persistent-storage
           persistentVolumeClaim:
             claimName: wp-pv-claim
+
