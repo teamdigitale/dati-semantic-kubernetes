@@ -29,7 +29,7 @@ spec:
               value: https://lode-ndc-dev.apps.cloudpub.testedev.istat.it
             - name: WEBVOWL_URL
               value: https://webvowl-ndc-dev.apps.cloudpub.testedev.istat.it/#iri=
-          image: ghcr.io/teamdigitale/dati-semantic-lode:20230713-23-d0d1742
+          image: ghcr.io/teamdigitale/dati-semantic-lode:20251212-32-7c632b6
           imagePullPolicy: Always
           name: dati-semantic-lode
           ports:
@@ -48,5 +48,5 @@ spec:
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
-      securityContext: { }
+      securityContext: {}
       terminationGracePeriodSeconds: 75
