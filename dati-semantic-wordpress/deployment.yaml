@@ -90,8 +90,8 @@ spec:
             # >>> EXTRA WP-CONFIG (uses dynamic SITE_URL) <<< 
             - name: WORDPRESS_CONFIG_EXTRA
               value: |
-                define('WP_HOME', getenv('WORDPRESS_SITE_URL'));
-                define('WP_SITEURL', getenv('WORDPRESS_SITE_URL'));
+                define('WP_HOME', 'http://'.$_SERVER["HTTP_HOST"]);
+                define('WP_SITEURL', 'http://'.$_SERVER["HTTP_HOST"]);
 
                 define('MATOMO_API_URL', getenv('MATOMO_API_URL'));
                 define('MATOMO_TOKEN',   getenv('MATOMO_TOKEN'));
