@@ -66,7 +66,7 @@ spec:
             - name: WORDPRESS_TABLE_PREFIX
               value: wp_
             - name: WORDPRESS_SITE_URL
-              value: https://wp-ndc-prod.apps.cloudpub.prod.istat.it
+              value: https://schema.gov.it
             # MATOMO ENV
             - name: MATOMO_API_URL
               value: https://analytics.istat.it/?module=API
