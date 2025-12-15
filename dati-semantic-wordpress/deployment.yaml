@@ -86,7 +86,7 @@ spec:
                   key: pass
             # API URL
             - name: API_URL
-              value: 'https://ndc-prod.apps.cloudpub.prod.istat.it/api'
+              value: 'https://schema.gov.it/api'
             # >>> EXTRA WP-CONFIG (uses dynamic SITE_URL) <<< 
             - name: WORDPRESS_CONFIG_EXTRA
               value: |
