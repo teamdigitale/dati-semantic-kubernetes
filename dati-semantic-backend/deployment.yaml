@@ -1,0 +1,143 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: dati-semantic-backend
+  name: dati-semantic-backend
+  namespace: ndc-test
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: dati-semantic-backend
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: dati-semantic-backend
+      name: dati-semantic-backend
+    spec:
+      containers:
+        - env:
+            - name: XDG_CONFIG_HOME
+              value: /tmp/
+            - name: SPRING_PROFILES_ACTIVE
+              value: test
+            - name: SPRING_ELASTICSEARCH_REST_URIS
+              value: https://elasticsearch-test-external-service:9201
+            - name: ELASTICSEARCH_HOST
+              value: elasticsearch-test-external-service
+            - name: ELASTICSEARCH_PORT
+              value: "9201"
+            - name: ELASTICSEARCH_SCHEME
+              value: https
+            - name: ELASTICSEARCH_USERNAME
+              value: ndc_test_elastic
+            - name: ELASTICSEARCH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: elastic-test
+                  name: elastic-test
+            - name: VIRTUOSO_SPARQL
+              value: http://virtuoso-test-external-service:8891/sparql-auth
+            - name: VIRTUOSO_SPARQL_GRAPH_STORE
+              value: http://virtuoso-test-external-service:8891/sparql-graph-crud-auth
+            - name: VIRTUOSO_USERNAME
+              value: ts_ndc_virtuoso_app
+            - name: VIRTUOSO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: virtuoso-test
+                  name: virtuoso-test
+            - name: HARVESTER_REPOSITORIES
+              value: "https://github.com/istat/ts-ontologie-vocabolari-controllati,https://github.com/InailUfficio5/inail-ndc"
+            - name: HARVESTER_ENDPOINT_ENABLED
+              value: "true"
+            - name: NDC_BASEURL
+              value: https://ndc-test.apps.cloudpub.testedev.istat.it/api
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://db-testedev-mysql.mysql.database.azure.com:3306/ts_ndc_harvest?useSSL=true
+            - name: SPRING_DATASOURCE_USERNAME
+              value: ts_ndc_harvest_app
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: mysql-test
+                  name: mysql-test
+            - name: LOGGING_LEVEL_IT_GOV_INNOVAZIONE_NDC
+              value: debug
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Xmx2g"
+            - name: HARVESTER_USER
+              valueFrom:
+                secretKeyRef:
+                  name: harvester-test
+                  key: HARVESTER_USER
+            - name: HARVESTER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: harvester-test
+                  key: HARVESTER_PASSWORD
+            - name: ALERTER_SMTP_SERVER
+              value: smtp.istat.it
+            - name: ALERTER_SMTP_PORT
+              value: "465"
+            - name: ALERTER_SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: smtp-password
+                  name: ndc-istat-smtp-test
+            - name: ALERTER_SMTP_STARTTLS
+              value: "false"
+            - name: ALERTER_SMTP_SSL
+              value: "true"
+            - name: JAVA_MAIL_DEBUG
+              value: "true"
+          image: ghcr.io/teamdigitale/dati-semantic-backend:20250624-500-1135528
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 2
+          name: dati-semantic-backend
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 2
+          resources:
+            limits:
+              cpu: 800m
+              memory: 2048Mi
+            requests:
+              cpu: 250m
+              memory: 512Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: { }
+      terminationGracePeriodSeconds: 75
+

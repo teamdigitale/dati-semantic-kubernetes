@@ -1,0 +1,16 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: dati-semantic-lodview
+  namespace: ndc-test
+  labels:
+    app: dati-semantic-lodview
+spec:
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  selector:
+    app: dati-semantic-lodview
+  sessionAffinity: None
