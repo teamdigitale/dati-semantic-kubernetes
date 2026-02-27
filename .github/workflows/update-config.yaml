@@ -29,4 +29,4 @@ jobs:
           git config --global user.email 'gh-actions-user@users.noreply.github.com'
           git add .
           git commit -m "Automated container image update for service ${{ github.event.inputs.serviceName }}"
-          git push  
+          git push
