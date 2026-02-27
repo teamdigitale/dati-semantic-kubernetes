@@ -2,7 +2,7 @@
 # When a newer tag is found, update deployment YAML and open or update a PR to "dev" branch.
 # Uses a matrix to avoid duplicating steps; one PR per matrix entry.
 
-name: Check schema editor images and open PR
+name: Update Schema Editor images
 
 on:
   schedule:
@@ -45,21 +45,24 @@ jobs:
 
       - name: Get current image tag
         id: current
+        env:
+          TARGET_FILE: ${{ matrix.target_file }}
         run: |
-          TAG=$(yq '.spec.template.spec.containers[0].image' ${{ matrix.target_file }} | sed 's/.*://' | tr -d '"')
-          echo "current_tag=$TAG" >> $GITHUB_OUTPUT
+          TAG=$(yq '.spec.template.spec.containers[0].image' "$TARGET_FILE" | sed 's/.*://' | tr -d '"')
+          echo "current_tag=$TAG" >> "$GITHUB_OUTPUT"
           echo "$TAG" > /tmp/current_tag.txt
 
       - name: Get available image tags
         id: tags
-        run: |
-          GHCR_IMAGE="${IMAGE#ghcr.io/}"
-          TOKEN=$(echo ${{ secrets.GITHUB_TOKEN }} | base64)
-          TAGS_JSON=$(curl -s -H "Authorization: Bearer $TOKEN" "https://ghcr.io/v2/${GHCR_IMAGE}/tags/list")
-          echo "$TAGS_JSON" | jq -r '.tags[]?' > /tmp/remote_tags.txt
-          echo "tags_count=$(wc -l < /tmp/remote_tags.txt)" >> $GITHUB_OUTPUT
         env:
           IMAGE: ${{ matrix.image }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          GHCR_IMAGE="${IMAGE#ghcr.io/}"
+          TOKEN=$(printf '%s' "$GITHUB_TOKEN" | base64)
+          TAGS_JSON=$(curl -s -H "Authorization: Bearer $TOKEN" "https://ghcr.io/v2/${GHCR_IMAGE}/tags/list")
+          echo "$TAGS_JSON" | jq -r '.tags[]?' > /tmp/remote_tags.txt
+          echo "tags_count=$(wc -l < /tmp/remote_tags.txt)" >> "$GITHUB_OUTPUT"
 
       - name: Check for greater semver tag
         id: newtag
@@ -73,7 +76,7 @@ jobs:
               echo ""
             fi
           }
-          current_tag=$(cat /tmp/current_tag.txt | tr -d '\r')
+          current_tag=$(tr -d '\r' < /tmp/current_tag.txt)
           current_norm=$(normalize "$current_tag")
           [[ -z "$current_norm" ]] && current_norm="0.0.0"
           best_original=""
@@ -95,11 +98,11 @@ jobs:
           NEW_TAG="$best_original"
           if [ -z "$NEW_TAG" ]; then
             echo "No new semver tag found (current or greater). Skipping."
-            echo "skip=true" >> $GITHUB_OUTPUT
+            echo "skip=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          echo "new_tag=$NEW_TAG" >> $GITHUB_OUTPUT
-          echo "skip=false" >> $GITHUB_OUTPUT
+          echo "new_tag=$NEW_TAG" >> "$GITHUB_OUTPUT"
+          echo "skip=false" >> "$GITHUB_OUTPUT"
           echo "New tag to use: $NEW_TAG"
 
       - name: Update deployment file and push to branch
@@ -120,11 +123,11 @@ jobs:
           git add "$TARGET_FILE"
           git fetch origin "$BRANCH" 2>/dev/null || true
           if git rev-parse "origin/${BRANCH}" >/dev/null 2>&1 && git diff --quiet "origin/${BRANCH}" -- "$TARGET_FILE"; then
-            echo "pushed=false" >> $GITHUB_OUTPUT
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
             echo "No changes (same as $BRANCH). Skipping push."
             exit 0
           fi
-          echo "pushed=true" >> $GITHUB_OUTPUT
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
           git commit -m "chore: ${TITLE} to ${NEW_TAG}"
           git checkout -B "$BRANCH"
           git push --force origin "$BRANCH"
