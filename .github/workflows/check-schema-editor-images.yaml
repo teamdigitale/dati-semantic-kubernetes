@@ -1,0 +1,146 @@
+# Check GHCR for new semver tags of schema-editor and schema-editor-api.
+# When a newer tag is found, update deployment YAML and open or update a PR to "dev" branch.
+# Uses a matrix to avoid duplicating steps; one PR per matrix entry.
+
+name: Check schema editor images and open PR
+
+on:
+  schedule:
+    - cron: "0 */6 * * *" # every 6 hours
+  workflow_dispatch: # manually trigger the workflow
+
+permissions:
+  contents: write
+  pull-requests: write
+  packages: read
+
+jobs:
+  check-and-pr:
+    name: ${{ matrix.title }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - title: Update Schema Editor docker image
+            image: ghcr.io/teamdigitale/dati-semantic-schema-editor
+            branch_name: update/schema-editor-image
+            target_file: dati-semantic-schema-editor/deployment.yaml
+          - title: Update Schema Editor API docker image
+            image: ghcr.io/teamdigitale/dati-semantic-schema-editor-api
+            branch_name: update/schema-editor-image
+            target_file: dati-semantic-schema-editor-api/deployment.yaml
+
+    steps:
+      - name: Checkout dev
+        uses: actions/checkout@v4
+        with:
+          ref: dev
+          fetch-depth: 0
+
+      - name: Install yq
+        uses: mikefarah/yq@v4.15.1
+
+      - name: Get current image tag
+        id: current
+        run: |
+          TAG=$(yq '.spec.template.spec.containers[0].image' ${{ matrix.target_file }} | sed 's/.*://' | tr -d '"')
+          echo "current_tag=$TAG" >> $GITHUB_OUTPUT
+          echo "$TAG" > /tmp/current_tag.txt
+
+      - name: Get GHCR token and list tags
+        id: tags
+        run: |
+          GHCR_IMAGE="${IMAGE#ghcr.io/}"
+          TOKEN=$(curl -s -u "$GITHUB_ACTOR:$GITHUB_TOKEN" \
+            "https://ghcr.io/token?service=ghcr.io&scope=repository:${GHCR_IMAGE}:pull" | jq -r .token)
+          if [ -z "$TOKEN" ] || [ "$TOKEN" = "null" ]; then
+            echo "Could not obtain GHCR token"
+            exit 1
+          fi
+          TAGS_JSON=$(curl -s -H "Authorization: Bearer $TOKEN" "https://ghcr.io/v2/${GHCR_IMAGE}/tags/list")
+          echo "$TAGS_JSON" | jq -r '.tags[]?' > /tmp/remote_tags.txt
+          echo "tags_count=$(wc -l < /tmp/remote_tags.txt)" >> $GITHUB_OUTPUT
+        env:
+          IMAGE: ${{ matrix.image }}
+
+      - name: Find latest semver tag greater than current
+        id: newtag
+        run: |
+          mapfile -t REMOTE_TAGS < /tmp/remote_tags.txt
+          NEW_TAG=$(bash scripts/compare-semver.sh "$(cat /tmp/current_tag.txt)" "${REMOTE_TAGS[@]}") || true
+          if [ -z "$NEW_TAG" ]; then
+            echo "No new semver tag found (current or greater). Skipping."
+            echo "skip=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          echo "new_tag=$NEW_TAG" >> $GITHUB_OUTPUT
+          echo "skip=false" >> $GITHUB_OUTPUT
+          echo "New tag to use: $NEW_TAG"
+
+      - name: Update deployment and push or open PR
+        if: steps.newtag.outputs.skip != 'true'
+        env:
+          BRANCH: ${{ matrix.branch_name }}
+          TARGET_FILE: ${{ matrix.target_file }}
+          IMAGE: ${{ matrix.image }}
+          TITLE: ${{ matrix.title }}
+          NEW_TAG: ${{ steps.newtag.outputs.new_tag }}
+        run: |
+          set -e
+          SERVICE="${TARGET_FILE%/deployment.yaml}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          ./updateImage.sh "$SERVICE" "${IMAGE}:${NEW_TAG}"
+          git add "$TARGET_FILE"
+          git commit -m "chore: ${TITLE} to ${NEW_TAG}"
+          if git ls-remote --exit-code --heads origin "$BRANCH" 2>/dev/null; then
+            git fetch origin "$BRANCH"
+            git checkout -B "$BRANCH" origin/dev
+            ./updateImage.sh "$SERVICE" "${IMAGE}:${NEW_TAG}"
+            git add "$TARGET_FILE"
+            git diff --staged --quiet || git commit -m "chore: ${TITLE} to ${NEW_TAG}"
+            git push --force origin "$BRANCH"
+          else
+            git checkout -b "$BRANCH"
+            git push origin "$BRANCH"
+          fi
+
+      - name: Create or update PR
+        if: steps.newtag.outputs.skip != 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const branch = '${{ matrix.branch_name }}';
+            const image = '${{ matrix.image }}';
+            const prTitle = '${{ matrix.title }}';
+            const newTag = '${{ steps.newtag.outputs.new_tag }}';
+            const { data: prs } = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              head: `${context.repo.owner}:${branch}`,
+              base: 'dev'
+            });
+            const title = `chore: ${prTitle}`;
+            const body = `Automated update: ${image} to tag \`${newTag}\`.`;
+            if (prs.length > 0) {
+              await github.rest.pulls.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: prs[0].number,
+                title,
+                body
+              });
+              console.log('Updated existing PR #' + prs[0].number);
+            } else {
+              await github.rest.pulls.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                head: branch,
+                base: 'dev',
+                title,
+                body
+              });
+              console.log('Created new PR');
+            }
