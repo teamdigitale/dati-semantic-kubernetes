@@ -12,8 +12,8 @@ on:
     branches: ["dev"]
 
 permissions:
-  contents: read
-  pull-requests: read
+  contents: write
+  pull-requests: write
   packages: read
 
 jobs:
@@ -123,14 +123,14 @@ jobs:
           git add "$TARGET_FILE"
           git fetch origin "$BRANCH" 2>/dev/null || true
           if git rev-parse "origin/${BRANCH}" >/dev/null 2>&1 && git diff --quiet "origin/${BRANCH}" -- "$TARGET_FILE"; then
-            echo "pushed=false" >> "$GITHUB_OUTPUT"
             echo "No changes (same as $BRANCH). Skipping push."
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          echo "pushed=true" >> "$GITHUB_OUTPUT"
           git commit -m "chore: ${TITLE} to ${NEW_TAG}"
           git checkout -B "$BRANCH"
           git push --force origin "$BRANCH"
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
 
       - name: Create or update PR
         if: steps.push.outputs.pushed == 'true'
