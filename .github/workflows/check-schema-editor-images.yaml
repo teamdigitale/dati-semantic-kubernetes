@@ -54,12 +54,7 @@ jobs:
         id: tags
         run: |
           GHCR_IMAGE="${IMAGE#ghcr.io/}"
-          TOKEN=$(curl -s -u "$GITHUB_ACTOR:$GITHUB_TOKEN" \
-            "https://ghcr.io/token?service=ghcr.io&scope=repository:${GHCR_IMAGE}:pull" | jq -r .token)
-          if [ -z "$TOKEN" ] || [ "$TOKEN" = "null" ]; then
-            echo "Could not obtain GHCR token"
-            exit 1
-          fi
+          TOKEN=$(echo ${{ secrets.GITHUB_TOKEN }} | base64)
           TAGS_JSON=$(curl -s -H "Authorization: Bearer $TOKEN" "https://ghcr.io/v2/${GHCR_IMAGE}/tags/list")
           echo "$TAGS_JSON" | jq -r '.tags[]?' > /tmp/remote_tags.txt
           echo "tags_count=$(wc -l < /tmp/remote_tags.txt)" >> $GITHUB_OUTPUT
