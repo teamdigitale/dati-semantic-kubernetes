@@ -8,6 +8,8 @@ on:
   schedule:
     - cron: "0 */6 * * *" # every 6 hours
   workflow_dispatch: # manually trigger the workflow
+  pull_request:
+    branches: ["dev"]
 
 permissions:
   contents: write
