@@ -60,6 +60,20 @@ KUBE --> |github webhook triggers\ndeployment| INFRA([ISTAT dev\ninfrastructure 
 
 ```
 
+Upon the schema documented above, this repository includes a scheduled GitHub Actions workflow, `update-schema-editor-images`, that keeps the Schema Editor images up to date in the `dev` environment:
+
+- **Schedule and trigger**: runs every 6 hours and can also be started manually via `workflow_dispatch`.
+- **What it checks**: queries GHCR for new **semver** tags for:
+  - `ghcr.io/teamdigitale/dati-semantic-schema-editor` (frontend)
+  - `ghcr.io/teamdigitale/dati-semantic-schema-editor-api` (API)
+- **What it updates**: when a newer semver tag is found, it updates the image reference in:
+  - `dati-semantic-schema-editor/deployment.yaml`
+  - `dati-semantic-schema-editor-api/deployment.yaml`
+- **How changes are delivered**: for each updated image it:
+  - pushes changes to a dedicated branch (e.g. `update/schema-editor-image`, `update/schema-editor-api-image`)
+  - opens or updates a pull request targeting the `dev` branch (no other branches) with a `chore:`-prefixed title.
+  - if PR is ok it can be merged by maintainers so the update must be manually approved to avoid potential issues
+
 ## Promoting to `test`
 
 This is a partially automated. Developers are expected to manually promote the `dev` configuration to `test` branch.
@@ -69,7 +83,7 @@ process.
 
 ## Promoting to `prod`
 
-This is totally manual process. 
+This is totally manual process.
 Developers are expected to manually promote the `test` configuration to `prod` branch.
 
 Then they should request the deployment of the `prod` configuration to ISTAT over the email.
