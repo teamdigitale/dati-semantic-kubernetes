@@ -7,6 +7,7 @@ metadata:
     application: dati-semantic-schema-editor-api
 spec:
   host: schema-editor-api-ndc-dev.apps.cloudpub.testedev.istat.it
+  path: /semantic-tool
   to:
     kind: Service
     name: dati-semantic-schema-editor-api
@@ -17,4 +18,5 @@ spec:
     termination: edge
     insecureEdgeTerminationPolicy: Redirect
   wildcardPolicy: None
-status: {}
+status:
+  ingress: []
