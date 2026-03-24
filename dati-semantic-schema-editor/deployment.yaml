@@ -39,7 +39,7 @@ spec:
             - key: config.js
               path: config.js
       containers:
-        - image: ghcr.io/teamdigitale/dati-semantic-schema-editor:0.1.0
+        - image: ghcr.io/teamdigitale/dati-semantic-schema-editor:0.1.1
           imagePullPolicy: Always
           name: dati-semantic-schema-editor
           ports:
