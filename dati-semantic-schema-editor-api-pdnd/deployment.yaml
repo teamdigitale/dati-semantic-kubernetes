@@ -1,0 +1,68 @@
+#
+# Deployment for the Dati Semantic Schema Editor API (PDND)
+#   see: https://github.com/teamdigitale/dati-semantic-schema-editor
+#
+# The configuration is provided via a ConfigMap (configmap-schema-editor-api-pdnd)
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: dati-semantic-schema-editor-api-pdnd
+  name: dati-semantic-schema-editor-api-pdnd
+  namespace: ndc-dev
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: dati-semantic-schema-editor-api-pdnd
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: dati-semantic-schema-editor-api-pdnd
+      name: dati-semantic-schema-editor-api-pdnd
+    spec:
+      volumes:
+        # A small volume for caching temporary files.
+        - name: cache
+          emptyDir:
+            sizeLimit: 100Mi
+      containers:
+        - image: ghcr.io/teamdigitale/dati-semantic-schema-editor-api:0.1.0
+          imagePullPolicy: Always
+          name: dati-semantic-schema-editor-api-pdnd
+          # Load configuration variables from the ConfigMap.
+          #   Future releases may use Secrets.
+          envFrom:
+            - configMapRef:
+                name: configmap-schema-editor-api-pdnd
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          volumeMounts:
+            - name: cache
+              mountPath: /home/node/
+          #
+          # Monitor resource usage and tweak limits as needed.
+          #
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 1024Mi
+            requests:
+              cpu: 250m
+              memory: 512Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 75

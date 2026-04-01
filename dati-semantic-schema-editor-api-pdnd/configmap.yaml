@@ -1,0 +1,17 @@
+#
+# The Schema Editor API configuration containing
+#   the references to the triplestore,
+#   the port to listen on, etc.
+#
+# See https://github.com/teamdigitale/dati-semantic-schema-editor
+#  for details.
+#
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: configmap-schema-editor-api-pdnd
+  namespace: ndc-dev
+data:
+  SPARQL_URL: "https://virtuoso-test-external-service-ndc-test.apps.cloudpub.testedev.istat.it/sparql"
+  PORT: "8080"
+  CORS_ORIGIN: "*"

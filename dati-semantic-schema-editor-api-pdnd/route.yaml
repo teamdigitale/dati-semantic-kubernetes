@@ -1,0 +1,22 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: dati-semantic-schema-editor-api-pdnd
+  namespace: ndc-dev
+  labels:
+    application: dati-semantic-schema-editor-api-pdnd
+  annotations:
+    haproxy.router.openshift.io/ip_whitelist: 193.204.90.0/23
+spec:
+  host: schema-editor-api-pdnd-ndc-dev.apps.cloudpub.testedev.istat.it
+  to:
+    kind: Service
+    name: dati-semantic-schema-editor-api-pdnd
+    weight: 100
+  port:
+    targetPort: 8080
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None
+status: {}
