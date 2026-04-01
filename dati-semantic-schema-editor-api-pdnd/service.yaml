@@ -1,0 +1,15 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: dati-semantic-schema-editor-api-pdnd
+  namespace: ndc-dev
+  labels:
+    app: dati-semantic-schema-editor-api-pdnd
+spec:
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  selector:
+    app: dati-semantic-schema-editor-api-pdnd
+  sessionAffinity: None
