@@ -25,7 +25,7 @@ jobs:
         uses: mikefarah/yq@5a7e72a743649b1b3a47d1a1d8214f3453173c51 # v4.52.4
 
       - name: run script
-        run: ./updateImage.sh ${GITHUB_EVENT_INPUTS_SERVICENAME} ${GITHUB_EVENT_INPUTS_IMAGEWITHNEWTAG}
+        run: ./updateImage.sh "${GITHUB_EVENT_INPUTS_SERVICENAME}" "${GITHUB_EVENT_INPUTS_IMAGEWITHNEWTAG}"
         env:
           GITHUB_EVENT_INPUTS_SERVICENAME: ${{ github.event.inputs.serviceName }}
           GITHUB_EVENT_INPUTS_IMAGEWITHNEWTAG: ${{ github.event.inputs.imageWithNewTag }}

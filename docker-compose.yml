@@ -6,8 +6,13 @@ services:
       - LOG_LEVEL=INFO #DEBUG
       - CREATE_LOG_FILE=true
       - RUN_LOCAL=true
-      - DEFAULT_BRANCH=stefanone91-27-super-linter-kubeconform
       - IGNORE_GITIGNORED_FILES=true
+      # Config as indicated in workflow file
+      - VALIDATE_ALL_CODEBASE=false
+      - DEFAULT_BRANCH=dev
       - KUBERNETES_KUBECONFORM_OPTIONS= -schema-location 'https://openshiftjsonschema.dev/v4.10-standalone{{ .StrictSuffix }}/{{ .ResourceKind }}{{.KindSuffix}}.json' -ignore-filename-pattern '(.git|.github)/*' -strict -summary
+      - VALIDATE_CHECKOV=false # Disable infrastructure configuration validation
+      - VALIDATE_JSCPD=false # Disable copy-paste detection
+      - VALIDATE_TRIVY=false # Disable trivy security scanner
     volumes:
       - ./:/tmp/lint
