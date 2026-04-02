@@ -34,4 +34,5 @@ jobs:
         env:
           # To report GitHub Actions status checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_ALL_CODEBASE: false
           KUBERNETES_KUBECONFORM_OPTIONS: " -schema-location 'https://openshiftjsonschema.dev/v4.10-standalone{{ .StrictSuffix }}/{{ .ResourceKind }}{{.KindSuffix}}.json' -ignore-filename-pattern '(.git|.github)/*' -strict -summary "
