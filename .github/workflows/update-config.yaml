@@ -4,29 +4,38 @@ on:
   workflow_dispatch:
     inputs:
       serviceName:
-        description: 'service name'
+        description: "service name"
         required: true
       imageWithNewTag:
-        description: 'image with a tag'
+        description: "image with a tag"
         required: true
 
 jobs:
   updateImage:
     if: ${{ github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
 
       - name: yq - portable yaml processor
-        uses: mikefarah/yq@v4.15.1
+        uses: mikefarah/yq@5a7e72a743649b1b3a47d1a1d8214f3453173c51 # v4.52.4
 
       - name: run script
-        run: ./updateImage.sh ${{ github.event.inputs.serviceName }} ${{ github.event.inputs.imageWithNewTag }}
+        run: ./updateImage.sh ${GITHUB_EVENT_INPUTS_SERVICENAME} ${GITHUB_EVENT_INPUTS_IMAGEWITHNEWTAG}
+        env:
+          GITHUB_EVENT_INPUTS_SERVICENAME: ${{ github.event.inputs.serviceName }}
+          GITHUB_EVENT_INPUTS_IMAGEWITHNEWTAG: ${{ github.event.inputs.imageWithNewTag }}
 
       - name: Commit new config
         run: |
           git config --global user.name 'Github action user'
           git config --global user.email 'gh-actions-user@users.noreply.github.com'
           git add .
-          git commit -m "Automated container image update for service ${{ github.event.inputs.serviceName }}"
-          git push  
+          git commit -m "Automated container image update for service ${GITHUB_EVENT_INPUTS_SERVICENAME}"
+          git push
+        env:
+          GITHUB_EVENT_INPUTS_SERVICENAME: ${{ github.event.inputs.serviceName }}

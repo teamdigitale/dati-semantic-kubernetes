@@ -33,13 +33,14 @@ jobs:
 
     steps:
       - name: Checkout dev
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           ref: dev
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Install yq
-        uses: mikefarah/yq@v4.52.4
+        uses: mikefarah/yq@5a7e72a743649b1b3a47d1a1d8214f3453173c51 # v4.52.4
 
       - name: Get current image tag
         id: current
@@ -132,13 +133,18 @@ jobs:
 
       - name: Create or update PR
         if: steps.push.outputs.pushed == 'true'
-        uses: actions/github-script@v8
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
+        env:
+          MATRIX_BRANCH: ${{ matrix.branch_name }}
+          MATRIX_IMAGE: ${{ matrix.image }}
+          MATRIX_TITLE: ${{ matrix.title }}
+          NEW_TAG: ${{ steps.newtag.outputs.new_tag }}
         with:
           script: |
-            const branch = '${{ matrix.branch_name }}';
-            const image = '${{ matrix.image }}';
-            const prTitle = '${{ matrix.title }}';
-            const newTag = '${{ steps.newtag.outputs.new_tag }}';
+            const branch = process.env.MATRIX_BRANCH;
+            const image = process.env.MATRIX_IMAGE;
+            const prTitle = process.env.MATRIX_TITLE;
+            const newTag = process.env.NEW_TAG;
             const { data: prs } = await github.rest.pulls.list({
               owner: context.repo.owner,
               repo: context.repo.repo,
