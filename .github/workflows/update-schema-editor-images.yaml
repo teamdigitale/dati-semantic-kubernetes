@@ -1,4 +1,5 @@
-# Check GHCR for new semver tags of schema-editor and schema-editor-api.
+# Check GHCR for new semver tags of schema-editor, schema-editor-api, and
+# dati-semantic-csv-apis-data (vocabularies API).
 # When a newer tag is found, update deployment YAML and open or update a PR to "dev" branch.
 # Uses a matrix to avoid duplicating steps; one PR per matrix entry.
 
@@ -34,6 +35,10 @@ jobs:
             image: ghcr.io/teamdigitale/dati-semantic-schema-editor-api
             branch_name: update/schema-editor-api-pdnd-image
             target_file: dati-semantic-schema-editor-api-pdnd/deployment.yaml
+          - title: Update Vocabularies API docker image
+            image: ghcr.io/teamdigitale/dati-semantic-csv-apis-data
+            branch_name: update/dati-semantic-csv-api-image
+            target_file: dati-semantic-csv-api/deployment.yaml
 
     steps:
       - name: Checkout dev

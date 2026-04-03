@@ -1,0 +1,63 @@
+#
+# Deployment for the Dati Semantic Vocabularies API (controlled vocabularies).
+#   see: https://github.com/teamdigitale/dati-semantic-csv-apis
+#
+# The configuration is provided via a ConfigMap (configmap-csv-api)
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: dati-semantic-csv-api
+  name: dati-semantic-csv-api
+  namespace: ndc-dev
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: dati-semantic-csv-api
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: dati-semantic-csv-api
+      name: dati-semantic-csv-api
+    spec:
+      containers:
+        - image: ghcr.io/teamdigitale/dati-semantic-csv-apis-data:latest
+          imagePullPolicy: Always
+          name: dati-semantic-csv-api
+          workingDir: /data
+          envFrom:
+            - configMapRef:
+                name: configmap-csv-api
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          volumeMounts:
+            - name: data
+              mountPath: /data
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 1024Mi
+            requests:
+              cpu: 250m
+              memory: 512Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      volumes:
+        - name: data
+          emptyDir:
+            sizeLimit: 1Gi
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 75
