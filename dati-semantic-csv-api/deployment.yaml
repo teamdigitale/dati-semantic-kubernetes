@@ -32,6 +32,7 @@ spec:
         - image: ghcr.io/teamdigitale/dati-semantic-csv-apis-data:latest
           imagePullPolicy: Always
           name: dati-semantic-csv-api
+          workingDir: /tmp
           envFrom:
             - configMapRef:
                 name: configmap-csv-api
@@ -39,6 +40,9 @@ spec:
             - containerPort: 8080
               name: http
               protocol: TCP
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
           resources:
             limits:
               cpu: 1000m
@@ -48,6 +52,10 @@ spec:
               memory: 512Mi
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
+      volumes:
+        - name: tmp
+          emptyDir:
+            sizeLimit: 256Mi
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
