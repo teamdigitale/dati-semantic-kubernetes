@@ -32,7 +32,7 @@ spec:
         - image: ghcr.io/teamdigitale/dati-semantic-csv-apis-data:latest
           imagePullPolicy: Always
           name: dati-semantic-csv-api
-          workingDir: /tmp
+          workingDir: /data
           envFrom:
             - configMapRef:
                 name: configmap-csv-api
@@ -41,8 +41,8 @@ spec:
               name: http
               protocol: TCP
           volumeMounts:
-            - name: tmp
-              mountPath: /tmp
+            - name: data
+              mountPath: /data
           resources:
             limits:
               cpu: 1000m
@@ -53,9 +53,9 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
       volumes:
-        - name: tmp
+        - name: data
           emptyDir:
-            sizeLimit: 256Mi
+            sizeLimit: 1Gi
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
