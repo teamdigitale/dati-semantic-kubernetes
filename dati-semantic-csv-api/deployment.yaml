@@ -29,7 +29,7 @@ spec:
       name: dati-semantic-csv-api
     spec:
       containers:
-        - image: ghcr.io/teamdigitale/dati-semantic-csv-apis-data:latest
+        - image: ghcr.io/teamdigitale/dati-semantic-csv-apis-data:0.0.14
           imagePullPolicy: Always
           name: dati-semantic-csv-api
           workingDir: /data
