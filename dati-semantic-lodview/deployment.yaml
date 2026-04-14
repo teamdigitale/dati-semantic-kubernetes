@@ -39,7 +39,7 @@ spec:
               value: Schema è il catalogo in continua evoluzione, che armonizza e standardizza i modelli di dati condivisi e garantisce che formato e significato delle informazioni scambiate siano preservati e compresi durante gli scambi.
             - name: LodViewhomeContent
               value: Questo strumento consente la navigazione web dei contenuti delle ontologie e dei vocabolari controllati per la pubblica amministrazione.
-          image: ghcr.io/teamdigitale/dati-semantic-lodview:20250704-127-913191b
+          image: ghcr.io/teamdigitale/dati-semantic-lodview:20260414-134-5605877
           imagePullPolicy: Always
           livenessProbe:
             failureThreshold: 300
