@@ -8,15 +8,15 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: dati-semantic-csv-api
-  name: dati-semantic-csv-api
+    app: dati-semantic-csv-apis-data
+  name: dati-semantic-csv-apis-data
   namespace: ndc-dev
 spec:
   replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: dati-semantic-csv-api
+      app: dati-semantic-csv-apis-data
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -25,13 +25,13 @@ spec:
   template:
     metadata:
       labels:
-        app: dati-semantic-csv-api
-      name: dati-semantic-csv-api
+        app: dati-semantic-csv-apis-data
+      name: dati-semantic-csv-apis-data
     spec:
       containers:
         - image: ghcr.io/teamdigitale/dati-semantic-csv-apis-data:0.0.14
           imagePullPolicy: Always
-          name: dati-semantic-csv-api
+          name: dati-semantic-csv-apis-data
           workingDir: /data
           envFrom:
             - configMapRef:
