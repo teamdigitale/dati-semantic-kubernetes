@@ -1,10 +1,10 @@
 kind: ImageStream
 apiVersion: image.openshift.io/v1
 metadata:
-  name: dati-semantic-csv-api
+  name: dati-semantic-csv-apis-data
   namespace: ndc-dev
   labels:
-    application: dati-semantic-csv-api
+    application: dati-semantic-csv-apis-data
 spec:
   lookupPolicy:
     local: false

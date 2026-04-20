@@ -1,12 +1,12 @@
 kind: HorizontalPodAutoscaler
-apiVersion: autoscaling/v2beta2
+apiVersion: autoscaling/v2
 metadata:
-  name: autoscaling-dati-semantic-csv-api
+  name: autoscaling-dati-semantic-csv-apis-data
   namespace: ndc-dev
 spec:
   scaleTargetRef:
     kind: Deployment
-    name: dati-semantic-csv-api
+    name: dati-semantic-csv-apis-data
     apiVersion: apps.openshift.io/v1
   minReplicas: 1
   maxReplicas: 2
