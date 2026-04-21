@@ -8,7 +8,8 @@ name: Update Schema Editor images
 on:
   schedule:
     - cron: "0 */6 * * *" # every 6 hours
-  workflow_dispatch: # manually trigger the workflow
+  workflow_dispatch:
+    # manually trigger the workflow
 
 permissions:
   contents: write
@@ -32,7 +33,7 @@ jobs:
             branch_name: update/schema-editor-api-image
             target_file: dati-semantic-schema-editor-api/deployment.yaml
           - title: Update Schema Editor API PDND docker image
-            image: ghcr.io/teamdigitale/dati-semantic-schema-editor-api
+            image: ghcr.io/teamdigitale/dati-semantic-schema-editor-api-pdnd
             branch_name: update/schema-editor-api-pdnd-image
             target_file: dati-semantic-schema-editor-api-pdnd/deployment.yaml
           - title: Update Vocabularies API docker image
