@@ -34,7 +34,7 @@ spec:
           emptyDir:
             sizeLimit: 100Mi
       containers:
-        - image: ghcr.io/teamdigitale/dati-semantic-schema-editor-api:0.2.0
+        - image: ghcr.io/teamdigitale/dati-semantic-schema-editor-api:20260421-241-a89bac7
           imagePullPolicy: Always
           name: dati-semantic-schema-editor-api
           # Load configuration variables from the ConfigMap.
