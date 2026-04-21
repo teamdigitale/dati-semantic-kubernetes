@@ -6,7 +6,7 @@ metadata:
   labels:
     application: dati-semantic-schema-editor-api-pdnd
   annotations:
-    haproxy.router.openshift.io/ip_whitelist: 193.204.90.0/23,93.0.0.0/8
+    haproxy.router.openshift.io/ip_whitelist: 193.204.90.0/23
 spec:
   host: schema-editor-api-pdnd-ndc-dev.apps.cloudpub.testedev.istat.it
   path: /semantic-tool
