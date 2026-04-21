@@ -1,5 +1,5 @@
 #
-# The Schema Editor API configuration containing
+# The Schema Editor API (PDND) configuration containing
 #   the references to the triplestore,
 #   the port to listen on, etc.
 #
