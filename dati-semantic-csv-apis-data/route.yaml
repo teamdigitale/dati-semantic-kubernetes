@@ -6,7 +6,7 @@ metadata:
   labels:
     application: dati-semantic-csv-apis-data
 spec:
-  host: vocabularies-api-ndc-dev.apps.cloudpub.testedev.istat.it
+  host: vocabularies-ndc-dev.apps.cloudpub.testedev.istat.it
   to:
     kind: Service
     name: dati-semantic-csv-apis-data
