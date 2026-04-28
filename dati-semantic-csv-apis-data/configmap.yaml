@@ -9,8 +9,8 @@ metadata:
   namespace: ndc-dev
 data:
   HARVEST_DB: "https://raw.githubusercontent.com/teamdigitale/dati-semantic-harvest/refs/heads/harvest/vocabularies.db"
-  API_BASE_URL: "https://vocabularies-api-ndc-dev.apps.cloudpub.testedev.istat.it"
-  PREDECESSOR_BASE_URL: "https://schema.gov.it/api"
+  API_BASE_URL: "https://vocabularies-ndc-dev.apps.cloudpub.testedev.istat.it"
+  PREDECESSOR_BASE_URL: "https://schema.gov.it/api/vocabularies"
   CORS_ORIGINS: "*"
   UVICORN_WORKERS: "4"
   UVICORN_LOG_LEVEL: "info"
