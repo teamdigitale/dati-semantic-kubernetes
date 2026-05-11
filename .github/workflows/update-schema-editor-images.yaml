@@ -39,7 +39,7 @@ jobs:
           - title: Update Vocabularies API docker image
             image: ghcr.io/teamdigitale/dati-semantic-csv-apis-data
             branch_name: update/dati-semantic-csv-api-image
-            target_file: dati-semantic-csv-api/deployment.yaml
+            target_file: dati-semantic-csv-apis-data/deployment.yaml
 
     steps:
       - name: Checkout dev
@@ -57,8 +57,23 @@ jobs:
         env:
           TARGET_FILE: ${{ matrix.target_file }}
         run: |
-          TAG=$(yq '.spec.template.spec.containers[0].image' "$TARGET_FILE" | sed 's/.*://' | tr -d '"')
+          set -euo pipefail
+          if [[ ! -f "$TARGET_FILE" ]]; then
+            echo "ERROR: Target file not found: $TARGET_FILE"
+            exit 1
+          fi
+          CURRENT_IMAGE=$(yq -r '.spec.template.spec.containers[0].image // ""' "$TARGET_FILE")
+          if [[ -z "$CURRENT_IMAGE" || "$CURRENT_IMAGE" == "null" ]]; then
+            echo "ERROR: Container image not found in $TARGET_FILE"
+            exit 1
+          fi
+          TAG="${CURRENT_IMAGE##*:}"
+          if [[ -z "$TAG" || "$TAG" == "$CURRENT_IMAGE" ]]; then
+            echo "ERROR: Current image tag not found in image reference: $CURRENT_IMAGE"
+            exit 1
+          fi
           echo "current_tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "Current tag found: $TAG"
           echo "$TAG" > /tmp/current_tag.txt
 
       - name: Get available image tags
@@ -125,10 +140,10 @@ jobs:
           OLD_TAG: ${{ steps.current.outputs.current_tag }}
           NEW_TAG: ${{ steps.newtag.outputs.new_tag }}
         run: |
-          set -e
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          sed -i "s|${IMAGE}:${OLD_TAG}|${IMAGE}:${NEW_TAG}|g" "$TARGET_FILE"
+          yq -i '.spec.template.spec.containers[0].image = strenv(IMAGE) + ":" + strenv(NEW_TAG)' "$TARGET_FILE"
           git add "$TARGET_FILE"
           git fetch origin "$BRANCH" 2>/dev/null || true
           if git rev-parse "origin/${BRANCH}" >/dev/null 2>&1 && git diff --quiet "origin/${BRANCH}" -- "$TARGET_FILE"; then
