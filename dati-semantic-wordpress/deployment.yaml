@@ -21,6 +21,8 @@ spec:
       labels:
         app: dati-semantic-wordpress
       annotations:
+        # Trigger annotation read into the container as WORDPRESS_BOOTSTRAP_TRIGGER.
+        # Updated by `updateImage.sh` to a value like "bootstrap-<imageTag>" when deploying.
         wordpress-bootstrap-trigger: "bootstrap-initial"
     spec:
       # >>> INIT CONTAINER: clean /var/www/html before WordPress starts <<<
@@ -57,6 +59,8 @@ spec:
             - name: XDG_CONFIG_HOME
               value: /tmp/
             - name: WORDPRESS_BOOTSTRAP_TRIGGER
+              # The bootstrap trigger is populated from the Pod template annotation
+              # so the running container can decide whether to perform a restore.
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.annotations['wordpress-bootstrap-trigger']
@@ -128,6 +132,9 @@ spec:
               mountPath: /var/www/html
             - name: wordpress-persistent-storage
               mountPath: /var/lib/wp-bootstrap
+              # Mount a subPath to persist a small state file (last-bootstrap-trigger).
+              # This directory is not wiped by the initContainer and keeps the
+              # bootstrap state across pod restarts.
               subPath: wp-bootstrap-state
       volumes:
         - name: wordpress-persistent-storage
