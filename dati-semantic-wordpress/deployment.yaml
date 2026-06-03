@@ -20,6 +20,8 @@ spec:
     metadata:
       labels:
         app: dati-semantic-wordpress
+      annotations:
+        wordpress-bootstrap-trigger: "bootstrap-initial"
     spec:
       # >>> INIT CONTAINER: clean /var/www/html before WordPress starts <<<
       initContainers:
@@ -32,6 +34,9 @@ spec:
           volumeMounts:
             - name: wordpress-persistent-storage
               mountPath: /var/www/html
+            - name: wordpress-persistent-storage
+              mountPath: /var/lib/wp-bootstrap
+              subPath: wp-bootstrap-state
       containers:
         - name: dati-semantic-wordpress
           image: ghcr.io/teamdigitale/dati-semantic-wordpress:20251212-95-773e4e1
@@ -51,6 +56,10 @@ spec:
           env:
             - name: XDG_CONFIG_HOME
               value: /tmp/
+            - name: WORDPRESS_BOOTSTRAP_TRIGGER
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.annotations['wordpress-bootstrap-trigger']
             # DATABASE ENV
             - name: WORDPRESS_DB_HOST
               value: db-testedev-mysql.mysql.database.azure.com
@@ -117,6 +126,9 @@ spec:
           volumeMounts:
             - name: wordpress-persistent-storage
               mountPath: /var/www/html
+            - name: wordpress-persistent-storage
+              mountPath: /var/lib/wp-bootstrap
+              subPath: wp-bootstrap-state
       volumes:
         - name: wordpress-persistent-storage
           persistentVolumeClaim:

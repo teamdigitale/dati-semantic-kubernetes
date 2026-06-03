@@ -11,7 +11,8 @@ fi
 
 # Image names are lowercase.
 imageWithTag=$(echo $2 | tr '[:upper:]' '[:lower:]')
+imageTag=${imageWithTag##*:}
 
-yq eval -ie ".spec.template.spec.containers[0].image = \"$imageWithTag\"" $1/deployment.yaml
+yq eval -ie ".spec.template.spec.containers[0].image = \"$imageWithTag\" | .spec.template.metadata.annotations.\"wordpress-bootstrap-trigger\" = \"bootstrap-$imageTag\"" $1/deployment.yaml
 
 echo "Update complete."
