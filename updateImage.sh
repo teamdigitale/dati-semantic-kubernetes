@@ -9,16 +9,16 @@ set -e
 yq >/dev/null 2>&1 || echo "yq must be installed"
 
 if [ "$#" -ne 2 ]; then
-  echo "usage $0 <service_name> <imageWithTag>"
-  exit 1
+	echo "usage $0 <service_name> <imageWithTag>"
+	exit 1
 fi
 
 # Normalize image name to lowercase (consistency) and extract the tag
-imageWithTag=$(echo $2 | tr '[:upper:]' '[:lower:]')
+imageWithTag=$(echo "$2" | tr '[:upper:]' '[:lower:]')
 imageTag=${imageWithTag##*:}
 
 # Update the deployment manifest: set the container image AND
 # set metadata.annotations.wordpress-bootstrap-trigger to "bootstrap-<tag>"
-yq eval -ie ".spec.template.spec.containers[0].image = \"$imageWithTag\" | .spec.template.metadata.annotations.\"wordpress-bootstrap-trigger\" = \"bootstrap-$imageTag\"" $1/deployment.yaml
+yq eval -ie ".spec.template.spec.containers[0].image = \"$imageWithTag\" | .spec.template.metadata.annotations.\"wordpress-bootstrap-trigger\" = \"bootstrap-$imageTag\"" "$1/deployment.yaml"
 
 echo "Update complete."
