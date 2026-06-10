@@ -25,21 +25,44 @@ spec:
         # WORDPRESS_BOOTSTRAP_TRIGGER.
         # Updated by `updateImage.sh` to a value like "bootstrap-<imageTag>"
         # when deploying.
-        wordpress-bootstrap-trigger: "bootstrap-initial"
+        wordpress-bootstrap-trigger: ""
     spec:
-      # >>> INIT CONTAINER: clean /var/www/html before WordPress starts <<<
+      # Clean WordPress files only when a new bootstrap was requested.
+      # The state directory lives on the same PVC, so it must be preserved.
       initContainers:
         - name: clean-wordpress-html
           image: busybox
           command:
             - sh
             - -c
-            - >
-              echo "Cleaning /var/www/html before WordPress startup...";
-              rm -rf /var/www/html/*
+            - |
+              set -eu
+
+              STATE_FILE="/var/lib/wp-bootstrap/last-bootstrap-trigger"
+              CURRENT_TRIGGER="${WORDPRESS_BOOTSTRAP_TRIGGER:-}"
+              LAST_TRIGGER=""
+
+              if [ -f "$STATE_FILE" ]; then
+                LAST_TRIGGER="$(cat "$STATE_FILE")"
+              fi
+
+              if [ -z "$CURRENT_TRIGGER" ]; then
+                echo "No bootstrap trigger set; preserving /var/www/html."
+              elif [ "$LAST_TRIGGER" = "$CURRENT_TRIGGER" ]; then
+                echo "Bootstrap trigger already processed; preserving /var/www/html."
+              else
+                echo "New bootstrap trigger detected; cleaning /var/www/html."
+                find /var/www/html -mindepth 1 -maxdepth 1 \
+                  ! -name wp-bootstrap-state -exec rm -rf -- {} +
+              fi
           ports:
             - containerPort: 8080
               name: wordpress
+          env:
+            - name: WORDPRESS_BOOTSTRAP_TRIGGER
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.annotations['wordpress-bootstrap-trigger']
           volumeMounts:
             - name: wordpress-persistent-storage
               mountPath: /var/www/html
