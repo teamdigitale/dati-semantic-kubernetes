@@ -25,7 +25,7 @@ spec:
         # WORDPRESS_BOOTSTRAP_TRIGGER.
         # Updated by `updateImage.sh` to a value like "bootstrap-<imageTag>"
         # when deploying.
-        wordpress-bootstrap-trigger: ""
+        wordpress-bootstrap-trigger: "bootstrap-20260610-108-771a965"
     spec:
       # Clean WordPress files only when a new bootstrap was requested.
       # The state directory lives on the same PVC, so it must be preserved.
@@ -71,7 +71,7 @@ spec:
               subPath: wp-bootstrap-state
       containers:
         - name: dati-semantic-wordpress
-          image: ghcr.io/teamdigitale/dati-semantic-wordpress:20260610-107-a877c61
+          image: ghcr.io/teamdigitale/dati-semantic-wordpress:20260610-108-771a965
           ports:
             - containerPort: 8080
               name: wordpress
