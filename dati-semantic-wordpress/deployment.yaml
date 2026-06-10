@@ -25,7 +25,7 @@ spec:
         # WORDPRESS_BOOTSTRAP_TRIGGER.
         # Updated by `updateImage.sh` to a value like "bootstrap-<imageTag>"
         # when deploying.
-        wordpress-bootstrap-trigger: "bootstrap-20260610-106-4d02779"
+        wordpress-bootstrap-trigger: "bootstrap-20260610-107-a877c61"
     spec:
       # >>> INIT CONTAINER: clean /var/www/html before WordPress starts <<<
       initContainers:
@@ -48,7 +48,7 @@ spec:
               subPath: wp-bootstrap-state
       containers:
         - name: dati-semantic-wordpress
-          image: ghcr.io/teamdigitale/dati-semantic-wordpress:20260610-106-4d02779
+          image: ghcr.io/teamdigitale/dati-semantic-wordpress:20260610-107-a877c61
           ports:
             - containerPort: 8080
               name: wordpress
