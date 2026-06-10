@@ -24,7 +24,7 @@ spec:
       name: dati-semantic-webvowl
     spec:
       containers:
-        - image: ghcr.io/teamdigitale/dati-semantic-webvowl:20230210-18-2c46742
+        - image: ghcr.io/teamdigitale/dati-semantic-webvowl:20260217-22-3c91ef3
           imagePullPolicy: Always
           name: dati-semantic-webvowl
           ports:
@@ -43,5 +43,5 @@ spec:
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
-      securityContext: { }
+      securityContext: {}
       terminationGracePeriodSeconds: 75

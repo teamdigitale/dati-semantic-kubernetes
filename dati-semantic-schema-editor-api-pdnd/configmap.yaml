@@ -1,5 +1,5 @@
 #
-# The Schema Editor API configuration containing
+# The Schema Editor API (PDND) configuration containing
 #   the references to the triplestore,
 #   the port to listen on, etc.
 #
@@ -9,11 +9,11 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: configmap-schema-editor-api
+  name: configmap-schema-editor-api-pdnd
   namespace: ndc-dev
 data:
   SPARQL_URL: "https://virtuoso-test-external-service-ndc-test.apps.cloudpub.testedev.istat.it/sparql"
   PORT: "8080"
   CORS_ORIGIN: "*"
-  SERVER_URL: "https://schema-editor-api-ndc-dev.apps.cloudpub.testedev.istat.it"
+  SERVER_URL: "https://schema-editor-api-pdnd-ndc-dev.apps.cloudpub.testedev.istat.it"
   GLOBAL_PREFIX: "semantic-tool/api"

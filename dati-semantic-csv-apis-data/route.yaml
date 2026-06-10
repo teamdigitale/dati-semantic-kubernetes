@@ -1,16 +1,15 @@
 kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
-  name: dati-semantic-schema-editor-api
+  name: dati-semantic-csv-apis-data
   namespace: ndc-dev
   labels:
-    application: dati-semantic-schema-editor-api
+    application: dati-semantic-csv-apis-data
 spec:
-  host: schema-editor-api-ndc-dev.apps.cloudpub.testedev.istat.it
-  path: /semantic-tool
+  host: vocabularies-ndc-dev.apps.cloudpub.testedev.istat.it
   to:
     kind: Service
-    name: dati-semantic-schema-editor-api
+    name: dati-semantic-csv-apis-data
     weight: 100
   port:
     targetPort: 8080
