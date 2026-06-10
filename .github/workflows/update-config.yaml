@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
-          persist-credentials: true
+          persist-credentials: false
 
       - name: yq - portable yaml processor
         uses: mikefarah/yq@5a7e72a743649b1b3a47d1a1d8214f3453173c51 # v4.52.4
@@ -36,6 +36,7 @@ jobs:
           git config --global user.email 'gh-actions-user@users.noreply.github.com'
           git add .
           git commit -m "Automated container image update for service ${GITHUB_EVENT_INPUTS_SERVICENAME}"
-          git push
+          git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_EVENT_INPUTS_SERVICENAME: ${{ github.event.inputs.serviceName }}
