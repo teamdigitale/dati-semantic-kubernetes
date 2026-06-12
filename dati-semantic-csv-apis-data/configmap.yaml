@@ -8,7 +8,7 @@ metadata:
   name: configmap-csv-api
   namespace: ndc-dev
 data:
-  HARVEST_DB: "https://raw.githubusercontent.com/teamdigitale/dati-semantic-harvest/refs/heads/harvest/vocabularies.db"
+  HARVEST_DB: "https://ndc-dev.apps.cloudpub.testedev.istat.it/api/harvest/vocabularies.db"
   API_BASE_URL: "https://vocabularies-ndc-dev.apps.cloudpub.testedev.istat.it"
   PREDECESSOR_BASE_URL: "https://schema.gov.it/api/vocabularies"
   CORS_ORIGINS: "*"
