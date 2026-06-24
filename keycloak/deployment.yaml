@@ -26,7 +26,7 @@ spec:
         # Bump per forzare il rollout del pod e quindi il re-import del realm
         # (DB H2 su emptyDir: a ogni restart il realm viene ricaricato dal
         # ConfigMap keycloak-realm-seed). Incrementare a ogni modifica del realm.
-        ndc.istat.it/realm-seed-revision: "2-ndc-backend-audience"
+        ndc.istat.it/realm-seed-revision: "3-realm-roles-mapper"
     spec:
       containers:
         - name: keycloak
