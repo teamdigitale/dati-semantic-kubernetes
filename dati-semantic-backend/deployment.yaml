@@ -96,6 +96,8 @@ spec:
               value: "true"
             - name: JAVA_MAIL_DEBUG
               value: "true"
+            - name: MANAGEMENT_HEALTH_MAIL_ENABLED
+              value: "false"
           image: ghcr.io/teamdigitale/dati-semantic-backend:20260624-548-dea84a6
           imagePullPolicy: Always
           livenessProbe:
