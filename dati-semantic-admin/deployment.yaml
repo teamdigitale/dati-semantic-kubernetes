@@ -22,12 +22,14 @@ spec:
       labels:
         app: dati-semantic-admin
       name: dati-semantic-admin
+      annotations:
+        wordpress-bootstrap-trigger: bootstrap-20260624-17-fee1b65
     spec:
       containers:
         - name: dati-semantic-admin
           # Tag pinnato a mano in attesa del secret cross-repo che abilita
           # l'update automatico del tag via update-config.yaml.
-          image: ghcr.io/teamdigitale/dati-semantic-admin:1a70cf8caeba1fa34c93f855d1e7afef62cfc69f
+          image: ghcr.io/teamdigitale/dati-semantic-admin:20260624-17-fee1b65
           imagePullPolicy: Always
           env:
             # Spring e' dietro route OpenShift edge (TLS sul router, HTTP nel pod):
