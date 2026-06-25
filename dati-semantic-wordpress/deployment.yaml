@@ -20,25 +20,56 @@ spec:
     metadata:
       labels:
         app: dati-semantic-wordpress
+      annotations:
+        wordpress-bootstrap-trigger: "bootstrap-20251219-102-ac53383"
     spec:
-      # >>> INIT CONTAINER: clean /var/www/html before WordPress starts <<<
       initContainers:
         - name: clean-wordpress-html
           image: busybox
-          command: ['sh', '-c', 'echo "Cleaning /var/www/html before WordPress startup..."; rm -rf /var/www/html/*']
+          command:
+            - sh
+            - -c
+            - |
+              set -eu
+
+              STATE_FILE="/var/lib/wp-bootstrap/last-bootstrap-trigger"
+              CURRENT_TRIGGER="${WORDPRESS_BOOTSTRAP_TRIGGER:-}"
+              LAST_TRIGGER=""
+
+              if [ -f "$STATE_FILE" ]; then
+                LAST_TRIGGER="$(cat "$STATE_FILE")"
+              fi
+
+              if [ -z "$CURRENT_TRIGGER" ]; then
+                echo "No bootstrap trigger set; preserving /var/www/html."
+              elif [ "$LAST_TRIGGER" = "$CURRENT_TRIGGER" ]; then
+                echo "Bootstrap trigger already processed; preserving /var/www/html."
+              else
+                echo "New bootstrap trigger detected; cleaning /var/www/html."
+                find /var/www/html -mindepth 1 -maxdepth 1 \
+                  ! -name wp-bootstrap-state -exec rm -rf -- {} +
+              fi
           ports:
             - containerPort: 8080
               name: wordpress
+          env:
+            - name: WORDPRESS_BOOTSTRAP_TRIGGER
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.annotations['wordpress-bootstrap-trigger']
           volumeMounts:
             - name: wordpress-persistent-storage
               mountPath: /var/www/html
+            - name: wordpress-persistent-storage
+              mountPath: /var/lib/wp-bootstrap
+              subPath: wp-bootstrap-state
+
       containers:
         - name: dati-semantic-wordpress
-          image: ghcr.io/teamdigitale/dati-semantic-wordpress:20251219-102-ac53383
+          image: ghcr.io/teamdigitale/dati-semantic-wordpress:20260623-110-feb4ac9
           ports:
             - containerPort: 8080
               name: wordpress
-          # >>> POSTSTART: launch bootstrap only <<< 
           lifecycle:
             postStart:
               exec:
@@ -49,8 +80,30 @@ spec:
                     echo "[bootstrap] Launching async WordPress bootstrap..."
                     /usr/local/bin/wp-bootstrap.sh >> /proc/1/fd/1 2>&1 &
           env:
+            - name: ALERTER_SMTP_SERVER
+              value: smtp.istat.it
+            - name: ALERTER_SMTP_PORT
+              value: "465"
+            - name: ALERTER_SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ndc-istat-smtp-prod
+                  key: smtp-password
+            - name: ALERTER_SMTP_STARTTLS
+              value: "false"
+            - name: ALERTER_SMTP_SSL
+              value: "true"
+            - name: ALERTER_SMTP_FROM_EMAIL
+              value: noreply@istat.it
+            - name: SMTP_USERNAME
+              value: servicedesk-schema@istat.it
             - name: XDG_CONFIG_HOME
               value: /tmp/
+            - name: WORDPRESS_BOOTSTRAP_TRIGGER
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.annotations['wordpress-bootstrap-trigger']
+
             # DATABASE ENV
             - name: WORDPRESS_DB_HOST
               value: istat-db-prod.mysql.database.azure.com
@@ -67,6 +120,7 @@ spec:
               value: wp_
             - name: WORDPRESS_SITE_URL
               value: https://schema.gov.it
+
             # MATOMO ENV
             - name: MATOMO_API_URL
               value: https://analytics.istat.it/?module=API
@@ -84,10 +138,12 @@ spec:
                 secretKeyRef:
                   name: matomo-credentials
                   key: pass
+
             # API URL
             - name: API_URL
-              value: 'api'
-            # >>> EXTRA WP-CONFIG (uses dynamic SITE_URL) <<< 
+              value: "api"
+
+            # EXTRA WP-CONFIG
             - name: WORDPRESS_CONFIG_EXTRA
               value: |
                 define('WP_HOME', 'http://'.$_SERVER["HTTP_HOST"]);
@@ -116,6 +172,10 @@ spec:
           volumeMounts:
             - name: wordpress-persistent-storage
               mountPath: /var/www/html
+            - name: wordpress-persistent-storage
+              mountPath: /var/lib/wp-bootstrap
+              subPath: wp-bootstrap-state
+
       volumes:
         - name: wordpress-persistent-storage
           persistentVolumeClaim:
