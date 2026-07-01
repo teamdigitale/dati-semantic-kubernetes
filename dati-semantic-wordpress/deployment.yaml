@@ -25,7 +25,7 @@ spec:
         # WORDPRESS_BOOTSTRAP_TRIGGER.
         # Updated by `updateImage.sh` to a value like "bootstrap-<imageTag>"
         # when deploying.
-        wordpress-bootstrap-trigger: "bootstrap-20260625-111-408ebce"
+        wordpress-bootstrap-trigger: "bootstrap-20260701-dev-url-fix"
     spec:
       # Clean WordPress files only when a new bootstrap was requested.
       # The state directory lives on the same PVC, so it must be preserved.
@@ -152,8 +152,48 @@ spec:
             # >>> EXTRA WP-CONFIG (uses dynamic SITE_URL) <<<
             - name: WORDPRESS_CONFIG_EXTRA
               value: |
-                define('WP_HOME', getenv('WORDPRESS_SITE_URL'));
-                define('WP_SITEURL', getenv('WORDPRESS_SITE_URL'));
+                $__host = '';
+
+                if (!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
+                  $__host = $_SERVER['HTTP_X_FORWARDED_HOST'];
+                } elseif (!empty($_SERVER['HTTP_HOST'])) {
+                  $__host = $_SERVER['HTTP_HOST'];
+                }
+
+                $__host = strtolower(trim(explode(',', $__host)[0]));
+                $__host = preg_replace('/:\d+$/', '', $__host);
+                $__forwarded_proto = '';
+
+                if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
+                  $__forwarded_proto = strtolower(trim(explode(',', $_SERVER['HTTP_X_FORWARDED_PROTO'])[0]));
+                }
+
+                if ($__forwarded_proto === 'https') {
+                  $_SERVER['HTTPS'] = 'on';
+                }
+
+                $__allowed = array(
+                  'wp-ndc-dev.apps.cloudpub.testedev.istat.it'
+                );
+
+                if ($__host === '' || !in_array($__host, $__allowed, true)) {
+                  $__base = getenv('WORDPRESS_SITE_URL') ?: 'https://wp-ndc-dev.apps.cloudpub.testedev.istat.it';
+                } else {
+                  $__proto = 'https';
+
+                  if ($__forwarded_proto !== '') {
+                    $__proto = $__forwarded_proto;
+                  } elseif (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
+                    $__proto = 'https';
+                  }
+
+                  $__proto = ($__proto === 'https') ? 'https' : 'http';
+                  $__base = $__proto . '://' . $__host;
+                }
+
+                define('WP_HOME', $__base);
+                define('WP_SITEURL', $__base);
+                define('FORCE_SSL_ADMIN', true);
 
                 define('MATOMO_API_URL', getenv('MATOMO_API_URL'));
                 define('MATOMO_TOKEN',   getenv('MATOMO_TOKEN'));
