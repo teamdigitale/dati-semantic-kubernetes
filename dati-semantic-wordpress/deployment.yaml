@@ -21,7 +21,7 @@ spec:
       labels:
         app: dati-semantic-wordpress
       annotations:
-        wordpress-bootstrap-trigger: "bootstrap-20260701-1"
+        wordpress-bootstrap-trigger: "bootstrap-20260701-2"
     spec:
       initContainers:
         - name: clean-wordpress-html
@@ -146,16 +146,39 @@ spec:
             # EXTRA WP-CONFIG
             - name: WORDPRESS_CONFIG_EXTRA
               value: |
-                $__host = '';
+                $__allowed = array(
+                  'schema.gov.it',
+                  'wp-ndc-prod-blue.apps.cloudpub.istat.it',
+                  'wp-ndc-prod-green.apps.cloudpub.istat.it'
+                );
 
-                if (!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
-                  $__host = $_SERVER['HTTP_X_FORWARDED_HOST'];
-                } elseif (!empty($_SERVER['HTTP_HOST'])) {
-                  $__host = $_SERVER['HTTP_HOST'];
+                $__fallback_base = rtrim(getenv('WORDPRESS_SITE_URL') ?: 'https://schema.gov.it', '/');
+                $__candidate_hosts = array();
+
+                if (!empty($_SERVER['HTTP_HOST'])) {
+                  $__candidate_hosts[] = $_SERVER['HTTP_HOST'];
                 }
 
-                $__host = strtolower(trim(explode(',', $__host)[0]));
-                $__host = preg_replace('/:\d+$/', '', $__host);
+                if (!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
+                  $__candidate_hosts = array_merge($__candidate_hosts, explode(',', $_SERVER['HTTP_X_FORWARDED_HOST']));
+                }
+
+                if (!empty($_SERVER['SERVER_NAME'])) {
+                  $__candidate_hosts[] = $_SERVER['SERVER_NAME'];
+                }
+
+                $__host = '';
+
+                foreach ($__candidate_hosts as $__candidate_host) {
+                  $__candidate_host = strtolower(trim($__candidate_host));
+                  $__candidate_host = preg_replace('/:\d+$/', '', $__candidate_host);
+
+                  if ($__candidate_host !== '' && in_array($__candidate_host, $__allowed, true)) {
+                    $__host = $__candidate_host;
+                    break;
+                  }
+                }
+
                 $__forwarded_proto = '';
 
                 if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
@@ -166,14 +189,8 @@ spec:
                   $_SERVER['HTTPS'] = 'on';
                 }
 
-                $__allowed = array(
-                  'schema.gov.it',
-                  'wp-ndc-prod-blue.apps.cloudpub.istat.it',
-                  'wp-ndc-prod-green.apps.cloudpub.istat.it'
-                );
-
-                if ($__host === '' || !in_array($__host, $__allowed, true)) {
-                  $__base = getenv('WORDPRESS_SITE_URL') ?: 'https://schema.gov.it';
+                if ($__host === '') {
+                  $__base = $__fallback_base;
                 } else {
                   $__proto = 'https';
 
@@ -190,6 +207,18 @@ spec:
                 define('WP_HOME', $__base);
                 define('WP_SITEURL', $__base);
                 define('FORCE_SSL_ADMIN', true);
+
+                $__public_bases = array(
+                  'https://schema.gov.it',
+                  'http://wp-ndc-prod-blue.apps.cloudpub.istat.it',
+                  'http://wp-ndc-prod-green.apps.cloudpub.istat.it'
+                );
+
+                if (!defined('WP_CLI') || !WP_CLI) {
+                  ob_start(static function ($__buffer) use ($__public_bases, $__base) {
+                    return str_replace($__public_bases, $__base, $__buffer);
+                  });
+                }
 
                 define('MATOMO_API_URL', getenv('MATOMO_API_URL'));
                 define('MATOMO_TOKEN',   getenv('MATOMO_TOKEN'));
