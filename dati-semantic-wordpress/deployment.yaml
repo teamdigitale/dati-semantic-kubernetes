@@ -217,9 +217,18 @@ spec:
             - name: wordpress-persistent-storage
               mountPath: /var/lib/wp-bootstrap
               subPath: wp-bootstrap-state
+            # FOR MySQL CA certificate
+            - name: azure-mysql-ca-cert-blue
+              readOnly: true
+              mountPath: /etc/ssl/mysql/
 
       volumes:
         - name: wordpress-persistent-storage
           persistentVolumeClaim:
             claimName: wp-pv-claim
+        # FOR MySQL CA certificate
+        - name: azure-mysql-ca-cert-blue
+          secret:
+            secretName: azure-mysql-ca-cert-blue
+            defaultMode: 420
             
