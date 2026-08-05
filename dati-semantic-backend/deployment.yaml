@@ -103,7 +103,7 @@ spec:
               value: "false"
             - name: OAUTH2_ISSUER_URI
               value: https://keycloak-ndc-test.apps.cloudpub.testedev.istat.it/realms/ndc
-          image: ghcr.io/teamdigitale/dati-semantic-backend:20260703-550-6a2b717
+          image: ghcr.io/teamdigitale/dati-semantic-backend:20260805-552-1e291d1
           imagePullPolicy: Always
           livenessProbe:
             failureThreshold: 3
