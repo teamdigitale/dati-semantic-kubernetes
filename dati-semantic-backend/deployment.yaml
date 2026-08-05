@@ -23,7 +23,7 @@ spec:
         app: dati-semantic-backend
       name: dati-semantic-backend
       annotations:
-        wordpress-bootstrap-trigger: bootstrap-20260703-550-6a2b717
+        wordpress-bootstrap-trigger: bootstrap-20260805-552-1e291d1
     spec:
       containers:
         - env:
@@ -98,7 +98,7 @@ spec:
               value: "true"
             - name: MANAGEMENT_HEALTH_MAIL_ENABLED
               value: "false"
-          image: ghcr.io/teamdigitale/dati-semantic-backend:20260703-550-6a2b717
+          image: ghcr.io/teamdigitale/dati-semantic-backend:20260805-552-1e291d1
           imagePullPolicy: Always
           livenessProbe:
             failureThreshold: 3
