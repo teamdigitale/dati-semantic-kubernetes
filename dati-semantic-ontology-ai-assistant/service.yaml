@@ -1,0 +1,15 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: dati-semantic-ontology-ai-assistant
+  namespace: ndc-dev
+  labels:
+    app: dati-semantic-ontology-ai-assistant
+spec:
+  ports:
+    - protocol: TCP
+      port: 8200
+      targetPort: 8200
+  selector:
+    app: dati-semantic-ontology-ai-assistant
+  sessionAffinity: None
