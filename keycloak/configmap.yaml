@@ -1,0 +1,117 @@
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: keycloak-realm-seed
+  namespace: ndc-prod
+  labels:
+    app: keycloak
+data:
+  realm-ndc.json: |
+    {
+      "realm": "ndc",
+      "enabled": true,
+      "displayName": "NDC",
+      "displayNameHtml": "Catalogo Nazionale Dati",
+      "registrationAllowed": false,
+      "registrationEmailAsUsername": false,
+      "rememberMe": false,
+      "verifyEmail": false,
+      "loginWithEmailAllowed": true,
+      "duplicateEmailsAllowed": false,
+      "resetPasswordAllowed": false,
+      "editUsernameAllowed": false,
+      "bruteForceProtected": true,
+      "permanentLockout": false,
+      "loginTheme": "keycloak",
+      "accessTokenLifespan": 1800,
+      "ssoSessionIdleTimeout": 1800,
+      "ssoSessionMaxLifespan": 36000,
+      "offlineSessionIdleTimeout": 2592000,
+      "internationalizationEnabled": false,
+      "sslRequired": "external",
+      "roles": {
+        "realm": [
+          {
+            "name": "ndc-admin",
+            "description": "NDC admin: accesso completo al pannello"
+          },
+          {
+            "name": "ndc-viewer",
+            "description": "NDC viewer: accesso in sola lettura"
+          },
+          {
+            "name": "ndc-service",
+            "description": "NDC service account: chiamate machine-to-machine"
+          }
+        ]
+      },
+      "clients": [
+        {
+          "clientId": "ndc-admin-bff-client",
+          "name": "NDC Admin Panel (BFF)",
+          "description": "Confidential client per il pannello admin (Authorization Code + PKCE).",
+          "enabled": true,
+          "protocol": "openid-connect",
+          "publicClient": false,
+          "clientAuthenticatorType": "client-secret",
+          "secret": "${BFF_CLIENT_SECRET}",
+          "standardFlowEnabled": true,
+          "implicitFlowEnabled": false,
+          "directAccessGrantsEnabled": false,
+          "serviceAccountsEnabled": false,
+          "frontchannelLogout": true,
+          "alwaysDisplayInConsole": false,
+          "redirectUris": [
+            "https://admin-ndc-prod.apps.cloudpub.istat.it/login/oauth2/code/keycloak"
+          ],
+          "webOrigins": [
+            "https://admin-ndc-prod.apps.cloudpub.istat.it"
+          ],
+          "attributes": {
+            "pkce.code.challenge.method": "S256",
+            "post.logout.redirect.uris": "https://admin-ndc-prod.apps.cloudpub.istat.it/*"
+          },
+          "protocolMappers": [
+            {
+              "name": "ndc-backend-audience",
+              "protocol": "openid-connect",
+              "protocolMapper": "oidc-audience-mapper",
+              "consentRequired": false,
+              "config": {
+                "included.custom.audience": "ndc-backend",
+                "id.token.claim": "false",
+                "access.token.claim": "true",
+                "introspection.token.claim": "true"
+              }
+            },
+            {
+              "name": "ndc-realm-roles",
+              "protocol": "openid-connect",
+              "protocolMapper": "oidc-usermodel-realm-role-mapper",
+              "consentRequired": false,
+              "config": {
+                "claim.name": "realm_access.roles",
+                "jsonType.label": "String",
+                "multivalued": "true",
+                "usermodel.realmRoleMapping.rolePrefix": "",
+                "id.token.claim": "true",
+                "access.token.claim": "true",
+                "userinfo.token.claim": "true",
+                "introspection.token.claim": "true"
+              }
+            }
+          ],
+          "defaultClientScopes": [
+            "profile",
+            "email",
+            "roles",
+            "web-origins"
+          ],
+          "optionalClientScopes": [
+            "address",
+            "phone"
+          ]
+        }
+      ]
+    }

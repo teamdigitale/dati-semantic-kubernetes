@@ -1,0 +1,12 @@
+kind: HorizontalPodAutoscaler
+apiVersion: autoscaling/v2
+metadata:
+  name: autoscaling-dati-semantic-admin
+  namespace: ndc-prod
+spec:
+  scaleTargetRef:
+    kind: Deployment
+    name: dati-semantic-admin
+    apiVersion: apps.openshift.io/v1
+  minReplicas: 1
+  maxReplicas: 2
