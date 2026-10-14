@@ -23,6 +23,21 @@ spec:
       annotations:
         wordpress-bootstrap-trigger: "bootstrap-20260701-2"
     spec:
+      # Blue and green share the RWO volume wp-pv-claim, which can be attached to
+      # one node only: schedule this pod on the node of the other color's pod.
+      # The "\x73" escape keeps the prod pipeline sed from appending the slot
+      # color to these values (YAML decodes it to a plain "s").
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - topologyKey: kubernetes.io/hostname
+              labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - "dati-semantic-wordpres\x73-blue"
+                      - "dati-semantic-wordpres\x73-green"
       initContainers:
         - name: clean-wordpress-html
           image: busybox
