@@ -1,0 +1,22 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: dati-semantic-ontology-ai-assistant
+  namespace: ndc-dev
+  labels:
+    application: dati-semantic-ontology-ai-assistant
+  annotations:
+    haproxy.router.openshift.io/rewrite-target: /  
+spec:
+  host: ndc-dev.apps.cloudpub.testedev.istat.it
+  path: "/api"
+  to:
+    kind: Service
+    name: dati-semantic-ontology-ai-assistant
+    weight: 100
+  port:
+    targetPort: 8200
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None
