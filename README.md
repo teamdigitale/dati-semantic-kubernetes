@@ -81,6 +81,8 @@ After a service repository (e.g. `dati-semantic-backend`) builds and pushes a ne
 3. The workflow commits the change to `dev` as `Github action user <gh-actions-user@users.noreply.github.com>` and pushes.
 4. The push to `dev` notifies a GitHub webhook that targets the OpenShift Tekton EventListener (`el-github-listener-interceptor`) in the `dev-ops` namespace of the test cluster, which fires `pipeline-deploy-dev`.
 
+> **Note:** `pipeline-deploy-dev` mirrors to the internal registry every folder whose name contains `dati-`, reading the image tag from the matching deployment in `ndc-dev`. A folder without a running deployment yields an empty tag and stops the copy for all the following services. Draft services not yet deployed are therefore kept in folders prefixed with `dXati-` (e.g. `dXati-semantic-ontology-designer`) until their deployment exists.
+
 ```mermaid
 flowchart LR
     DEV([developer])
