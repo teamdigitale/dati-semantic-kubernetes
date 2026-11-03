@@ -27,6 +27,8 @@ spec:
         # when deploying.
         wordpress-bootstrap-trigger: "bootstrap-20261103-115-75e5071"
     spec:
+      imagePullSecrets:
+        - name: ghcr-teamdigitale-pull
       # Clean WordPress files only when a new bootstrap was requested.
       # The state directory lives on the same PVC, so it must be preserved.
       initContainers:
